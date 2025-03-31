@@ -39,8 +39,14 @@ const userSchema = mongoose.Schema({
     badges : {
         type : String,
         default : ''
-    }
-})
+    },
+    role: { 
+        type: String, 
+        enum: ["user", "admin"], 
+        default: "user" 
+    },
+
+}, { timestamps: true })
 
 
 userSchema.statics.hashedPassword = async function(password) {

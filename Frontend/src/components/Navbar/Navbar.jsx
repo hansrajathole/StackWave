@@ -1,7 +1,10 @@
 import React from "react";
 import Sidebar from "./Sidebar";
-
+import { useNavigate } from "react-router-dom";
 const Navbar = () => {
+
+  const navigate = useNavigate()
+
   return (
     <div className="relative">
       <nav className="bg-gray-900 text-white p-3 flex items-center justify-between fixed w-full">
@@ -26,6 +29,9 @@ const Navbar = () => {
           <button className="text-gray-400 hover:text-white">🏆</button>
           <button className="text-gray-400 hover:text-white">📥</button>
           <button className="text-gray-400 hover:text-white">❓</button>
+          <button className="cursor-pointer text-white "
+            onClick={()=>navigate("/login")}
+          >Sign in</button>
           <div className="w-6 h-6 rounded-full bg-pink-500"></div>
         </div>
         <div></div>

@@ -1,10 +1,12 @@
 import React from 'react'
 import Navbar from './components/Navbar/Navbar'
+import SignIn from './components/SignIn/SignIn'
 
 const App = () => {
   return (
     <div>
-      <Navbar/>
+      {/* <Navbar/> */}
+      <SignIn/>
     </div>
   )
 }

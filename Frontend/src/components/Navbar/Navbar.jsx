@@ -16,7 +16,7 @@ const Navbar = () => {
         <div className="flex-1 mx-4">
           <input
             type="text"
-            placeholder="🔍 user:26734583"
+            placeholder="Search..."
             className="w-full bg-gray-800 text-white px-3 py-1 rounded-md outline-none border border-gray-700 focus:border-blue-500"
           />
         </div>

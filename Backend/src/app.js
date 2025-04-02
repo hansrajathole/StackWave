@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 
 import authRoutes from './routes/auth.routes.js'
-import userRoutes from './routes/user.routes.js'
+import userRoutes from './routes/users.routes.js'
 import questionRoutes from './routes/questions.routes.js'
 import answerRoutes from './routes/answer.routes.js'
 import roomsRoutes from './routes/rooms.routes.js'

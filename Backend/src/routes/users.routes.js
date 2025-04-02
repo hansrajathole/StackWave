@@ -4,16 +4,14 @@ import * as authController from "../controllers/auth.controller.js";
 import { protectRoute } from "../middleware/protected.js";
 const router = Router();
 
-router.post(
-  "/signup",
-  userMiddleware.singupValidator,
-  authController.singupController
-);
-router.post(
-  "/login",
-  userMiddleware.loginValidator,
-  authController.loginController
-);
-router.get("/me", protectRoute, authController.meController);
+router.get("/leaderboard", protectRoute, function (req, res) {
+  res.send(" Leaderboard data");
+});
+router.get("/:id", protectRoute, function (req, res) {
+  res.send("Get user profile");
+});
+router.put("/:id", protectRoute, function (req, res) {
+  res.send("Update profile");
+});
 
 export default router;

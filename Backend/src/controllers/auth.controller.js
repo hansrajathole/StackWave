@@ -23,6 +23,7 @@ export const singupController = async (req,res)=>{
         delete user._doc.password
 
         const token = await user.generateToken()
+        console.log(token);
         
         res.json({message: "User registered successfully", token: token, user})
 

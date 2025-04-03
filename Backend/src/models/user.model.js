@@ -65,6 +65,8 @@ userSchema.methods.generateToken = async function() {
     }, config.JWT_SECRET , {expiresIn : config.JWT_EXPAIRE_IN} )
 }
 
+
+
 userSchema.methods.verifyPassword = async function(password){
     return await bcrypt.compare(password, this.password)
 }

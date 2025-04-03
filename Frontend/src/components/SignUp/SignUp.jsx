@@ -1,19 +1,46 @@
 import React from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from 'axios'
 
 const SignUp = () => {
+  const navigate = useNavigate()
+  
+  const [showPassword, setShowPassword] = useState(false);
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('')
+
+
+    const handleSubmit = (e)=>{
+        e.preventDefault()
+        axios.post("http://localhost:3000/api/auth/signup",{username,email,password})
+        .then((res)=>{
+          console.log(res);
+        })
+        .catch((err)=>{
+          console.log(err);
+        })
+    }
+
+
+
+
   return (
-    <section class="bg-gray-50 dark:bg-gray-900">
-      <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-        <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-          <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+    <section className="bg-gray-50 dark:bg-gray-900">
+      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+        <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+          <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
               Sign up to your account
             </h1>
-            <form class="space-y-4 md:space-y-6" action="#">
+            <form className="space-y-4 md:space-y-6" 
+              onSubmit={(e)=>handleSubmit(e)}
+              >
               <div>
                 <label
-                  for="email"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  htmlFor="email"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Your email
                 </label>
@@ -21,15 +48,17 @@ const SignUp = () => {
                   type="email"
                   name="email"
                   id="email"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  value={email}
+                  onChange={(e)=>setEmail(e.target.value)}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="name@gmail.com"
                   required=""
                 />
               </div>
               <div>
                 <label
-                  for="password"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  htmlFor="username"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Username
                 </label>
@@ -37,67 +66,78 @@ const SignUp = () => {
                   type="text"
                   name="username"
                   id="username"
+                  value={username}
+                  onChange={(e)=>setUsername(e.target.value)}
                   placeholder="ex:alex"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required=""
                 />
               </div>
               <div>
                 <label
-                  for="password"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  htmlFor="password"
+                  
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Password
                 </label>
-                <input
-                  type="password"
-                  name="password"
-                  id="password"
-                  placeholder="••••••••"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  required=""
-                />
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    id="password"
+                    value={password}
+                    onChange={(e)=>setPassword(e.target.value)} 
+                    placeholder="••••••••"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    required
+                  />
+                  <button
+                    type="button"
+
+                    // onClick={() => setShowPassword(!showPassword)}
+                    className="absolute inset-y-0 right-2 flex items-center text-gray-500 dark:text-gray-300"
+                  >
+                    {/* {showPassword ? "👁️" : "🙈"} */}
+                  </button>
+                </div>
               </div>
-              <div class="flex items-center justify-between">
-                <div class="flex items-start">
-                  <div class="flex items-center h-5">
+              <div className="flex items-center justify-between">
+                <div className="flex items-start">
+                  <div className="flex items-center h-5">
                     <input
                       id="remember"
                       aria-describedby="remember"
                       type="checkbox"
-                      class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
+                      className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
                       required=""
                     />
                   </div>
-                  <div class="ml-3 text-sm">
+                  <div className="ml-3 text-sm">
                     <label
-                      for="remember"
-                      class="text-gray-500 dark:text-gray-300"
+                      htmlFor="remember"
+                      className="text-gray-500 dark:text-gray-300"
                     >
                       Accept terms and condition
                     </label>
                   </div>
                 </div>
               </div>
+
               <button
                 type="submit"
-                class="w-full text-white focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center  bg-blue-500 cursor-pointer active:scale-99"
+                className="w-full text-white focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center  bg-blue-500 cursor-pointer active:scale-99"
               >
-                Sign in
+                Sign up
               </button>
-              <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-                Allready have an account?{" "}
-                <a
-                  href="login"
-                  class="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                >
-                  Sign In
-                </a>
-              </p>
+              <div className="flex w-full text-center items-center justify-between">
+                <div className="w-[45%] h-[1px] bg-white"></div> 
+                <h1 className="text-center text-white" >OR</h1> 
+                <div className="w-[45%] h-[1px] bg-white"></div> 
+              </div>              
 
               {/* GitHub */}
-              <div className="flex gap-7 text-center items-center justify-center">
-                <button className="btn bg-white text-black border-[#e5e5e5] flex items-center px-4 py-2 rounded-xl gap-1">
+                <button className="btn w-full bg-white text-black border-[#e5e5e5] flex items-center justify-center px-4 py-2 rounded-xl gap-1 cursor-pointer">
                   <svg
                     aria-label="Google logo"
                     width="19"
@@ -127,22 +167,18 @@ const SignUp = () => {
                   </svg>
                   <span className="font-semibold"> Google</span>
                 </button>
-                <button className="btn bg-black text-white border-black flex items-center  px-4 py-2 rounded-xl gap-1">
-                  <svg
-                    aria-label="GitHub logo"
-                    width="19"
-                    height="19"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      fill="white"
-                      d="M12,2A10,10 0 0,0 2,12C2,16.42 4.87,20.17 8.84,21.5C9.34,21.58 9.5,21.27 9.5,21C9.5,20.77 9.5,20.14 9.5,19.31C6.73,19.91 6.14,17.97 6.14,17.97C5.68,16.81 5.03,16.5 5.03,16.5C4.12,15.88 5.1,15.9 5.1,15.9C6.1,15.97 6.63,16.93 6.63,16.93C7.5,18.45 8.97,18 9.54,17.76C9.63,17.11 9.89,16.67 10.17,16.42C7.95,16.17 5.62,15.31 5.62,11.5C5.62,10.39 6,9.5 6.65,8.79C6.55,8.54 6.2,7.5 6.75,6.15C6.75,6.15 7.59,5.88 9.5,7.17C10.29,6.95 11.15,6.84 12,6.84C12.85,6.84 13.71,6.95 14.5,7.17C16.41,5.88 17.25,6.15 17.25,6.15C17.8,7.5 17.45,8.54 17.35,8.79C18,9.5 18.38,10.39 18.38,11.5C18.38,15.32 16.04,16.16 13.81,16.41C14.17,16.72 14.5,17.33 14.5,18.26C14.5,19.6 14.5,20.68 14.5,21C14.5,21.27 14.66,21.59 15.17,21.5C19.14,20.16 22,16.42 22,12A10,10 0 0,0 12,2Z"
-                    ></path>
-                  </svg>
-                  <span className="font-semibold"> GitHub</span>
+                
+              <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                Allready have an account?{" "}
+                <button
+                 onClick={()=>
+                  navigate("/login")
+                 }
+                  className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                >
+                  Sign In
                 </button>
-              </div>
+              </p>
             </form>
           </div>
         </div>

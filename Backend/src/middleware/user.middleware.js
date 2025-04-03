@@ -1,5 +1,6 @@
 import { body , check } from "express-validator";
 
+
 export const singupValidator = [
     body("username")
         .isString()
@@ -8,6 +9,7 @@ export const singupValidator = [
         .withMessage('username must be at least 3 characters long and at most 15 characters long')
         .custom((value) => value === value.toLowerCase())
         .withMessage('username must be in lowercase'),
+        
 
     body("email")
         .isEmail()

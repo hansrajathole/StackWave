@@ -5,7 +5,7 @@ import { protectRoute } from "../middleware/protected.js";
 const router = Router();
 
 router.post("/signup",userMiddleware.singupValidator,authController.singupController);
-router.post("/login",userMiddleware.loginValidator,authController.loginController);
+router.post("/signin",userMiddleware.loginValidator,authController.loginController);
 router.get("/me", protectRoute, authController.meController);
 
 export default router;

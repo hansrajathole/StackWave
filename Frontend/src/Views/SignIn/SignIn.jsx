@@ -1,22 +1,27 @@
 import React from "react";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from 'axios'
+import { useDispatch } from "react-redux";
+import { useState } from "react";
+import axios from "axios";
+import { setAuthUser } from "../../Redux/AuthSlice";
 
-const SignUp = () => {
-  const navigate = useNavigate()
-  
+const SignIn = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
-  const [username, setUsername] = useState('')
+
   const [password, setPassword] = useState('')
   const [email, setEmail] = useState('')
 
 
     const handleSubmit = (e)=>{
         e.preventDefault()
-        axios.post("http://localhost:3000/api/auth/signup",{username,email,password})
+        axios.post("http://localhost:3000/api/auth/signin",{email,password})
         .then((res)=>{
-          console.log(res);
+          console.log(res.data);
+          dispatch(setAuthUser(res.data.user))
+          localStorage.setItem("token",res.data.token)
+          navigate("/")
         })
         .catch((err)=>{
           console.log(err);
@@ -24,19 +29,22 @@ const SignUp = () => {
     }
 
 
-
-
+  
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+        <a
+          href="#"
+          className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
+        >
+          StackWave
+        </a>
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-              Sign up to your account
+              Sign in to your account
             </h1>
-            <form className="space-y-4 md:space-y-6" 
-              onSubmit={(e)=>handleSubmit(e)}
-              >
+            <form className="space-y-4 md:space-y-6" onSubmit={(e)=>handleSubmit(e)}>
               <div>
                 <label
                   htmlFor="email"
@@ -51,32 +59,13 @@ const SignUp = () => {
                   value={email}
                   onChange={(e)=>setEmail(e.target.value)}
                   className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="name@gmail.com"
-                  required=""
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="username"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Username
-                </label>
-                <input
-                  type="text"
-                  name="username"
-                  id="username"
-                  value={username}
-                  onChange={(e)=>setUsername(e.target.value)}
-                  placeholder="ex:alex"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="name@company.com"
                   required=""
                 />
               </div>
               <div>
                 <label
                   htmlFor="password"
-                  
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Password
@@ -86,19 +75,18 @@ const SignUp = () => {
                     type={showPassword ? "text" : "password"}
                     name="password"
                     id="password"
+                    placeholder="enter password"
                     value={password}
-                    onChange={(e)=>setPassword(e.target.value)} 
-                    placeholder="••••••••"
+                    onChange={(e)=>setPassword(e.target.value)}
                     className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     required
                   />
                   <button
                     type="button"
-
-                    // onClick={() => setShowPassword(!showPassword)}
+                    onClick={() => setShowPassword(!showPassword)}
                     className="absolute inset-y-0 right-2 flex items-center text-gray-500 dark:text-gray-300"
                   >
-                    {/* {showPassword ? "👁️" : "🙈"} */}
+                    {showPassword ? "👁️" : "🙈"}
                   </button>
                 </div>
               </div>
@@ -118,26 +106,31 @@ const SignUp = () => {
                       htmlFor="remember"
                       className="text-gray-500 dark:text-gray-300"
                     >
-                      Accept terms and condition
+                      Remember me
                     </label>
                   </div>
                 </div>
+                <a
+                  href="#"
+                  className="text-sm font-medium  hover:underline text-blue-400"
+                >
+                  Forgot password?
+                </a>
               </div>
-
               <button
                 type="submit"
                 className="w-full text-white focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center  bg-blue-500 cursor-pointer active:scale-99"
               >
-                Sign up
+                Sign in
               </button>
               <div className="flex w-full text-center items-center justify-between">
-                <div className="w-[45%] h-[1px] bg-white"></div> 
-                <h1 className="text-center text-white" >OR</h1> 
-                <div className="w-[45%] h-[1px] bg-white"></div> 
-              </div>              
+                <div className="w-[45%] h-[1px] bg-white"></div>
+                <h1 className="text-center text-white">OR</h1>
+                <div className="w-[45%] h-[1px] bg-white"></div>
+              </div>
 
               {/* GitHub */}
-                <button className="btn w-full bg-white text-black border-[#e5e5e5] flex items-center justify-center px-4 py-2 rounded-xl gap-1 cursor-pointer">
+                <button className="btn w-full bg-white text-black border-[#e5e5e5] flex items-center justify-center px-4 py-2 rounded-xl gap-1 cursor-pointer" >
                   <svg
                     aria-label="Google logo"
                     width="19"
@@ -167,16 +160,13 @@ const SignUp = () => {
                   </svg>
                   <span className="font-semibold"> Google</span>
                 </button>
-                
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                Allready have an account?{" "}
+                Don’t have an account yet?{" "}
                 <button
-                 onClick={()=>
-                  navigate("/login")
-                 }
+                  onClick={()=>navigate("/signup")}
                   className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                 >
-                  Sign In
+                  Sign up
                 </button>
               </p>
             </form>
@@ -187,4 +177,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default SignIn;

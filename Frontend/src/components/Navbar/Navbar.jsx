@@ -1,11 +1,41 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Sidebar from "./Sidebar";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setAuthUser } from "../../Redux/AuthSlice"; // Import the logout action
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
+  const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  // Toggle dropdown menu
+  const handleProfileClick = () => {
+    setDropdownOpen(!isDropdownOpen);
+  };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  // Logout function
+  const handleLogout = () => {
+    dispatch(setAuthUser(null)); // Clear user data from Redux
+    localStorage.removeItem("token")
+    navigate("/login"); // Redirect to login page
+  };
 
   return (
     <div className="flex h-screen">
@@ -33,17 +63,32 @@ const Navbar = () => {
           </div>
 
           {/* Right Section - Icons and Profile */}
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-3 relative">
             <button className="text-gray-400 hover:text-white">🏆</button>
             <button className="text-gray-400 hover:text-white">📥</button>
             <button className="text-gray-400 hover:text-white">❓</button>
 
             {user ? (
-              <div className="flex items-center space-x-3">
-                <span className="text-white text-sm">{user.name}</span>
-                <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-white">
+              <div className="relative" ref={dropdownRef}>
+                {/* Profile Image Button */}
+                <button onClick={handleProfileClick} className="w-10 h-10 rounded-full overflow-hidden border-2 border-white">
                   <img src={user.avatar} alt="profile" className="w-full h-full object-cover" />
-                </div>
+                </button>
+
+                {/* Profile Dropdown */}
+                {isDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-gray-800 text-white rounded-md shadow-lg overflow-hidden">
+                    <div className="px-4 py-3 border-b border-gray-700">
+                      <span className="block text-sm">{user.username}</span>
+                    </div>
+                    <button 
+                      onClick={handleLogout} 
+                      className="w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-gray-700"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
               </div>
             ) : (
               <button className="bg-blue-600 px-3 py-1 rounded-md text-white text-sm hover:bg-blue-700"

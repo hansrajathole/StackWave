@@ -3,39 +3,39 @@ import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   return (
-    <div className="bg-gray-900 text-white w-64 h-screen fixed top-0 left-0 pt-16 p-4 overflow-y-auto">
+    <div className="bg-gray-900 text-white w-64 h-screen fixed top-2 left-0 pt-16 p-4 ">
       {/* Navigation Items */}
       <nav className="space-y-2">
-        <Link to="/" className="flex items-center space-x-2 bg-gray-700 p-2 rounded-md hover:bg-gray-600">
+        <Link to="/" className="flex items-center space-x-2 active:bg-gray-700 p-2 rounded-md hover:bg-gray-600">
           <span>🏠</span>
           <span>Home</span>
         </Link>
-        <Link to="/questions" className="flex items-center space-x-2 p-2 text-gray-300 hover:bg-gray-700 rounded-md">
+        <Link to="/questions" className="flex items-center space-x-2 p-2 text-gray-300 hover:bg-gray-600 active:bg-gray-700 rounded-md">
           <span>🔍</span>
           <span>Questions</span>
         </Link>
-        <Link to="/tags" className="flex items-center space-x-2 p-2 text-gray-300 hover:bg-gray-700 rounded-md">
+        <Link to="/tags" className="flex items-center space-x-2 p-2 text-gray-300 hover:bg-gray-600 active:bg-gray-700 rounded-md">
           <span>🏷️</span>
           <span>Tags</span>
         </Link>
-        <Link to="/saves" className="flex items-center space-x-2 p-2 text-gray-300 hover:bg-gray-700 rounded-md">
+        <Link to="/saves" className="flex items-center space-x-2 p-2 text-gray-300 hover:bg-gray-600 active:bg-gray-700 rounded-md">
           <span>🔖</span>
           <span>Saves</span>
         </Link>
-        <Link to="/discussions" className="flex items-center space-x-2 p-2 text-gray-300 hover:bg-gray-700 rounded-md">
+        <Link to="/discussions" className="flex items-center space-x-2 p-2 text-gray-300 hover:bg-gray-600 active:bg-gray-700 rounded-md">
           <span>💬</span>
           <span>Discussions</span>
           <span className="bg-blue-500 text-xs px-2 py-0.5 rounded-full">Labs</span>
         </Link>
-        <Link to="/chat" className="flex items-center space-x-2 p-2 text-gray-300 hover:bg-gray-700 rounded-md">
+        <Link to="/chat" className="flex items-center space-x-2 p-2 text-gray-300 hover:bg-gray-600 active:bg-gray-700 rounded-md">
           <span>📢</span>
           <span>Chat</span>
         </Link>
-        <Link to="/users" className="flex items-center space-x-2 p-2 text-gray-300 hover:bg-gray-700 rounded-md">
+        <Link to="/users" className="flex items-center space-x-2 p-2 text-gray-300 hover:bg-gray-600 active:bg-gray-700 rounded-md">
           <span>👥</span>
           <span>Users</span>
         </Link>
-        <Link to="/room" className="flex items-center space-x-2 p-2 text-gray-300 hover:bg-gray-700 rounded-md">
+        <Link to="/room" className="flex items-center space-x-2 p-2 text-gray-300 hover:bg-gray-600 active:bg-gray-700 rounded-md">
           <span>🏢</span>
           <span>Room</span>
         </Link>

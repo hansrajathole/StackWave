@@ -3,6 +3,7 @@ import Sidebar from "./Sidebar";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setAuthUser } from "../../Redux/AuthSlice"; // Import the logout action
+import Home from "../../Views/Home/Home";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -41,7 +42,6 @@ const Navbar = () => {
     <div className="flex h-screen">
       {/* Sidebar */}
       <Sidebar />
-
       {/* Main Content */}
       <div className="flex-1">
         {/* Navbar */}
@@ -102,6 +102,7 @@ const Navbar = () => {
           </div>
         </nav>
       </div>
+
     </div>
   );
 };

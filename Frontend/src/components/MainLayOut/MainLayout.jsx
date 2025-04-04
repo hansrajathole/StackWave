@@ -5,6 +5,7 @@ import Navbar from '../Navbar/Navbar'
 import Room from '../../Views/Room/Room'
 import Users from '../../Views/Users/Users'
 import Home from '../../Views/Home/Home'
+import Question from '../../Views/Question/Question'
 const MainLayout = () => {
   return (
     <div className=' flex'>
@@ -13,7 +14,7 @@ const MainLayout = () => {
         </div>
         <div className='w-[100%] mt-10'>
             <Routes>
-                <Route path='/home' element={<Protected><Home/></Protected>}/>
+                <Route path='/questions' element={<Protected><Question/></Protected>}/>
                 <Route path='/room' element={<Protected><Room/></Protected>}/>
                 <Route path='/users' element={<Protected><Users/></Protected>}/>
             </Routes>

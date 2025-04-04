@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar/Navbar";
-import { useNavigate } from "react-router-dom";
-const Home = () => {
 
-  const navigate = useNavigate()
+const Home2 = () => {
+  // Dummy user data (replace with actual authentication logic)
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    // Simulating fetching user data
+    const loggedInUser = {
+      name: "John Doe", // Replace with actual user data
+    };
+    setUser(loggedInUser);
+  }, []);
 
   return (
     <div className="flex">
@@ -16,32 +24,26 @@ const Home = () => {
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white">
             Welcome to StackWave
           </h1>
+          {user && (
+            <p className="mt-2 text-xl text-blue-600 dark:text-blue-400 font-semibold">
+              Logged in as: {user.name}
+            </p>
+          )}
           <p className="mt-4 text-lg text-gray-600 dark:text-gray-300 max-w-xl mx-auto">
             Collaborate. Learn. Grow. A modern place for developers to share
             knowledge and build reputation.
           </p>
-          <button
-          onClick={() => navigate("/login")}
-          className="mt-6 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition cursor-pointer">
+          <button className="mt-6 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">
             Get Started
           </button>
         </section>
 
         {/* Feature Cards */}
         <section className="py-16 px-6 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          {[
-            {
-              title: "Ask Questions",
-              desc: "Post technical queries and get expert answers.",
-            },
-            {
-              title: "Join Rooms",
-              desc: "Collaborate in real-time with global developers.",
-            },
-            {
-              title: "Track Progress",
-              desc: "See your growth through reputation and badges.",
-            },
+          {[ 
+            { title: "Ask Questions", desc: "Post technical queries and get expert answers." },
+            { title: "Join Rooms", desc: "Collaborate in real-time with global developers." },
+            { title: "Track Progress", desc: "See your growth through reputation and badges." },
           ].map((feature, idx) => (
             <div
               key={idx}
@@ -63,7 +65,7 @@ const Home = () => {
             Top Contributors
           </h2>
           <ul className="bg-white dark:bg-gray-800 shadow rounded-lg divide-y divide-gray-200 dark:divide-gray-700">
-            {[
+            {[ 
               { name: "Alice Johnson", points: 3200 },
               { name: "Bob Smith", points: 2900 },
               { name: "Charlie Brown", points: 2750 },
@@ -84,4 +86,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Home2;

@@ -60,6 +60,7 @@ const Navbar = () => {
               placeholder="Search..."
               className="w-full bg-gray-800 text-white px-3 py-1 rounded-md outline-none border border-gray-700 focus:border-blue-500"
             />
+            <div class="loader"></div>
           </div>
 
           {/* Right Section - Icons and Profile */}
@@ -83,7 +84,8 @@ const Navbar = () => {
                     </div>
                     <button 
                       onClick={handleLogout} 
-                      className="w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-gray-700"
+                      className="w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-gray-700 font-semibold
+                      "
                     >
                       Logout
                     </button>

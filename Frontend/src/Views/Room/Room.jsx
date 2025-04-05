@@ -49,6 +49,7 @@ const Room = () => {
                 />
               </div>
               <div className="flex justify-end mt-8">
+                
               <Button variant="secondary" className="bg-gray-400 text-end">Join Project</Button>
               </div>
           

@@ -1,17 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar/Navbar";
-
+import { useSelector } from "react-redux";
 const Home2 = () => {
-  // Dummy user data (replace with actual authentication logic)
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    // Simulating fetching user data
-    const loggedInUser = {
-      name: "John Doe", // Replace with actual user data
-    };
-    setUser(loggedInUser);
-  }, []);
+  
+  const user = useSelector((state) => state.auth.user); 
 
   return (
     <div className="flex">
@@ -19,23 +11,21 @@ const Home2 = () => {
         <Navbar />
       </div>
       <div className="min-h-full w-full bg-gray-900 dark:bg-gray-950 text-gray-200">
-        {/* Hero Section */}
+       
         <section className="bg-white dark:bg-gray-900 py-20 px-6 text-center shadow">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white">
             Welcome to StackWave
           </h1>
           {user && (
-            <p className="mt-2 text-xl text-blue-600 dark:text-blue-400 font-semibold">
-              Logged in as: {user.name}
+            <p className="mt-2 text-4xl text-blue-600 dark:text-blue-400 font-semibold">
+               {user.username}!
             </p>
           )}
           <p className="mt-4 text-lg text-gray-600 dark:text-gray-300 max-w-xl mx-auto">
             Collaborate. Learn. Grow. A modern place for developers to share
             knowledge and build reputation.
           </p>
-          <button className="mt-6 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">
-            Get Started
-          </button>
+          
         </section>
 
         {/* Feature Cards */}

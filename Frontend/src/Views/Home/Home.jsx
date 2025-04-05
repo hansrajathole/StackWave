@@ -1,30 +1,35 @@
 import React from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import { useNavigate } from "react-router-dom";
-const Home = () => {
+import { Button } from "@/components/ui/button";
 
-  const navigate = useNavigate()
+const Home = () => {
+  const navigate = useNavigate();
 
   return (
-    <div className="flex">
-      <div className="w-[20%]">
+    <div className="flex bg-slate-950 text-slate-100 min-h-screen">
+      {/* Sidebar/Navbar */}
+      <div className="w-[20%] hidden md:block">
         <Navbar />
       </div>
-      <div className="min-h-full w-full bg-gray-900 dark:bg-gray-950 text-gray-200">
+
+      {/* Main Content */}
+      <div className="w-full ">
         {/* Hero Section */}
-        <section className="bg-white dark:bg-gray-900 py-20 px-6 text-center shadow">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white">
+        <section className="py-20 px-6 text-center bg-slate-900 shadow-inner">
+          <h1 className="text-4xl md:text-5xl font-bold text-white">
             Welcome to StackWave
           </h1>
-          <p className="mt-4 text-lg text-gray-600 dark:text-gray-300 max-w-xl mx-auto">
+          <p className="mt-4 text-lg text-slate-300 max-w-xl mx-auto">
             Collaborate. Learn. Grow. A modern place for developers to share
             knowledge and build reputation.
           </p>
-          <button
-          onClick={() => navigate("/login")}
-          className="mt-6 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition cursor-pointer">
+          <Button
+            onClick={() => navigate("/login")}
+            className="mt-6 bg-blue-600 hover:bg-blue-700"
+          >
             Get Started
-          </button>
+          </Button>
         </section>
 
         {/* Feature Cards */}
@@ -45,34 +50,30 @@ const Home = () => {
           ].map((feature, idx) => (
             <div
               key={idx}
-              className="bg-white dark:bg-gray-800 dark:text-gray-200 shadow rounded-lg p-6 hover:shadow-md transition"
+              className="bg-slate-800 text-slate-200 rounded-xl p-6 shadow-md hover:shadow-lg transition"
             >
-              <h3 className="text-xl font-semibold text-gray-800 dark:text-white">
+              <h3 className="text-xl font-semibold text-white">
                 {feature.title}
               </h3>
-              <p className="text-gray-600 dark:text-gray-300 mt-2">
-                {feature.desc}
-              </p>
+              <p className="mt-2 text-slate-300">{feature.desc}</p>
             </div>
           ))}
         </section>
 
-        {/* Leaderboard Preview */}
+        {/* Leaderboard Section */}
         <section className="px-6 pb-20 max-w-4xl mx-auto">
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">
+          <h2 className="text-2xl font-bold text-white mb-6">
             Top Contributors
           </h2>
-          <ul className="bg-white dark:bg-gray-800 shadow rounded-lg divide-y divide-gray-200 dark:divide-gray-700">
+          <ul className="bg-slate-800 rounded-xl divide-y divide-slate-700">
             {[
               { name: "Alice Johnson", points: 3200 },
               { name: "Bob Smith", points: 2900 },
               { name: "Charlie Brown", points: 2750 },
             ].map((user, idx) => (
               <li key={idx} className="p-4 flex justify-between">
-                <span className="font-medium text-gray-700 dark:text-gray-100">
-                  {user.name}
-                </span>
-                <span className="text-blue-600 font-semibold">
+                <span className="text-slate-100 font-medium">{user.name}</span>
+                <span className="text-blue-500 font-semibold">
                   {user.points} pts
                 </span>
               </li>

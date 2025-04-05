@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {BrowserRouter as Router  , Routes , Route} from 'react-router-dom'
 
 import Navbar from '../components/Navbar/Navbar'
@@ -8,14 +8,16 @@ import Protected from '../components/Protected/Protecte'
 import MainLayout from '../components/MainLayOut/MainLayout'
 import Home from '../Views/Home/Home'
 import Home2 from '../Views/Home/Home2'
+import { useSelector } from 'react-redux'
 
 const AppRouter = () => {
-  const token = localStorage.getItem('token')
+  const user = useSelector((state)=> state.auth.user)
+  
   return (
 
       <Router>
       <Routes>
-        <Route path="/" element={token? <Home2/>:<Home/>} />
+        <Route path="/" element={user? <Home2/>:<Home/>} />
         <Route path="/signup" element={<SignUp/>} />
         <Route path="/login" element={<SignIn />} />
         <Route path='/*' element={<Protected><MainLayout/></Protected>}/>

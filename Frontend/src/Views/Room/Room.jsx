@@ -1,91 +1,110 @@
 import React, { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button"
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 
 const Room = () => {
-  const [isNewProjectOpen, setIsNewProjectOpen] = useState(false);
-  const [isJoinProjectOpen, setIsJoinProjectOpen] = useState(false);
+
 
   return (
-    <div className="bg-gray-900 text-white min-h-full p-8">
+   <div className="mx-auto p-6 bg-gray-900 text-white min-h-full">
+     <div className="bg-gray-900 text-white p-8 flex justify-between">
       <h1 className="text-2xl font-bold">My Projects</h1>
 
       {/* Buttons to open modals */}
-      <div className="flex space-x-4 mt-4">
-        <button
-          onClick={() => setIsJoinProjectOpen(true)}
-          className="border border-purple-500 px-4 py-2 rounded-md text-purple-400 hover:bg-purple-600"
-        >
-          Join
-        </button>
-        <button
-          onClick={() => setIsNewProjectOpen(true)}
-          className="bg-blue-500 px-4 py-2 rounded-md hover:bg-blue-600"
-        >
-          New Project +
-        </button>
+      <div className="flex space-x-4 mt-4 ">
+        
+        <Dialog>
+          <DialogTrigger className="border border-purple-500 px-4 py-2 rounded-md text-purple-400 hover:bg-purple-600">
+            Join
+          </DialogTrigger>
+          <DialogContent className="bg-gray-900 text-white p-6 rounded-lg w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Join Project</DialogTitle>
+              <DialogDescription>
+              To join a project, enter the join ID, which can be obtained from your friend.
+              </DialogDescription>
+              <div className="flex text-center items-center justify-between mt-4">
+                <label htmlFor="project">project ID</label>
+                <Input
+                  type="text"
+                  placeholder="Project Id"
+                  className=" bg-gray-800 w-[70%] px-3 py-1 rounded-md outline-none border-none ring-0 focus-visible:ring-0 "
+                />
+              </div>
+              <div className="flex justify-end mt-8">
+              <Button variant="secondary" className="bg-gray-400 text-end">Join Project</Button>
+              </div>
+          
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
+        {/* New Project Modal */}
+        <Dialog>
+          <DialogTrigger className="bg-blue-500 px-4 py-2 rounded-md hover:bg-blue-600">
+            New Project +
+          </DialogTrigger>
+          <DialogContent className="bg-gray-900 text-white p-6 rounded-lg w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Create New Project</DialogTitle>
+              <DialogDescription>
+                Start coding with your friends by creating a new project and
+                start debugging with AI.
+              </DialogDescription>
+              <div className="flex text-center items-center justify-between mt-4">
+                <label htmlFor="project">Title</label>
+                <Input
+                  type="text"
+                  placeholder="Project Name"
+                  className=" bg-gray-800 w-[70%] px-3 py-1 rounded-md outline-none border-none ring-0 focus-visible:ring-0 "
+                />
+              </div>
+
+              {/* Language Select Dropdown */}
+              <div className="flex text-center items-center justify-between gap-2 mt-4">
+                <label className="text-sm">Language</label>
+                <Select>
+                  <SelectTrigger className="w-[70%] bg-gray-800 text-white border-none">
+                    <SelectValue placeholder="Select a language" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-gray-800 text-white">
+                    <SelectItem value="javascript">JavaScript</SelectItem>
+                    <SelectItem value="python">Python</SelectItem>
+                    <SelectItem value="java">Java</SelectItem>
+                    <SelectItem value="c">C</SelectItem>
+                    <SelectItem value="cpp">C++</SelectItem>
+                    <SelectItem value="typeScript">TypeScript</SelectItem>
+                    <SelectItem value="go">Go</SelectItem>
+                    <SelectItem value="ruby">Ruby</SelectItem>
+                    <SelectItem value="rust">Rust</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="flex justify-end mt-8">
+              <Button variant="secondary" className="bg-gray-400 text-end">Create Project +</Button>
+              </div>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
       </div>
-
-      {/* Join Project Modal */}
-      {isJoinProjectOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
-          <div className="bg-gray-950 p-6 rounded-lg w-96">
-            <h2 className="text-lg font-bold">Join Project</h2>
-            <p className="text-gray-400 text-sm">
-              To join a project, enter the join ID provided by your friend.
-            </p>
-            <input
-              type="text"
-              placeholder="Project ID"
-              className="w-full bg-gray-800 p-2 mt-3 rounded-md outline-none"
-            />
-            <div className="flex justify-end mt-4">
-              <button
-                onClick={() => setIsJoinProjectOpen(false)}
-                className="text-gray-400 mr-4"
-              >
-                Cancel
-              </button>
-              <button className="bg-gray-700 px-4 py-2 rounded-md text-gray-500">
-                Join Project
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* New Project Modal */}
-      {isNewProjectOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
-          <div className="bg-gray-950 p-6 rounded-lg w-96">
-            <h2 className="text-lg font-bold">Create New Project</h2>
-            <p className="text-gray-400 text-sm">
-              Start coding with your friends by creating a new project and debugging with AI.
-            </p>
-            <input
-              type="text"
-              placeholder="Title (at least 3 characters)"
-              className="w-full bg-gray-800 p-2 mt-3 rounded-md outline-none"
-            />
-            <select className="w-full bg-gray-800 p-2 mt-3 rounded-md outline-none">
-              <option>Programming Language</option>
-              <option>JavaScript</option>
-              <option>Python</option>
-              <option>C++</option>
-            </select>
-            <div className="flex justify-end mt-4">
-              <button
-                onClick={() => setIsNewProjectOpen(false)}
-                className="text-gray-400 mr-4"
-              >
-                Cancel
-              </button>
-              <button className="bg-gray-700 px-4 py-2 rounded-md text-gray-500">
-                Create Project
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
+   </div>
   );
 };
 

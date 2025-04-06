@@ -39,10 +39,11 @@ const Navbar = () => {
   };
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen ">
       {/* Sidebar */}
       <div className="max-sm:opacity-0">
       <Sidebar />
+      
       </div>
       {/* Main Content */}
       <div className="flex-1">

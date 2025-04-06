@@ -31,12 +31,19 @@ const ProtectedRoute = ({ children }) => {
     navigate("/login");
   };
 
+
+  const handleClose = () => {
+    setIsLoginModalOpen(false);
+    navigate("/");
+  }
   if (isAuthenticated) {
     return children;
   }
 
+
+
   return (
-    <Dialog open={isLoginModalOpen} onOpenChange={setIsLoginModalOpen}>
+    <Dialog open={isLoginModalOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Login Required</DialogTitle>

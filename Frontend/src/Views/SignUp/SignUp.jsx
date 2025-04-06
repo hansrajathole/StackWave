@@ -1,187 +1,129 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from 'axios'
+import axios from 'axios';
 
 const SignUp = () => {
-  const navigate = useNavigate()
-  
+  const navigate = useNavigate();
+
   const [showPassword, setShowPassword] = useState(false);
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [email, setEmail] = useState('')
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
 
-
-    const handleSubmit = (e)=>{
-        e.preventDefault()
-        axios.post("http://localhost:3000/api/auth/signup",{username,email,password})
-        .then((res)=>{
-          console.log(res.data.user);
-        })
-        .catch((err)=>{
-          console.log(err);
-        })
-    }
-
-
-
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios.post("http://localhost:3000/api/auth/signup", { username, email, password })
+      .then((res) => {
+        console.log(res.data.user);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
-    <section className="bg-gray-50 dark:bg-gray-900">
-      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-        <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-          <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-              Sign up to your account
-            </h1>
-            <form className="space-y-4 md:space-y-6" 
-              onSubmit={(e)=>handleSubmit(e)}
-              >
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Your email
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  id="email"
-                  value={email}
-                  onChange={(e)=>setEmail(e.target.value)}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="name@gmail.com"
-                  required=""
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="username"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Username
-                </label>
-                <input
-                  type="text"
-                  name="username"
-                  id="username"
-                  value={username}
-                  onChange={(e)=>setUsername(e.target.value)}
-                  placeholder="ex:alex"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  required=""
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="password"
-                  
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Password
-                </label>
-                <div className="relative">
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    name="password"
-                    id="password"
-                    value={password}
-                    onChange={(e)=>setPassword(e.target.value)} 
-                    placeholder="••••••••"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    required
-                  />
-                  <button
-                    type="button"
-
-                    // onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-2 flex items-center text-gray-500 dark:text-gray-300"
-                  >
-                    {/* {showPassword ? "👁️" : "🙈"} */}
-                  </button>
-                </div>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-start">
-                  <div className="flex items-center h-5">
-                    <input
-                      id="remember"
-                      aria-describedby="remember"
-                      type="checkbox"
-                      className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
-                      required=""
-                    />
-                  </div>
-                  <div className="ml-3 text-sm">
-                    <label
-                      htmlFor="remember"
-                      className="text-gray-500 dark:text-gray-300"
-                    >
-                      Accept terms and condition
-                    </label>
-                  </div>
-                </div>
-              </div>
-
-              <button
-                type="submit"
-                className="w-full text-white focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center  bg-blue-500 cursor-pointer active:scale-99"
-              >
-                Sign up
-              </button>
-              <div className="flex w-full text-center items-center justify-between">
-                <div className="w-[45%] h-[1px] bg-white"></div> 
-                <h1 className="text-center text-white" >OR</h1> 
-                <div className="w-[45%] h-[1px] bg-white"></div> 
-              </div>              
-
-              {/* GitHub */}
-                <button className="btn w-full bg-white text-black border-[#e5e5e5] flex items-center justify-center px-4 py-2 rounded-xl gap-1 cursor-pointer">
-                  <svg
-                    aria-label="Google logo"
-                    width="19"
-                    height="19"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 512 512"
-                  >
-                    <g>
-                      <path d="m0 0H512V512H0" fill="#fff"></path>
-                      <path
-                        fill="#34a853"
-                        d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341"
-                      ></path>
-                      <path
-                        fill="#4285f4"
-                        d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57"
-                      ></path>
-                      <path
-                        fill="#fbbc02"
-                        d="m90 341a208 200 0 010-171l63 49q-12 37 0 73"
-                      ></path>
-                      <path
-                        fill="#ea4335"
-                        d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55"
-                      ></path>
-                    </g>
-                  </svg>
-                  <span className="font-semibold"> Google</span>
-                </button>
-                
-              <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                Allready have an account?{" "}
-                <button
-                 onClick={()=>
-                  navigate("/login")
-                 }
-                  className="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                >
-                  Sign In
-                </button>
-              </p>
-            </form>
+    <section className="bg-gray-950 min-h-screen flex items-center justify-center">
+      <div className="w-full max-w-md bg-gray-900 rounded-lg shadow-lg p-8">
+        <h1 className="text-2xl font-bold text-white text-center mb-6">Sign up to your account</h1>
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-white mb-1">Your email</label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full p-2 rounded-lg bg-gray-700 border border-gray-600 text-white focus:ring-2 focus:ring-blue-500"
+              placeholder="name@gmail.com"
+              required
+            />
           </div>
-        </div>
+          <div>
+            <label htmlFor="username" className="block text-sm font-medium text-white mb-1">Username</label>
+            <input
+              type="text"
+              id="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="ex: alex"
+              className="w-full p-2 rounded-lg bg-gray-700 border border-gray-600 text-white focus:ring-2 focus:ring-blue-500"
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="password" className="block text-sm font-medium text-white mb-1">Password</label>
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                className="w-full p-2 rounded-lg bg-gray-700 border border-gray-600 text-white focus:ring-2 focus:ring-blue-500"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-2 top-2 text-white"
+              >
+                {showPassword ? "👁️" : "🙈"}
+              </button>
+            </div>
+          </div>
+          <div className="flex items-center space-x-2">
+            <input
+              id="terms"
+              type="checkbox"
+              required
+              className="w-4 h-4 text-blue-600 bg-gray-700 border-gray-600 rounded"
+            />
+            <label htmlFor="terms" className="text-sm text-gray-300">Accept terms and conditions</label>
+          </div>
+
+          <button
+            type="submit"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-semibold"
+          >
+            Sign up
+          </button>
+
+          <div className="flex items-center justify-center space-x-2 mt-4">
+            <div className="w-1/4 h-px bg-gray-600" />
+            <span className="text-gray-400">OR</span>
+            <div className="w-1/4 h-px bg-gray-600" />
+          </div>
+
+          <button className="w-full flex items-center justify-center bg-white text-black py-2 rounded-lg mt-2">
+            <svg
+              aria-label="Google logo"
+              width="19"
+              height="19"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 512 512"
+              className="mr-2"
+            >
+              <g>
+                <path d="m0 0H512V512H0" fill="#fff"></path>
+                <path fill="#34a853" d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341" />
+                <path fill="#4285f4" d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57" />
+                <path fill="#fbbc02" d="m90 341a208 200 0 010-171l63 49q-12 37 0 73" />
+                <path fill="#ea4335" d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55" />
+              </g>
+            </svg>
+            <span className="font-semibold">Continue with Google</span>
+          </button>
+
+          <p className="text-sm text-center text-gray-400 mt-4">
+            Already have an account?{" "}
+            <button
+              onClick={() => navigate("/login")}
+              className="text-blue-500 hover:underline"
+            >
+              Sign In
+            </button>
+          </p>
+        </form>
       </div>
     </section>
   );

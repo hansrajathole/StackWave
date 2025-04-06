@@ -41,7 +41,9 @@ const Navbar = () => {
   return (
     <div className="flex h-screen">
       {/* Sidebar */}
+      <div className="max-sm:opacity-0">
       <Sidebar />
+      </div>
       {/* Main Content */}
       <div className="flex-1">
         {/* Navbar */}
@@ -49,12 +51,12 @@ const Navbar = () => {
           {/* Left Section - Logo */}
           <div className="flex items-center space-x-2">
             <h1 className="mx-5 text-lg font-semibold">StackWave</h1>
-            <span className="text-gray-300 text-sm cursor-pointer hover:text-white">Products</span>
-            <span className="text-gray-300 text-sm cursor-pointer hover:text-white">OverflowAI</span>
+            <span className="text-gray-300 text-sm cursor-pointer hover:text-white max-sm:hidden">Products</span>
+            <span className="text-gray-300 text-sm cursor-pointer hover:text-white  max-sm:hidden">OverflowAI</span>
           </div>
 
           {/* Search Bar */}
-          <div className="flex-1 mx-4 max-w-lg">
+          <div className="flex-1 mx-4 max-w-lg  max-sm:hidden">
             <input
               type="text"
               placeholder="Search..."

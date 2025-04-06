@@ -9,7 +9,7 @@ const Home = () => {
   return (
     <div className="flex bg-slate-950 text-slate-100 min-h-screen">
       {/* Sidebar/Navbar */}
-      <div className="w-[20%] hidden md:block">
+      <div className="w-[20%]">
         <Navbar />
       </div>
 

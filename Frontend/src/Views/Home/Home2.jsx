@@ -7,7 +7,7 @@ const Home2 = () => {
 
   return (
     <div className="flex">
-      <div className="w-[20%]">
+      <div className="w-[20%] ">
         <Navbar />
       </div>
       <div className="min-h-full w-full bg-gray-900 dark:bg-gray-950 text-gray-200">

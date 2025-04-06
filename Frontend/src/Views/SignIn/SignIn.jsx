@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { useState } from "react";
 import axios from "axios";
 import { setAuthUser } from "../../Redux/AuthSlice";
 
@@ -9,169 +8,123 @@ const SignIn = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
 
-  const [password, setPassword] = useState('')
-  const [email, setEmail] = useState('')
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post("http://localhost:3000/api/auth/signin", { email, password })
+      .then((res) => {
+        dispatch(setAuthUser(res.data.user));
+        localStorage.setItem("token", res.data.token);
+        navigate("/");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
-
-    const handleSubmit = (e)=>{
-        e.preventDefault()
-        axios.post("http://localhost:3000/api/auth/signin",{email,password})
-        .then((res)=>{
-          console.log(res.data);
-          dispatch(setAuthUser(res.data.user))
-          localStorage.setItem("token",res.data.token)
-          navigate("/")
-        })
-        .catch((err)=>{
-          console.log(err);
-        })
-    }
-
-
-  
   return (
-    <section className="bg-gray-900">
-      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-        <a
-          href="#"
-          className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
-        >
-          StackWave
-        </a>
-        <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-          <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-              Sign in to your account
-            </h1>
-            <form className="space-y-4 md:space-y-6" onSubmit={(e)=>handleSubmit(e)}>
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Your email
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  id="email"
-                  value={email}
-                  onChange={(e)=>setEmail(e.target.value)}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="name@company.com"
-                  required=""
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="password"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Password
-                </label>
-                <div className="relative">
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    name="password"
-                    id="password"
-                    placeholder="enter password"
-                    value={password}
-                    onChange={(e)=>setPassword(e.target.value)}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    required
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-2 flex items-center text-gray-500 dark:text-gray-300"
-                  >
-                    {showPassword ? "👁️" : "🙈"}
-                  </button>
-                </div>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-start">
-                  <div className="flex items-center h-5">
-                    <input
-                      id="remember"
-                      aria-describedby="remember"
-                      type="checkbox"
-                      className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
-                      required=""
-                    />
-                  </div>
-                  <div className="ml-3 text-sm">
-                    <label
-                      htmlFor="remember"
-                      className="text-gray-500 dark:text-gray-300"
-                    >
-                      Remember me
-                    </label>
-                  </div>
-                </div>
-                <a
-                  href="#"
-                  className="text-sm font-medium  hover:underline text-blue-400"
-                >
-                  Forgot password?
-                </a>
-              </div>
-              <button
-                type="submit"
-                className="w-full text-white focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center  bg-blue-500 cursor-pointer active:scale-99"
-              >
-                Sign in
-              </button>
-              <div className="flex w-full text-center items-center justify-between">
-                <div className="w-[45%] h-[1px] bg-white"></div>
-                <h1 className="text-center text-white">OR</h1>
-                <div className="w-[45%] h-[1px] bg-white"></div>
-              </div>
-
-              {/* GitHub */}
-                <button className="btn w-full bg-white text-black border-[#e5e5e5] flex items-center justify-center px-4 py-2 rounded-xl gap-1 cursor-pointer" >
-                  <svg
-                    aria-label="Google logo"
-                    width="19"
-                    height="19"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 512 512"
-                  >
-                    <g>
-                      <path d="m0 0H512V512H0" fill="#fff"></path>
-                      <path
-                        fill="#34a853"
-                        d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341"
-                      ></path>
-                      <path
-                        fill="#4285f4"
-                        d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57"
-                      ></path>
-                      <path
-                        fill="#fbbc02"
-                        d="m90 341a208 200 0 010-171l63 49q-12 37 0 73"
-                      ></path>
-                      <path
-                        fill="#ea4335"
-                        d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55"
-                      ></path>
-                    </g>
-                  </svg>
-                  <span className="font-semibold"> Google</span>
-                </button>
-              <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                Don’t have an account yet?{" "}
-                <button
-                  onClick={()=>navigate("/signup")}
-                  className="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                >
-                  Sign up
-                </button>
-              </p>
-            </form>
-          </div>
+    <section className="bg-gray-950 min-h-screen flex items-center justify-center px-4">
+      <div className="w-full max-w-md p-6 rounded-xl bg-gray-900 shadow-xl text-white">
+        <div className="text-center mb-6">
+          <h1 className="text-3xl font-bold text-white">StackWave</h1>
+          <p className="text-gray-400 mt-2">Sign in to your account</p>
         </div>
+
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div>
+            <label htmlFor="email" className="block mb-1 text-sm">
+              Email address
+            </label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="you@example.com"
+              required
+            />
+          </div>
+
+          <div>
+            <label htmlFor="password" className="block mb-1 text-sm">
+              Password
+            </label>
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="••••••••"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-2 text-gray-400 hover:text-white text-lg"
+              >
+                {showPassword ? "👁️" : "🙈"}
+              </button>
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between text-sm">
+            <label className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                className="form-checkbox bg-gray-800 border-gray-600 text-blue-500"
+              />
+              Remember me
+            </label>
+            <a href="#" className="text-blue-400 hover:underline">
+              Forgot password?
+            </a>
+          </div>
+
+          <button
+            type="submit"
+            className="w-full bg-blue-600 hover:bg-blue-700 transition text-white font-semibold py-2 rounded-lg"
+          >
+            Sign In
+          </button>
+
+          <div className="flex items-center justify-between text-white opacity-50 mt-4">
+            <div className="w-[45%] h-px bg-white" />
+            <span className="text-sm">OR</span>
+            <div className="w-[45%] h-px bg-white" />
+          </div>
+
+          <button className="w-full flex items-center justify-center gap-2 mt-2 bg-white text-black px-4 py-2 rounded-lg hover:bg-gray-200 transition">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 512 512"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path fill="#34A853" d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341" />
+              <path fill="#4285F4" d="M386 400a140 175 0 0053-179H260v74h102q-7 37-38 57" />
+              <path fill="#FBBC04" d="M90 341a208 200 0 010-171l63 49q-12 37 0 73" />
+              <path fill="#EA4335" d="M153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55" />
+            </svg>
+            <span>Continue with Google</span>
+          </button>
+
+          <p className="text-sm text-gray-400 text-center mt-4">
+            Don’t have an account yet?{" "}
+            <button
+              onClick={() => navigate("/signup")}
+              className="text-blue-500 hover:underline"
+            >
+              Sign up
+            </button>
+          </p>
+        </form>
       </div>
     </section>
   );

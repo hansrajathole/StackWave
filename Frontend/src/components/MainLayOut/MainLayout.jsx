@@ -10,7 +10,7 @@ import PageNotFound from '../../Views/404/PageNotFound'
 const MainLayout = () => {
   return (
     <div className=' flex'>
-        <div className='w-[20%]'>
+        <div className='w-[20%] '>
             <Navbar/>
         </div>
         <div className='w-[100%] mt-10'>

@@ -75,7 +75,7 @@ const Navbar = () => {
             {user ? (
               <div className="relative" ref={dropdownRef}>
                 {/* Profile Image Button */}
-                <button onClick={handleProfileClick} className="w-10 h-10 rounded-full overflow-hidden border-2 border-white">
+                <button onClick={handleProfileClick} className="w-8 h-8  rounded-full overflow-hidden border-2 border-white">
                   <img src={user.avatar} alt="profile" className="w-full h-full object-cover" />
                 </button>
 

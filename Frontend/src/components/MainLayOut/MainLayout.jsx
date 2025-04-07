@@ -8,6 +8,7 @@ import Home from '../../Views/Home/Home'
 import Question from '../../Views/Question/Question'
 import PageNotFound from '../../Views/404/PageNotFound'
 import Chat from '../../Views/Chats/Chat'
+import ChatWithUser from '../../Views/Chats/ChatWithUser'
 const MainLayout = () => {
   return (
     <div className=' flex'>
@@ -19,6 +20,7 @@ const MainLayout = () => {
                 <Route path='/questions' element={<Protected><Question/></Protected>}/>
                 <Route path='/room' element={<Protected><Room/></Protected>}/>
                 <Route path='/chat' element={<Protected><Chat/></Protected>}/>
+                <Route path='/chat/:id' element={<Protected><ChatWithUser/></Protected>}/>
                 <Route path='/users' element={<Protected><Users/></Protected>}/>
             </Routes>
         </div>

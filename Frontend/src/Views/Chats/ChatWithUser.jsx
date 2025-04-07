@@ -33,7 +33,7 @@ const ChatWindow = ({ selectedUser }) => {
   };
 
   return (
-    <div className="flex-1 flex flex-col">
+    <div className="flex-1 flex flex-col ">
       {/* Header */}
       <div className="p-4 border-b border-zinc-700 text-lg font-medium bg-zinc-800">
         Chat with {selectedUser.name}

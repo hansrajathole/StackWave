@@ -1,94 +1,34 @@
-// ChatWithUser.jsx
-import { useState } from "react";
-
+// UserList.jsx
 const users = [
-  { id: 1, name: "Alice 🧑‍💻" },
-  { id: 2, name: "Bob 📱" },
-  { id: 3, name: "Charlie 🌐" },
-];
-
-const Chat = () => {
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [messages, setMessages] = useState({});
-  const [input, setInput] = useState("");
-
-  const handleSend = () => {
-    if (!input.trim() || !selectedUser) return;
-
-    setMessages((prev) => ({
-      ...prev,
-      [selectedUser.id]: [
-        ...(prev[selectedUser.id] || []),
-        { text: input, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) },
-      ],
-    }));
-
-    setInput("");
+    { id: 1, name: "Alice 🧑‍💻" },
+    { id: 2, name: "Bob 📱" },
+    { id: 3, name: "Charlie 🌐" },
+    { id: 4, name: "Daisy 🔧" },
+  ];
+  
+  const Chat = () => {
+    const handleUserClick = (user) => {
+      console.log("Clicked user:", user.name);
+      // You can trigger chat open here
+    };
+  
+    return (
+      <div className="min-h-screen bg-zinc-900 text-white p-6">
+        <h1 className="text-2xl font-bold mb-6">Users</h1>
+        <div className="space-y-3">
+          {users.map((user) => (
+            <div
+              key={user.id}
+              onClick={() => handleUserClick(user)}
+              className="cursor-pointer bg-zinc-800 hover:bg-zinc-700 p-4 rounded-xl shadow transition"
+            >
+              {user.name}
+            </div>
+          ))}
+        </div>
+      </div>
+    );
   };
-
-  return (
-    <div className="h-screen flex bg-zinc-900 text-white">
-      
-      {/* Sidebar */}
-      <div className="w-64 bg-zinc-800 border-r border-zinc-700 p-4 space-y-2">
-        <h2 className="text-lg font-semibold mb-4">Users</h2>
-        {users.map((user) => (
-          <div
-            key={user.id}
-            onClick={() => setSelectedUser(user)}
-            className={`p-2 rounded-lg cursor-pointer hover:bg-zinc-700 ${selectedUser?.id === user.id ? "bg-zinc-700" : ""}`}
-          >
-            {user.name}
-          </div>
-        ))}
-      </div>
-
-      {/* Chat Window */}
-      <div className="flex-1 flex flex-col">
-        {selectedUser ? (
-          <>
-            {/* Header */}
-            <div className="p-4 border-b border-zinc-700 text-lg font-medium bg-zinc-800">
-              Chat with {selectedUser.name}
-            </div>
-
-            {/* Messages */}
-            <div className="flex-1 p-4 overflow-y-auto space-y-3">
-              {(messages[selectedUser.id] || []).map((msg, index) => (
-                <div key={index} className="flex justify-end">
-                  <div className="bg-blue-600 px-4 py-2 rounded-xl text-sm max-w-[70%]">
-                    {msg.text}
-                    <div className="text-xs text-right text-zinc-300 mt-1">{msg.time}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Input */}
-            <div className="p-4 border-t border-zinc-700 bg-zinc-800 flex gap-2">
-              <input
-                className="flex-1 px-4 py-2 rounded-xl bg-zinc-700 text-white outline-none"
-                placeholder="Type a message..."
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleSend()}
-              />
-              <button
-                onClick={handleSend}
-                className="bg-blue-600 px-4 py-2 rounded-xl hover:bg-blue-700"
-              >
-                Send
-              </button>
-            </div>
-          </>
-        ) : (
-          <div className="flex-1 flex items-center justify-center text-zinc-400 text-lg">
-            Select a user to start chatting
-          </div>
-        )}
-      </div>
-    </div>
-  );
-};
-
-export default Chat;
+  
+  export default Chat;
+  

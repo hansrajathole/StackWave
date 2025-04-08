@@ -18,7 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
+import axios from "axios";
 const Question = () => {
   const data = [
     {
@@ -474,6 +474,47 @@ const Question = () => {
   ];
 
   const [isOpen, setIsOpen] = useState(false);
+  const [questions, setQuestions] = useState([]);
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
+  const [tags, setTags] = useState("");
+
+
+  const handleSubmit = async () => {
+      console.log("Submitting question:", { title, body, tags });
+      setIsOpen(false);
+      setTitle("");
+      setBody("");
+      setTags("");
+      
+  }
+
+//   try {
+//     const res = await axios.get("/api/question");
+//     setQuestions(res.data);
+//   } catch (err) {
+//     console.error("Failed to fetch questions", err);
+//   }
+
+// const handleAskQuestion = async () => {
+//   try {
+//     await axios.post("/api/question", {
+//       title,
+//       body,
+//       tags: tags.split(",").map((t) => t.trim()),
+//     });
+//     setTitle("");
+//     setBody("");
+//     setTags("");
+//     fetchQuestions();
+//   } catch (err) {
+//     console.error("Failed to post question", err);
+//   }
+//  };
+
+// useEffect(() => {
+//   fetchQuestions();
+// }, []);
 
   return (
     <div className="bg-gray-900 h-full">
@@ -482,38 +523,49 @@ const Question = () => {
           Newest Questions
         </h2>
 
+       
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
           <DialogTrigger asChild>
-            <Button className="block  bg-blue-600 hover:bg-blue-700 text-white">
-              Ask a Question
-            </Button>
+            <Button className=" bg-blue-600 hover:bg-blue-700 text-white">Ask Question</Button>
           </DialogTrigger>
-          <DialogContent className="bg-gray-800 text-white border-gray-700">
+          <DialogContent className="bg-gray-900 text-white border-gray-700">
             <DialogHeader>
-              <DialogTitle>Ask Your Question</DialogTitle>
-              <DialogDescription className="text-gray-400">
-                Type your question below and get answers from the community.
-              </DialogDescription>
+              <DialogTitle>Ask a new question</DialogTitle>
             </DialogHeader>
-            <form>
-              <Textarea
-                className="bg-gray-700 text-white border-gray-600"
-                rows="4"
-                placeholder="Type your question here..."
+            <div className="space-y-4">
+              <input
+                className="w-full p-2 rounded border border-gray-300"
+                placeholder="Title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
               />
-              <DialogFooter className="mt-4">
+              <textarea
+                className="w-full p-2 rounded border border-gray-300"
+                rows={4}
+                placeholder="Body"
+                value={body}
+                onChange={(e) => setBody(e.target.value)}
+              ></textarea>
+              <input
+                className="w-full p-2 rounded border border-gray-300"
+                placeholder="Tags (comma separated)"
+                value={tags}
+                onChange={(e) => setTags(e.target.value)}
+              />
+             <DialogFooter className="mt-4">
                 <DialogClose asChild>
                   <Button type="button" variant="ghost">
                     Cancel
                   </Button>
                 </DialogClose>
-                <Button type="submit" className="bg-blue-600 hover:bg-blue-700">
+                <Button type="submit" onClick={handleSubmit} className="bg-blue-600 hover:bg-blue-700">
                   Post
                 </Button>
               </DialogFooter>
-            </form>
+            </div>
           </DialogContent>
         </Dialog>
+        
       </div>
       <div className="px-6 flex  justify-between items-center">
         <p>123456789 questions</p>

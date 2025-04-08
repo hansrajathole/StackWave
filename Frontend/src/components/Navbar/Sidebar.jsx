@@ -14,10 +14,6 @@ const Sidebar = () => {
           <span>🔍</span>
           <span>Questions</span>
         </Link>
-        <Link to="/tags" className="flex items-center space-x-2 p-2 text-gray-300 hover:bg-gray-600 active:bg-gray-700 rounded-md">
-          <span>🏷️</span>
-          <span>Tags</span>
-        </Link>
         <Link to="/saves" className="flex items-center space-x-2 p-2 text-gray-300 hover:bg-gray-600 active:bg-gray-700 rounded-md">
           <span>🔖</span>
           <span>Saves</span>

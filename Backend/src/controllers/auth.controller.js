@@ -1,6 +1,7 @@
 import { validationResult } from "express-validator"
 import * as userService from "../services/user.service.js"
 import userModel from "../models/user.model.js"
+import questionModel from '../models/quetions.model.js'
 export const singupController = async (req,res)=>{
     
     const {username, email, password} = req.body

@@ -17,7 +17,7 @@ const MainLayout = () => {
         </div>
         <div className='w-[100%] mt-10'>
             <Routes>
-                <Route path='/questions' element={<Protected><Question/></Protected>}/>
+                <Route path='/questions' element={<Protected><Question/></Protected> }/>
                 <Route path='/room' element={<Protected><Room/></Protected>}/>
                 <Route path='/chat' element={<Protected><Chat/></Protected>}/>
                 <Route path='/chat/:id' element={<Protected><ChatWithUser/></Protected>}/>

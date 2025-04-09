@@ -7,13 +7,14 @@ import Home from "../../Views/Home/Home";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { RxCross2 } from "react-icons/rx";
 
-const Navbar = () => {
+const Navbar = ({setSidebarOpen , isSidebarOpen}) => {
+  console.log(isSidebarOpen);
+  
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
-  const [isSidebarOpen, setSidebarOpen] = useState(false);
 
   // Toggle dropdown menu
   const handleProfileClick = () => {
@@ -116,12 +117,12 @@ const Navbar = () => {
               {isSidebarOpen ? (
                   <RxCross2
                     className="text-2xl cursor-pointer transition-all duration-300 active:rotate-[-90deg]"
-                    onClick={() => setSidebarOpen(false)}
+                    onClick={()=> setSidebarOpen(false) }
                   />
                 ) : (
                   <GiHamburgerMenu
                     className="text-2xl cursor-pointer transition-all duration-300 active:rotate-90 "
-                    onClick={() => setSidebarOpen(true)}
+                    onClick={() => setSidebarOpen(true) }
                   />
                 )}
               

@@ -151,7 +151,7 @@ const Question = () => {
       <br />
       <hr />
       <br />
-      <div className="space-y-6 px-3">
+      <div className="space-y-6 px-3 mt-28">
         {questions?.map((q) => (
           <Card key={q._id} className="bg-gray-900 text-white">
             <CardContent className="p-5">

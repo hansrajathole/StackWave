@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setAuthUser } from "../../Redux/AuthSlice"; // Import the logout action
 import Home from "../../Views/Home/Home";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { RxCross2 } from "react-icons/rx";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -11,6 +13,7 @@ const Navbar = () => {
   const user = useSelector((state) => state.auth.user);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
 
   // Toggle dropdown menu
   const handleProfileClick = () => {
@@ -34,26 +37,24 @@ const Navbar = () => {
   // Logout function
   const handleLogout = () => {
     dispatch(setAuthUser(null)); // Clear user data from Redux
-    localStorage.removeItem("token")
+    localStorage.removeItem("token");
     navigate("/login"); // Redirect to login page
   };
 
   return (
-    <div className="flex h-screen ">
-      {/* Sidebar */}
-      <div className="max-sm:opacity-0">
-      <Sidebar />
-      
-      </div>
-      {/* Main Content */}
+    <div className="flex h-screen  z-40">
       <div className="flex-1">
         {/* Navbar */}
         <nav className="bg-gray-900 text-white p-3 flex items-center justify-between fixed top-0 left-0 w-full z-50 shadow-md">
           {/* Left Section - Logo */}
           <div className="flex items-center space-x-2">
             <h1 className="mx-5 text-lg font-semibold">StackWave</h1>
-            <span className="text-gray-300 text-sm cursor-pointer hover:text-white max-sm:hidden">Products</span>
-            <span className="text-gray-300 text-sm cursor-pointer hover:text-white  max-sm:hidden">OverflowAI</span>
+            <span className="text-gray-300 text-sm cursor-pointer hover:text-white max-sm:hidden">
+              Products
+            </span>
+            <span className="text-gray-300 text-sm cursor-pointer hover:text-white  max-sm:hidden">
+              OverflowAI
+            </span>
           </div>
 
           {/* Search Bar */}
@@ -75,8 +76,15 @@ const Navbar = () => {
             {user ? (
               <div className="relative" ref={dropdownRef}>
                 {/* Profile Image Button */}
-                <button onClick={handleProfileClick} className="w-8 h-8  rounded-full overflow-hidden border-2 border-white">
-                  <img src={user.avatar} alt="profile" className="w-full h-full object-cover" />
+                <button
+                  onClick={handleProfileClick}
+                  className="w-8 h-8  rounded-full overflow-hidden border-2 border-white"
+                >
+                  <img
+                    src={user.avatar}
+                    alt="profile"
+                    className="w-full h-full object-cover"
+                  />
                 </button>
 
                 {/* Profile Dropdown */}
@@ -85,8 +93,8 @@ const Navbar = () => {
                     <div className="px-4 py-3 border-b border-gray-700">
                       <span className="block text-sm">{user.username}</span>
                     </div>
-                    <button 
-                      onClick={handleLogout} 
+                    <button
+                      onClick={handleLogout}
                       className="w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-gray-700 font-semibold
                       "
                     >
@@ -96,12 +104,28 @@ const Navbar = () => {
                 )}
               </div>
             ) : (
-              <button className="bg-blue-600 px-3 py-1 rounded-md text-white text-sm hover:bg-blue-700"
+              <button
+                className="bg-blue-600 px-3 py-1 rounded-md text-white text-sm hover:bg-blue-700"
                 onClick={() => navigate("/login")}
               >
                 Sign in
               </button>
             )}
+
+            <div className="max-sm:inline hidden ">
+              {isSidebarOpen ? (
+                  <RxCross2
+                    className="text-2xl cursor-pointer transition-all duration-300 active:rotate-[-90deg]"
+                    onClick={() => setSidebarOpen(false)}
+                  />
+                ) : (
+                  <GiHamburgerMenu
+                    className="text-2xl cursor-pointer transition-all duration-300 active:rotate-90 "
+                    onClick={() => setSidebarOpen(true)}
+                  />
+                )}
+              
+            </div>
           </div>
         </nav>
       </div>

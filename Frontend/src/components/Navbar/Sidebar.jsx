@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   return (
-    <div className="bg-gray-900 text-white w-64 h-screen fixed top-2 left-0 pt-16 p-4 z-50 shadow-md max-sm:opacity-0">
+    <div className="bg-gray-900 text-white w-64 h-screen fixed top-2 left-0 pt-16 p-4 shadow-md ">
       {/* Navigation Items */}
       <nav className="space-y-2">
         <Link to="/" className="flex items-center space-x-2 active:bg-gray-700 p-2 rounded-md hover:bg-gray-600">

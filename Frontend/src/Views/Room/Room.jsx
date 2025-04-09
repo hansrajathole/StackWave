@@ -23,12 +23,12 @@ const Room = () => {
 
 
   return (
-   <div className="mx-auto p-6 bg-gray-900 text-white min-h-full">
-     <div className="bg-gray-900 text-white p-8 flex justify-between">
-      <h1 className="text-2xl font-bold">My Projects</h1>
+   <div className="mx-auto p-6 max-sm:p-0 bg-gray-900 text-white min-h-full">
+     <div className="bg-gray-900 text-white p-8 max-sm:p-3 flex justify-between items-center">
+      <h1 className="text-2xl block font-bold">My Projects</h1>
 
       {/* Buttons to open modals */}
-      <div className="flex space-x-4 mt-4 ">
+      <div className="flex space-x-4 max-sm:  mt-4 ">
         
         <Dialog>
           <DialogTrigger className="border border-purple-500 px-4 py-2 rounded-md text-purple-400 hover:bg-purple-600">

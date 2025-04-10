@@ -10,6 +10,7 @@ import axios from "axios";
 
 const Home2 = () => {
   const user = useSelector((state) => state.auth.user);
+  const isOpen = useSelector((state) => state.sidebar.isOpen);
   const navigate = useNavigate();
   const [userQuestions, setUserQuestions] = useState([]);
 
@@ -36,12 +37,12 @@ const Home2 = () => {
 
       <div className="min-h-full w-full bg-white dark:bg-gray-950 text-black dark:text-gray-200 flex">
         {/* Sidebar */}
-        <div className="w-64 max-sm:opacity-0 max-sm:invisible max-sm:w-0 transition-all duration-300 ease-in-out">
+        <div className={`${isOpen?"w-64":"w-0 hidden"} transition-all duration-300 ease-in-out`}>
           <Sidebar />
         </div>
 
         {/* Main Content */}
-        <div className="w-[90%] max-sm:w-full">
+        <div className={`${isOpen ?"w-[90%]" :"w-full"} max-sm:w-full ease-in-out transition-all duration-300`}>
           {/* Hero Section */}
           <section className="bg-white dark:bg-gray-900 py-20 px-6 text-center shadow">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white">

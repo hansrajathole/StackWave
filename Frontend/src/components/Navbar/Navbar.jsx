@@ -5,10 +5,13 @@ import { setAuthUser } from "../../Redux/AuthSlice";
 import icon from "../../assets/StackWave-icon.png";
 import { DarkModeSwitch } from "react-toggle-dark-mode";
 
+import Hamburger from "hamburger-react";
+import { toggleSidebar } from "../../Redux/sidebarSlice";
 const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
+  const isOpen = useSelector((state) => state.sidebar.isOpen);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const [isDarkMode, setDarkMode] = useState(false);
@@ -60,8 +63,17 @@ const Navbar = () => {
     <div className="flex h-screen z-40">
       <div className="flex-1">
         <nav className="bg-white dark:bg-gray-900 text-black dark:text-white p-3 flex items-center justify-between fixed top-0 left-0 w-full z-50 shadow-md">
+          {/* Hamburger Menu Icon */}
+
           {/* Left Section - Logo */}
-          <div className="flex items-center space-x-2 mx-7 text-center">
+          <div className="flex items-center space-x-2 text-center">
+            <span className="">
+              <Hamburger
+                toggled={isOpen}
+                toggle={() => dispatch(toggleSidebar())}
+                size={20}
+              />
+            </span>
             <div className="flex items-center">
               <img src={icon} alt="" className="w-10 h-10" />
               <h1 className="text-lg">
@@ -121,8 +133,9 @@ const Navbar = () => {
                       />
                       <span className="block text-sm">{user.username}</span>
                     </div>
-                    <div className="px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
-                     onClick={() => navigate("/profile")}
+                    <div
+                      className="px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
+                      onClick={() => navigate("/profile")}
                     >
                       <span>View Profile</span>
                     </div>

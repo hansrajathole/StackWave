@@ -1,5 +1,6 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import authSlice from "./AuthSlice";
+import sidebarSlice from "./sidebarSlice";
 import {
   persistStore,
   persistReducer,
@@ -20,6 +21,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   auth: authSlice,
+  sidebar: sidebarSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -11,7 +11,12 @@ import Chat from "../../Views/Chats/Chat";
 import ChatWithUser from "../../Views/Chats/ChatWithUser";
 import Sidebar from "../Navbar/Sidebar";
 import AskQuestion from "../../Views/AskQuestion/AskQuestion";
+import { useSelector } from "react-redux";
 const MainLayout = () => {
+
+  
+  const isOpen = useSelector((state) => state.sidebar.isOpen);
+  
 
   return (
     <div className=" flex">
@@ -19,10 +24,10 @@ const MainLayout = () => {
         <Navbar />
       </div>
       <div className="flex justify-between w-full ">
-        <div className="w-64 max-sm:hidden">
+        <div className={`${isOpen?"w-64 ": "w-0 hidden"} transition-all duration-300 ease-in-out`}>
           <Sidebar />
         </div>
-        <div className="w-[90%] mt-10 max-sm:w-full">
+        <div className={`${isOpen?"w-[90%]": "w-[100%]"} mt-10 max-sm:w-full`}>
           <Routes>
             <Route
               path="/questions"

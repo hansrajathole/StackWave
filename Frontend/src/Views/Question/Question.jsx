@@ -183,9 +183,9 @@ const Question = () => {
 
   <br />
 
-  <div className="space-y-6 px-2">
+  <div className="space-y-6 px-2 pl-6">
     {questions?.map((q) => (
-      <Card key={q._id} className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white py-3">
+      <Card key={q._id} className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white py-3 ">
         <CardContent>
           <div className="flex justify-between items-start">
             <div>

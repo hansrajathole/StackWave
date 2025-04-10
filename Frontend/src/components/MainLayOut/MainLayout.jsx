@@ -10,6 +10,7 @@ import PageNotFound from "../../Views/404/PageNotFound";
 import Chat from "../../Views/Chats/Chat";
 import ChatWithUser from "../../Views/Chats/ChatWithUser";
 import Sidebar from "../Navbar/Sidebar";
+import AskQuestion from "../../Views/AskQuestion/AskQuestion";
 const MainLayout = () => {
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -63,6 +64,14 @@ const MainLayout = () => {
               element={
                 <Protected>
                   <Users />
+                </Protected>
+              }
+            />
+            <Route
+              path="/askquestion"
+              element={
+                <Protected>
+                  <AskQuestion />
                 </Protected>
               }
             />

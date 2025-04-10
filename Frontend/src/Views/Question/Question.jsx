@@ -23,7 +23,6 @@ import {
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 const Question = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const [questions, setQuestions] = useState([]);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
@@ -77,53 +76,11 @@ const Question = () => {
             Newest Questions
           </h2>
 
-          <Dialog open={isOpen} onOpenChange={setIsOpen}>
-            <DialogTrigger asChild>
-              <Button className=" bg-blue-600 hover:bg-blue-700 text-white">
-                Ask Question
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="bg-gray-900 text-white border-gray-700">
-              <DialogHeader>
-                <DialogTitle>Ask a new question</DialogTitle>
-              </DialogHeader>
-              <div className="space-y-4">
-                <input
-                  className="w-full p-2 rounded border border-gray-300"
-                  placeholder="Title"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                />
-                <textarea
-                  className="w-full p-2 rounded border border-gray-300"
-                  rows={4}
-                  placeholder="Body"
-                  value={body}
-                  onChange={(e) => setBody(e.target.value)}
-                ></textarea>
-                <input
-                  className="w-full p-2 rounded border border-gray-300"
-                  placeholder="Tags (comma separated)"
-                  value={tags}
-                  onChange={(e) => setTags(e.target.value)}
-                />
-                <DialogFooter className="mt-4">
-                  <DialogClose asChild>
-                    <Button type="button" variant="ghost">
-                      Cancel
-                    </Button>
-                  </DialogClose>
-                  <Button
-                    type="submit"
-                    onClick={handleSubmit}
-                    className="bg-blue-600 hover:bg-blue-700"
-                  >
-                    Post
-                  </Button>
-                </DialogFooter>
-              </div>
-            </DialogContent>
-          </Dialog>
+          <Button className=" bg-blue-600 hover:bg-blue-700 text-white"
+          onClick={()=>{navigate("/askquestion")}}
+          >
+            Ask Question
+          </Button>
         </div>
         <div className="px-6 flex  justify-between items-center pb-2">
           <p>{questions?.length} questions</p>
@@ -149,21 +106,20 @@ const Question = () => {
         </div>
       </div>
       <br />
-    
+
       <div className="space-y-6 px-2">
         {questions?.map((q) => (
           <Card key={q._id} className="bg-gray-900 text-white py-3">
             <CardContent className="">
               <div className="flex justify-between items-start">
                 <div>
-                  <h3 className="text-xl font-bold hover:underline cursor-pointer text-blue-500"
-                  onClick={() => navigate(`/question/${q._id}`)}
+                  <h3
+                    className="text-xl font-bold hover:underline cursor-pointer text-blue-500"
+                    onClick={() => navigate(`/question/${q._id}`)}
                   >
                     {q.title}
                   </h3>
-                  <p className="text-sm text-gray-300 ">
-                    {q.body}
-                  </p>
+                  <p className="text-sm text-gray-300 ">{q.body}</p>
                   <div className="mt-2 flex flex-wrap gap-2">
                     {q?.tags?.map((tag, i) => (
                       <Badge key={i} variant="secondary">
@@ -184,7 +140,6 @@ const Question = () => {
         ))}
       </div>
     </div>
-    
   );
 };
 

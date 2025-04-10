@@ -70,7 +70,7 @@ const Question = () => {
   console.log(questions);
 
   return (
-    <div className="bg-gray-900 h-full">
+    <div className="bg-gray-900 h-full p-2">
       <div className="fixed top-5 left-60 right-0 z-10 bg-gray-900 border-b border-gray-700">
         <div className="mx-auto px-6  text-white  pt-14  flex justify-between ">
           <h2 className="text-3xl font-bold text-center mb-6">
@@ -151,10 +151,10 @@ const Question = () => {
       <br />
       <hr />
       <br />
-      <div className="space-y-6 px-3 mt-28">
+      <div className="space-y-6 px-2 mt-28">
         {questions?.map((q) => (
           <Card key={q._id} className="bg-gray-900 text-white">
-            <CardContent className="p-5">
+            <CardContent className="">
               <div className="flex justify-between items-start">
                 <div>
                   <h3 className="text-lg font-bold hover:underline cursor-pointer">
@@ -183,6 +183,7 @@ const Question = () => {
         ))}
       </div>
     </div>
+    
   );
 };
 

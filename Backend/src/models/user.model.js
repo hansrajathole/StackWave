@@ -45,7 +45,18 @@ const userSchema = mongoose.Schema({
         enum: ["user", "admin"], 
         default: "user" 
     },
-
+    questions : [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Question"
+        }
+    ],
+    answers : [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Answer"
+        }
+    ],
 }, { timestamps: true })
 
 

@@ -13,16 +13,13 @@ import Sidebar from "../Navbar/Sidebar";
 import AskQuestion from "../../Views/AskQuestion/AskQuestion";
 const MainLayout = () => {
 
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
-
   return (
     <div className=" flex">
       <div>
-        <Navbar setIsSidebarOpen={setIsSidebarOpen} isSidebarOpen={isSidebarOpen}/>
+        <Navbar />
       </div>
-      <div className="flex justify-between w-full">
-        <div className="w-64">
+      <div className="flex justify-between w-full ">
+        <div className="w-64 max-sm:hidden">
           <Sidebar />
         </div>
         <div className="w-[90%] mt-10 max-sm:w-full">

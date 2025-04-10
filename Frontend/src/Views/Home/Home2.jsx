@@ -7,22 +7,21 @@ import { useNavigate } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import axios from "axios";
+
 const Home2 = () => {
   const user = useSelector((state) => state.auth.user);
   const navigate = useNavigate();
   const [userQuestions, setUserQuestions] = useState([]);
 
-  const token = localStorage.getItem("token");
   useEffect(() => {
     if (user?._id) {
       axios
         .get(`http://localhost:3000/api/questions/user/${user._id}`, {
-          headers: { 
-            Authorization: `Bearer ${localStorage.getItem("token")}` 
-          }
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         })
         .then((res) => {
-          console.log(res.data.questions);
           setUserQuestions(res.data.questions);
         })
         .catch((error) => {
@@ -33,43 +32,49 @@ const Home2 = () => {
 
   return (
     <div className="flex w-full">
-      <div className="">
-        <Navbar />
-      </div>
+      <Navbar />
 
-      <div className="min-h-full w-full bg-gray-900 dark:bg-gray-950 text-gray-200 flex">
-        <div className=" w-64 max-sm:opacity-0 max-sm:invisible max-sm:w-0 transition-all duration-300 ease-in-out">
+      <div className="min-h-full w-full bg-white dark:bg-gray-950 text-black dark:text-gray-200 flex">
+        {/* Sidebar */}
+        <div className="w-64 max-sm:opacity-0 max-sm:invisible max-sm:w-0 transition-all duration-300 ease-in-out">
           <Sidebar />
         </div>
+
+        {/* Main Content */}
         <div className="w-[90%] max-sm:w-full">
+          {/* Hero Section */}
           <section className="bg-white dark:bg-gray-900 py-20 px-6 text-center shadow">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white">
               Welcome to StackWave
             </h1>
+
             {user ? (
               <>
                 <p className="mt-2 text-4xl text-blue-600 dark:text-blue-400 font-semibold">
                   {user.username}!
                 </p>
-                <div className="mt-4 flex justify-center gap-4">
+                <div className="mt-4 flex justify-center gap-4 flex-wrap">
                   <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg shadow-md">
                     <p className="text-gray-700 dark:text-white font-semibold">Reputation</p>
                     <p className="text-xl text-blue-500 font-bold">{user.reputation || 0}</p>
                   </div>
                   <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg shadow-md">
                     <p className="text-gray-700 dark:text-white font-semibold">Badges</p>
-                    <p className="text-xl text-yellow-400 font-bold">🏅 {user.badges?.length || 0}</p>
+                    <p className="text-xl text-yellow-400 font-bold">
+                      🏅 {user.badges?.length || 0}
+                    </p>
                   </div>
                 </div>
               </>
             ) : (
               <Button
                 onClick={() => navigate("/login")}
-                className="mt-6 bg-blue-600 hover:bg-blue-700"
+                className="mt-6 bg-blue-600 hover:bg-blue-700 text-white"
               >
                 Get Started
               </Button>
             )}
+
             <p className="mt-4 text-lg text-gray-600 dark:text-gray-300 max-w-xl mx-auto">
               Collaborate. Learn. Grow. A modern place for developers to share
               knowledge and build reputation.
@@ -106,50 +111,51 @@ const Home2 = () => {
             ))}
           </section>
 
-          {/* User's Questions */}
-          {user && userQuestions?.length > 0 && (
+          {/* User Questions */}
+          {user && userQuestions.length > 0 && (
             <section className="px-6 pb-20 max-w-5xl mx-auto">
               <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">
                 Your Questions
               </h2>
 
-                {userQuestions?.map((q) => (
-                          <Card key={q._id} className="bg-gray-900 text-white py-3 mb-4">
-                            <CardContent className="">
-                              <div className="flex justify-between items-start">
-                                <div>
-                                  <h3 className="text-xl font-bold hover:underline cursor-pointer text-blue-500"
-                                  onClick={() => navigate(`/question/${q._id}`)}
-                                  >
-                                    {q.title}
-                                  </h3>
-                                  <p className="text-sm text-gray-300 ">
-                                    {q.body}
-                                  </p>
-                                  <div className="mt-2 flex flex-wrap gap-2">
-                                    {q?.tags?.map((tag, i) => (
-                                      <Badge key={i} variant="secondary">
-                                        {tag}
-                                      </Badge>
-                                    ))}
-                                  </div>
-                                </div>
-                                <div className="text-right">
-                                  <p className="text-sm">Votes: {q?.votes}</p>
-                                  <p className="text-sm text-gray-400">
-                                    Answers: {q?.answers?.length}
-                                  </p>
-                                </div>
-                              </div>
-                            </CardContent>
-                          </Card>
-                        ))}
+              {userQuestions.map((q) => (
+                <Card key={q._id} className="bg-white dark:bg-gray-900 dark:text-white py-3 mb-4 shadow">
+                  <CardContent>
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h3
+                          className="text-xl font-bold hover:underline cursor-pointer text-blue-600 dark:text-blue-400"
+                          onClick={() => navigate(`/question/${q._id}`)}
+                        >
+                          {q.title}
+                        </h3>
+                        <p className="text-sm text-gray-700 dark:text-gray-300 mt-1">
+                          {q.body}
+                        </p>
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          {q.tags?.map((tag, i) => (
+                            <Badge key={i} variant="secondary">
+                              {tag}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm">Votes: {q.votes}</p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                          Answers: {q.answers?.length}
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
             </section>
           )}
 
-          {/* Leaderboard Preview */}
-          {
-            user ?(<h1></h1>): (<section className="px-6 pb-20 max-w-4xl mx-auto">
+          {/* Leaderboard Section */}
+          {!user && (
+            <section className="px-6 pb-20 max-w-4xl mx-auto">
               <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">
                 Top Contributors
               </h2>
@@ -169,8 +175,8 @@ const Home2 = () => {
                   </li>
                 ))}
               </ul>
-            </section>)
-          }
+            </section>
+          )}
         </div>
       </div>
     </div>

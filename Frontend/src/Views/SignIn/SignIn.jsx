@@ -26,11 +26,11 @@ const SignIn = () => {
   };
 
   return (
-    <section className="bg-gray-950 min-h-screen flex items-center justify-center px-4">
-      <div className="w-full max-w-md p-6 rounded-xl bg-gray-900 shadow-xl text-white">
+    <section className="bg-gray-100 dark:bg-gray-950 min-h-screen flex items-center justify-center px-4">
+      <div className="w-full max-w-md p-6 rounded-xl bg-white dark:bg-gray-900 shadow-xl text-gray-900 dark:text-white">
         <div className="text-center mb-6">
-          <h1 className="text-3xl font-bold text-white">StackWave</h1>
-          <p className="text-gray-400 mt-2">Sign in to your account</p>
+          <h1 className="text-3xl font-bold">StackWave</h1>
+          <p className="text-gray-600 dark:text-gray-400 mt-2">Sign in to your account</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
@@ -43,7 +43,7 @@ const SignIn = () => {
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="you@example.com"
               required
             />
@@ -59,14 +59,14 @@ const SignIn = () => {
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="••••••••"
                 required
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-2 text-gray-400 hover:text-white text-lg"
+                className="absolute right-3 top-2 text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white text-lg"
               >
                 {showPassword ? "👁️" : "🙈"}
               </button>
@@ -77,11 +77,11 @@ const SignIn = () => {
             <label className="flex items-center gap-2">
               <input
                 type="checkbox"
-                className="form-checkbox bg-gray-800 border-gray-600 text-blue-500"
+                className="form-checkbox bg-gray-100 dark:bg-gray-800 border-gray-400 dark:border-gray-600 text-blue-500"
               />
               Remember me
             </label>
-            <a href="#" className="text-blue-400 hover:underline">
+            <a href="#" className="text-blue-500 hover:underline">
               Forgot password?
             </a>
           </div>
@@ -93,13 +93,13 @@ const SignIn = () => {
             Sign In
           </button>
 
-          <div className="flex items-center justify-between text-white opacity-50 mt-4">
-            <div className="w-[45%] h-px bg-white" />
+          <div className="flex items-center justify-between text-gray-500 dark:text-white opacity-50 mt-4">
+            <div className="w-[45%] h-px bg-gray-400 dark:bg-white" />
             <span className="text-sm">OR</span>
-            <div className="w-[45%] h-px bg-white" />
+            <div className="w-[45%] h-px bg-gray-400 dark:bg-white" />
           </div>
 
-          <button className="w-full flex items-center justify-center gap-2 mt-2 bg-white text-black px-4 py-2 rounded-lg hover:bg-gray-200 transition">
+          <button className="w-full flex items-center justify-center gap-2 mt-2 bg-white dark:bg-gray-100 text-black px-4 py-2 rounded-lg hover:bg-gray-200 transition">
             <svg
               width="20"
               height="20"
@@ -115,7 +115,7 @@ const SignIn = () => {
             <span>Continue with Google</span>
           </button>
 
-          <p className="text-sm text-gray-400 text-center mt-4">
+          <p className="text-sm text-gray-600 dark:text-gray-400 text-center mt-4">
             Don’t have an account yet?{" "}
             <button
               onClick={() => navigate("/signup")}

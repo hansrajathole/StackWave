@@ -19,7 +19,7 @@ import {
 
 const Room = () => {
   return (
-    <div className="mx-auto p-6 max-sm:p-0 bg-white dark:bg-gray-900 text-gray-900 dark:text-white min-h-full">
+    <div className="mx-auto p-6 max-sm:p-2 bg-white dark:bg-gray-900 text-gray-900 dark:text-white min-h-full">
       <div className="p-8 max-sm:p-3 flex justify-between items-center">
         <h1 className="text-2xl font-bold">My Projects</h1>
 

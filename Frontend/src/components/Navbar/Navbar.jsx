@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setAuthUser } from "../../Redux/AuthSlice";
 import icon from "../../assets/StackWave-icon.png";
-import { DarkModeSwitch } from 'react-toggle-dark-mode';
+import { DarkModeSwitch } from "react-toggle-dark-mode";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -87,9 +87,15 @@ const Navbar = () => {
 
           {/* Right Section */}
           <div className="flex items-center space-x-3 relative">
-            <button className="text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white">🏆</button>
-            <button className="text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white">📥</button>
-            <button className="text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white">❓</button>
+            <button className="text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white">
+              🏆
+            </button>
+            <button className="text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white">
+              📥
+            </button>
+            <button className="text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white">
+              ❓
+            </button>
 
             {user ? (
               <div className="relative" ref={dropdownRef}>
@@ -106,8 +112,19 @@ const Navbar = () => {
 
                 {isDropdownOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 text-black dark:text-white rounded-md shadow-lg overflow-hidden">
-                    <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+                    <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700 flex items-center space-x-2 justify-between">
+                      <img
+                        src={user.avatar}
+                        alt="profile"
+                        className="w-8 h-8 rounded-full  cursor-pointer"
+                        onClick={() => navigate("/profile")}
+                      />
                       <span className="block text-sm">{user.username}</span>
+                    </div>
+                    <div className="px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
+                     onClick={() => navigate("/profile")}
+                    >
+                      <span>View Profile</span>
                     </div>
                     <button
                       onClick={handleLogout}

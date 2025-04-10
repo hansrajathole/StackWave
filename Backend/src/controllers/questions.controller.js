@@ -52,3 +52,20 @@ export const getAllQuestions = async (req,res)=>{
         
     }
 }
+
+export const getAllUserQuestions = async (req,res)=>{
+    try {
+        const userId = req.params.id
+        if(!userId){
+            throw new Error("User id is required")
+        }
+        const questions = await questionModel.find({authorId : userId}).populate("authorId",)
+        console.log(questions);
+        
+        res.status(200).json({message : "All questions", questions})
+    } catch (error) {
+        console.log("Error in getAllUserQuestions controller : ", error.message);
+        res.status(500).json({ message: error.message || "Internal Server Error" });
+        
+    }
+}

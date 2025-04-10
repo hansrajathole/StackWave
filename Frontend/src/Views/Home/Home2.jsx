@@ -4,34 +4,32 @@ import { useSelector } from "react-redux";
 import Sidebar from "../../components/Navbar/Sidebar";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import axios from "axios";
-import { useParams } from "react-router-dom";
 const Home2 = () => {
   const user = useSelector((state) => state.auth.user);
-  const params = useParams();
-  console.log(params);
-  
-  console.log(user);
-  
   const navigate = useNavigate();
   const [userQuestions, setUserQuestions] = useState([]);
 
+  const token = localStorage.getItem("token");
   useEffect(() => {
-    const fetchUserQuestions = async () => {
-      if (user) {
-        axios.get(`/api/questions?user=${user._id}`)
+    if (user?._id) {
+      axios
+        .get(`http://localhost:3000/api/questions/user/${user._id}`, {
+          headers: { 
+            Authorization: `Bearer ${localStorage.getItem("token")}` 
+          }
+        })
         .then((res) => {
           console.log(res.data.questions);
           setUserQuestions(res.data.questions);
         })
-        .catch((error)=>{
+        .catch((error) => {
           console.error("Failed to fetch questions:", error);
-        })
-      }
-    };
-
-    fetchUserQuestions();
-  }, [user]);
+        });
+    }
+  }, [navigate, user]);
 
   return (
     <div className="flex w-full">
@@ -109,48 +107,70 @@ const Home2 = () => {
           </section>
 
           {/* User's Questions */}
-          {/* {user && userQuestions.length > 0 && (
+          {user && userQuestions?.length > 0 && (
             <section className="px-6 pb-20 max-w-5xl mx-auto">
               <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">
                 Your Questions
               </h2>
+
+                {userQuestions?.map((q) => (
+                          <Card key={q._id} className="bg-gray-900 text-white py-3 mb-4">
+                            <CardContent className="">
+                              <div className="flex justify-between items-start">
+                                <div>
+                                  <h3 className="text-xl font-bold hover:underline cursor-pointer text-blue-500"
+                                  onClick={() => navigate(`/question/${q._id}`)}
+                                  >
+                                    {q.title}
+                                  </h3>
+                                  <p className="text-sm text-gray-300 ">
+                                    {q.body}
+                                  </p>
+                                  <div className="mt-2 flex flex-wrap gap-2">
+                                    {q?.tags?.map((tag, i) => (
+                                      <Badge key={i} variant="secondary">
+                                        {tag}
+                                      </Badge>
+                                    ))}
+                                  </div>
+                                </div>
+                                <div className="text-right">
+                                  <p className="text-sm">Votes: {q?.votes}</p>
+                                  <p className="text-sm text-gray-400">
+                                    Answers: {q?.answers?.length}
+                                  </p>
+                                </div>
+                              </div>
+                            </CardContent>
+                          </Card>
+                        ))}
+            </section>
+          )}
+
+          {/* Leaderboard Preview */}
+          {
+            user ?(<h1></h1>): (<section className="px-6 pb-20 max-w-4xl mx-auto">
+              <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">
+                Top Contributors
+              </h2>
               <ul className="bg-white dark:bg-gray-800 shadow rounded-lg divide-y divide-gray-200 dark:divide-gray-700">
-                {userQuestions.map((q) => (
-                  <li key={q._id} className="p-4">
-                    <h3 className="font-semibold text-blue-500">{q.title}</h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">{q.body}</p>
-                    <div className="mt-2 flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
-                      <span>Votes: {q.votes}</span>
-                      <span>Tags: {q.tags.join(", ")}</span>
-                    </div>
+                {[
+                  { name: "Alice Johnson", points: 3200 },
+                  { name: "Bob Smith", points: 2900 },
+                  { name: "Charlie Brown", points: 2750 },
+                ].map((user, idx) => (
+                  <li key={idx} className="p-4 flex justify-between">
+                    <span className="font-medium text-gray-700 dark:text-gray-100">
+                      {user.name}
+                    </span>
+                    <span className="text-blue-600 font-semibold">
+                      {user.points} pts
+                    </span>
                   </li>
                 ))}
               </ul>
-            </section>
-          )} */}
-
-          {/* Leaderboard Preview */}
-          <section className="px-6 pb-20 max-w-4xl mx-auto">
-            <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">
-              Top Contributors
-            </h2>
-            <ul className="bg-white dark:bg-gray-800 shadow rounded-lg divide-y divide-gray-200 dark:divide-gray-700">
-              {[
-                { name: "Alice Johnson", points: 3200 },
-                { name: "Bob Smith", points: 2900 },
-                { name: "Charlie Brown", points: 2750 },
-              ].map((user, idx) => (
-                <li key={idx} className="p-4 flex justify-between">
-                  <span className="font-medium text-gray-700 dark:text-gray-100">
-                    {user.name}
-                  </span>
-                  <span className="text-blue-600 font-semibold">
-                    {user.points} pts
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </section>
+            </section>)
+          }
         </div>
       </div>
     </div>

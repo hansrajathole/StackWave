@@ -4,11 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setAuthUser } from "../../Redux/AuthSlice"; // Import the logout action
 import Home from "../../Views/Home/Home";
-import { GiHamburgerMenu } from "react-icons/gi";
-import { RxCross2 } from "react-icons/rx";
+import icon from "../../assets/StackWave-icon.png"; // Import your icon image
 
 const Navbar = () => {
- 
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
@@ -47,8 +45,13 @@ const Navbar = () => {
         {/* Navbar */}
         <nav className="bg-gray-900 text-white p-3 flex items-center justify-between fixed top-0 left-0 w-full z-50 shadow-md">
           {/* Left Section - Logo */}
-          <div className="flex items-center space-x-2">
-            <h1 className="mx-5 text-lg font-semibold">StackWave</h1>
+          <div className="flex items-center space-x-2 mx-7 text-center">
+            <div className=" flex items-center">
+              <img src={icon} alt="" className="w-10 h-10" />
+              <h1 className=" text-lg ">
+                Stack<span className="text-orange-400 font-bold">Wave</span>
+              </h1>
+            </div>
             <span className="text-gray-300 text-sm cursor-pointer hover:text-white max-sm:hidden">
               Products
             </span>
@@ -112,9 +115,7 @@ const Navbar = () => {
               </button>
             )}
 
-            <div className="max-sm:inline hidden ">
-             
-            </div>
+            <div className="max-sm:inline hidden "></div>
           </div>
         </nav>
       </div>

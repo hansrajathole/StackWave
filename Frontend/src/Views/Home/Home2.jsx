@@ -5,9 +5,12 @@ import Sidebar from "../../components/Navbar/Sidebar";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import { useParams } from "react-router-dom";
 const Home2 = () => {
   const user = useSelector((state) => state.auth.user);
+  const params = useParams();
+  console.log(params);
+  
   console.log(user);
   
   const navigate = useNavigate();
@@ -16,12 +19,14 @@ const Home2 = () => {
   useEffect(() => {
     const fetchUserQuestions = async () => {
       if (user) {
-        try {
-          const res = await axios.get(`/api/questions?user=${user._id}`);
-          setUserQuestions(res.data);
-        } catch (error) {
+        axios.get(`/api/questions?user=${user._id}`)
+        .then((res) => {
+          console.log(res.data.questions);
+          setUserQuestions(res.data.questions);
+        })
+        .catch((error)=>{
           console.error("Failed to fetch questions:", error);
-        }
+        })
       }
     };
 

@@ -1,4 +1,5 @@
 import questionModel from "../models/quetions.model.js"
+import userModel from "../models/user.model.js"
 
 export const postQuestion = async (req,res)=>{    
     
@@ -23,6 +24,10 @@ export const postQuestion = async (req,res)=>{
             tags
         })
 
+        await userModel.findByIdAndUpdate(user._id, {
+            $push: { questions: question._id }
+        })
+
         res.status(201).json({ message : "created successfully", question})
         
     }
@@ -38,6 +43,7 @@ export const getAllQuestions = async (req,res)=>{
     try {
         
         const questions = await questionModel.find({}).populate("authorId", "username")
+
         res.status(200).json({message : "All questions", questions})
 
     } catch (error) {

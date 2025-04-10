@@ -7,9 +7,8 @@ import Home from "../../Views/Home/Home";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { RxCross2 } from "react-icons/rx";
 
-const Navbar = ({setSidebarOpen , isSidebarOpen}) => {
-  console.log(isSidebarOpen);
-  
+const Navbar = () => {
+ 
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
@@ -114,18 +113,7 @@ const Navbar = ({setSidebarOpen , isSidebarOpen}) => {
             )}
 
             <div className="max-sm:inline hidden ">
-              {isSidebarOpen ? (
-                  <RxCross2
-                    className="text-2xl cursor-pointer transition-all duration-300 active:rotate-[-90deg]"
-                    onClick={()=> setSidebarOpen(false) }
-                  />
-                ) : (
-                  <GiHamburgerMenu
-                    className="text-2xl cursor-pointer transition-all duration-300 active:rotate-90 "
-                    onClick={() => setSidebarOpen(true) }
-                  />
-                )}
-              
+             
             </div>
           </div>
         </nav>

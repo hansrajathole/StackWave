@@ -27,9 +27,9 @@ const QuestionSchema = new mongoose.Schema({
         { 
             type: mongoose.Schema.Types.ObjectId, 
             ref: "Answer" 
-        }
+        } 
     ],
-})
+}, { timestamps: true });
 
 const questionModel = mongoose.model("Question" , QuestionSchema)
 export default questionModel

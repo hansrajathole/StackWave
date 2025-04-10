@@ -44,7 +44,8 @@ export const loginUser = async function ({username , email , password}) {
 
     const user = await userModel.findOne({
         $or: [{ username }, { email }]
-    }).select("+password")
+    }).select("+password").populate("questions")
+    console.log(user);
     
     if(!user){
         throw new Error("username or password is incorrect")

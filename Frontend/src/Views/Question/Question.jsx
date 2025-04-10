@@ -21,11 +21,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const Question = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [questions, setQuestions] = useState([]);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
+  const navigate = useNavigate();
   const [tags, setTags] = useState("");
   const token = localStorage.getItem("token");
 
@@ -67,11 +69,9 @@ const Question = () => {
     fetchQuestions();
   }, []);
 
-  console.log(questions);
-
   return (
     <div className="bg-gray-900 h-full p-2">
-      <div className="fixed top-5 left-60 right-0 z-10 bg-gray-900 border-b border-gray-700">
+      <div className=" top-5 left-60 right-0 z-10 bg-gray-900 border-b border-gray-700">
         <div className="mx-auto px-6  text-white  pt-14  flex justify-between ">
           <h2 className="text-3xl font-bold text-center mb-6">
             Newest Questions
@@ -126,7 +126,7 @@ const Question = () => {
           </Dialog>
         </div>
         <div className="px-6 flex  justify-between items-center pb-2">
-          <p>123456789 questions</p>
+          <p>{questions?.length} questions</p>
           <div className="flex text-center items-center justify-between gap-2">
             <Select>
               <SelectTrigger className=" bg-gray-800 text-white border-none">
@@ -149,18 +149,19 @@ const Question = () => {
         </div>
       </div>
       <br />
-      <hr />
-      <br />
-      <div className="space-y-6 px-2 mt-28">
+    
+      <div className="space-y-6 px-2">
         {questions?.map((q) => (
-          <Card key={q._id} className="bg-gray-900 text-white">
+          <Card key={q._id} className="bg-gray-900 text-white py-3">
             <CardContent className="">
               <div className="flex justify-between items-start">
                 <div>
-                  <h3 className="text-lg font-bold hover:underline cursor-pointer">
+                  <h3 className="text-xl font-bold hover:underline cursor-pointer text-blue-500"
+                  onClick={() => navigate(`/question/${q._id}`)}
+                  >
                     {q.title}
                   </h3>
-                  <p className="text-sm text-gray-300 mt-2 line-clamp-2">
+                  <p className="text-sm text-gray-300 ">
                     {q.body}
                   </p>
                   <div className="mt-2 flex flex-wrap gap-2">

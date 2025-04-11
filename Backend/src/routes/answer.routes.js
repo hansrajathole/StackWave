@@ -1,12 +1,13 @@
 import { Router } from "express";
-import * as userMiddleware from "../middleware/user.middleware.js"
 import { protectRoute } from "../middleware/protected.js"
+import * as answerController from '../controllers/answer.controller.js'
 const router = Router()
 
-router.post("/:questionId", protectRoute ,function(req,res){res.send("Add answer")})
-router.put("/:answerId",protectRoute , function(req,res){res.send(" Edit answer")})
-router.delete("/:answerId", protectRoute ,function(req,res){res.send("Delete answer")})
-router.post("/:answerId/vote ",protectRoute ,function(req,res){res.send("Vote up/down")})
+router.post("/:questionId", protectRoute , answerController.postAnswer)
+router.put("/:answerId",protectRoute , answerController.updateAnswer)
+router.delete("/:answerId", protectRoute , answerController.deleteAnswer)
+router.post("/:answerId/upvote ",protectRoute ,answerController.upVoteAnswer)
+router.post("/:answerId/downvote ",protectRoute ,answerController.downVoteAnswer)
 
 
 export default router

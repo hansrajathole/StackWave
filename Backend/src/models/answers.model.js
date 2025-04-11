@@ -16,10 +16,18 @@ const AnswerSchema = new mongoose.Schema(
         ref: "User", 
         required: true 
     },
-    votes: { 
-        type: Number, 
-        default: 0 
-    },
+    upVotes :[
+        { 
+            type: mongoose.Schema.Types.ObjectId, 
+            ref: "User" 
+        } 
+    ],
+    downVotes :[
+        { 
+            type: mongoose.Schema.Types.ObjectId, 
+            ref: "User" 
+        } 
+    ],
   },
   { timestamps: true }
 );

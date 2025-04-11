@@ -96,3 +96,39 @@ export const getQuestionById = async (req,res)=>{
         
     }
 }
+export const updateQuestion = async (req,res)=>{
+    try {
+        const questionId = req.params.id
+        if(!questionId){
+            throw new Error("Question id is required")
+        }
+        const {title , body , tags} = req.body
+
+        const question = await questionModel.findByIdAndUpdate(questionId, {
+            title,
+            body,
+            tags
+        }, {new : true})
+
+        res.status(200).json({message : "Updated successfully", question})
+    } catch (error) {
+        console.log("Error in getAllUserQuestions controller : ", error.message);
+        res.status(500).json({ message: error.message || "Internal Server Error" });
+        
+    }
+}
+export const deleteQuestion = async (req,res)=>{
+    try {
+        const questionId = req.params.id
+        if(!questionId){
+            throw new Error("Question id is required")
+        }
+        const question = await questionModel.findByIdAndDelete(questionId)
+
+        res.status(200).json({message : "Deleted successfully", question})
+    } catch (error) {
+        console.log("Error in getAllUserQuestions controller : ", error.message);
+        res.status(500).json({ message: error.message || "Internal Server Error" });
+        
+    }
+}

@@ -8,8 +8,8 @@ router.get("/", protectRoute ,questionsController.getAllQuestions)
 router.get("/user/:id", protectRoute ,questionsController.getAllUserQuestions)
 router.post("/",protectRoute , questionsController.postQuestion)
 router.get("/:id", protectRoute ,questionsController.getQuestionById)
-router.put("/:id",protectRoute ,function(req,res){res.send("Update question")})
-router.delete("/:id", protectRoute ,function(req,res){res.send("Delete question")})
+router.put("/:id",protectRoute , questionsController.updateQuestion)
+router.delete("/:id", protectRoute , questionsController.deleteQuestion)
 
 
 export default router

@@ -42,8 +42,18 @@ export const postQuestion = async (req,res)=>{
 export const getAllQuestions = async (req,res)=>{
     try {
         
-        const questions = await questionModel.find({}).populate("authorId", "username")
-
+        const questions = await questionModel.find({})
+        .populate({
+            path: "authorId",
+            select: "username avatar questions",
+            populate: {
+              path: "questions",
+              select: "title createdAt",
+            }
+          })
+          .sort({ createdAt: -1 });
+        console.log(questions);
+        
         res.status(200).json({message : "All questions", questions})
 
     } catch (error) {
@@ -63,6 +73,23 @@ export const getAllUserQuestions = async (req,res)=>{
         console.log(questions);
         
         res.status(200).json({message : "All questions", questions})
+    } catch (error) {
+        console.log("Error in getAllUserQuestions controller : ", error.message);
+        res.status(500).json({ message: error.message || "Internal Server Error" });
+        
+    }
+}
+
+export const getQuestionById = async (req,res)=>{
+    try {
+        const questionId = req.params.id
+        if(!questionId){
+            throw new Error("Question id is required")
+        }
+        const question = await questionModel.findById(questionId).populate("authorId")
+        console.log(question);
+        
+        res.status(200).json({message : "All questions", question})
     } catch (error) {
         console.log("Error in getAllUserQuestions controller : ", error.message);
         res.status(500).json({ message: error.message || "Internal Server Error" });

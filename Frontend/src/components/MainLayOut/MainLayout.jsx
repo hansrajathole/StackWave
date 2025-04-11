@@ -12,6 +12,7 @@ import ChatWithUser from "../../Views/Chats/ChatWithUser";
 import Sidebar from "../Navbar/Sidebar";
 import AskQuestion from "../../Views/AskQuestion/AskQuestion";
 import { useSelector } from "react-redux";
+import SingleQuestion from "../../Views/Question/SingleQuestion";
 const MainLayout = () => {
 
   
@@ -34,6 +35,14 @@ const MainLayout = () => {
               element={
                 <Protected>
                   <Question />
+                </Protected>
+              }
+            />
+            <Route
+              path="/question/:id"
+              element={
+                <Protected>
+                  <SingleQuestion />
                 </Protected>
               }
             />

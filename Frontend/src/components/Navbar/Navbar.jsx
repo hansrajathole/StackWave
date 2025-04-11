@@ -74,7 +74,9 @@ const Navbar = () => {
                 size={20}
               />
             </span>
-            <div className="flex items-center">
+            <div className="flex items-center cursor-pointer" 
+            onClick={() => navigate("/")}
+            >
               <img src={icon} alt="" className="w-10 h-10" />
               <h1 className="text-lg">
                 Stack<span className="text-orange-500 font-bold">Wave</span>

@@ -38,8 +38,16 @@ const AnswerSchema = new mongoose.Schema(
       }
     ],
   },
-  { timestamps: true }
+  { timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+   }
 );
+
+
+AnswerSchema.virtual("votes").get(function () {
+  return this.upVotes.length - this.downVotes.length;
+});
 
 const answerModel = mongoose.model("Answer", AnswerSchema);
 export default answerModel

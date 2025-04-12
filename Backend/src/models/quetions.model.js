@@ -37,7 +37,17 @@ const QuestionSchema = new mongoose.Schema({
             ref: "Answer" 
         } 
     ],
-}, { timestamps: true });
+},{ 
+    timestamps: true ,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+});
+
+
+QuestionSchema.virtual("votes").get(function () {
+    return this.upVotes.length - this.downVotes.length;
+  });
+  
 
 const questionModel = mongoose.model("Question" , QuestionSchema)
 export default questionModel

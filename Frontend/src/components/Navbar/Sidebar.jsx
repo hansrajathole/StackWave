@@ -20,13 +20,7 @@ const Sidebar = () => {
           <span>🔍</span>
           <span>Questions</span>
         </Link>
-        <Link
-          to="/saves"
-          className="flex items-center space-x-2 p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 active:bg-gray-300 dark:active:bg-gray-600 rounded-md"
-        >
-          <span>🔖</span>
-          <span>Saves</span>
-        </Link>
+        
         <Link
           to="/discussions"
           className="flex items-center space-x-2 p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 active:bg-gray-300 dark:active:bg-gray-600 rounded-md"

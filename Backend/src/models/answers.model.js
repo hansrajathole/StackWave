@@ -16,17 +16,17 @@ const AnswerSchema = new mongoose.Schema(
         ref: "User", 
         required: true 
     },
-    upVotes :[
-        { 
-            type: mongoose.Schema.Types.ObjectId, 
-            ref: "User" 
-        } 
-    ],
-    downVotes :[
-        { 
-            type: mongoose.Schema.Types.ObjectId, 
-            ref: "User" 
-        } 
+    votes: { 
+        type: Number, 
+        default: 0 
+    },
+    comments: [
+      {
+        content: String,
+        userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+        username: String,
+        createdAt: { type: Date, default: Date.now },
+      }
     ],
   },
   { timestamps: true }

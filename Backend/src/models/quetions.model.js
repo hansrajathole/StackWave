@@ -19,18 +19,10 @@ const QuestionSchema = new mongoose.Schema({
         ref: "User", 
         required: true 
     },
-    upVotes: [
-        { 
-            type: mongoose.Schema.Types.ObjectId, 
-            ref: "User" 
-        } 
-    ],
-    downVotes: [
-        { 
-            type: mongoose.Schema.Types.ObjectId, 
-            ref: "User" 
-        } 
-    ],
+    votes: { 
+        type: Number, 
+        default: 0 
+    },
     answers: [
         { 
             type: mongoose.Schema.Types.ObjectId, 

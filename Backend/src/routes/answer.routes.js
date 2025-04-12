@@ -8,6 +8,7 @@ router.put("/:answerId",protectRoute , answerController.updateAnswer)
 router.delete("/:answerId", protectRoute , answerController.deleteAnswer)
 router.post("/:answerId/upvote ",protectRoute ,answerController.upVoteAnswer)
 router.post("/:answerId/downvote ",protectRoute ,answerController.downVoteAnswer)
+router.post("/:answerId/comments",protectRoute,answerController.addCommentToAnswer)
 
 
 export default router

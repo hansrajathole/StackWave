@@ -139,7 +139,7 @@ const Question = () => {
                     >
                       {q.title}
                     </h3>
-                    <p className="text-sm text-gray-700 dark:text-gray-300">{q.body}</p>
+                    <p className="text-sm text-gray-700 dark:text-gray-300">{q.body.slice(0,150)}</p>
                     <div className="mt-2 flex flex-wrap gap-2">
                       {q?.tags?.map((tag, i) => (
                         <Badge

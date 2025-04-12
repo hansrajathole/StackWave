@@ -1,3 +1,4 @@
+import answerModel from "../models/answers.model.js"
 import questionModel from "../models/quetions.model.js"
 import userModel from "../models/user.model.js"
 
@@ -80,31 +81,49 @@ export const getAllUserQuestions = async (req,res)=>{
     }
 }
 
-export const getQuestionById = async (req,res)=>{
+export const getQuestionById = async (req, res) => {
     try {
-        const questionId = req.params.id
-        if(!questionId){
-            throw new Error("Question id is required")
+        const questionId = req.params.id;
+        if (!questionId) {
+            throw new Error("Question id is required");
         }
-        const question = await questionModel.findById(questionId).populate("authorId")
+
+        const question = await questionModel.findById(questionId)
+            .populate({
+                path: "authorId",
+                select: "username avatar"
+            })
+            .populate({
+                path: "answers",
+                populate: {
+                    path: "authorId",
+                    select: "username avatar"
+                }
+            });
+
         console.log(question);
-        
-        res.status(200).json({message : "All questions", question})
+
+        res.status(200).json({ message: "Question details", question });
     } catch (error) {
-        console.log("Error in getAllUserQuestions controller : ", error.message);
+        console.log("Error in getQuestionById controller: ", error.message);
         res.status(500).json({ message: error.message || "Internal Server Error" });
-        
     }
-}
+};
 export const updateQuestion = async (req,res)=>{
     try {
         const questionId = req.params.id
+        const userId = req.user._id
         if(!questionId){
             throw new Error("Question id is required")
         }
         const {title , body , tags} = req.body
+        let question = await questionModel.findById(questionId)
 
-        const question = await questionModel.findByIdAndUpdate(questionId, {
+        if(question.authorId.toString() !== userId.toString()){
+            throw new Error("you are not authorized to upadate this question")
+        }
+
+        question = await questionModel.findByIdAndUpdate(questionId, {
             title,
             body,
             tags
@@ -120,12 +139,23 @@ export const updateQuestion = async (req,res)=>{
 export const deleteQuestion = async (req,res)=>{
     try {
         const questionId = req.params.id
+        const userId = req.user._id
+
         if(!questionId){
             throw new Error("Question id is required")
         }
-        const question = await questionModel.findByIdAndDelete(questionId)
 
-        res.status(200).json({message : "Deleted successfully", question})
+        const question = await questionModel.findById(questionId)
+
+        if(question.authorId.toString() !== userId.toString()){
+            throw new Error("you are not authorized to delete this question")
+        }
+
+        await questionModel.findByIdAndDelete(questionId)
+        await answerModel.deleteMany({
+            questionId : questionId
+        })
+        res.status(200).json({message : "Deleted successfully"})
     } catch (error) {
         console.log("Error in getAllUserQuestions controller : ", error.message);
         res.status(500).json({ message: error.message || "Internal Server Error" });

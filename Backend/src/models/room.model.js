@@ -7,6 +7,10 @@ const RoomSchema = new mongoose.Schema(
         unique: true, 
         required: true 
     },
+    roomCreatedby :{
+      type : mongoose.Schema.Types.ObjectId,
+      ref : "User"
+    },
     language: { 
         type: String, 
         default: "javascript" 

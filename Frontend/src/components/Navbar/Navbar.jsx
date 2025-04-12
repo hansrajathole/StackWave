@@ -82,12 +82,7 @@ const Navbar = () => {
                 Stack<span className="text-orange-500 font-bold">Wave</span>
               </h1>
             </div>
-            <span className="text-gray-600 dark:text-gray-300 text-sm cursor-pointer hover:text-black dark:hover:text-white max-sm:hidden">
-              Products
-            </span>
-            <span className="text-gray-600 dark:text-gray-300 text-sm cursor-pointer hover:text-black dark:hover:text-white max-sm:hidden">
-              OverflowAI
-            </span>
+           
           </div>
 
           {/* Search Bar */}
@@ -101,16 +96,7 @@ const Navbar = () => {
 
           {/* Right Section */}
           <div className="flex items-center space-x-3 relative">
-            <button className="text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white">
-              🏆
-            </button>
-            <button className="text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white">
-              📥
-            </button>
-            <button className="text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white">
-              ❓
-            </button>
-
+           
             {user ? (
               <div className="relative" ref={dropdownRef}>
                 <button

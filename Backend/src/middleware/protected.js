@@ -1,6 +1,7 @@
 import config from "../config/config.js";
 import userModel from "../models/user.model.js";
 import jwt from 'jsonwebtoken';
+import redis from "../services/redis.service.js";
 export const protectRoute = async function (req, res, next) {
  
     try {

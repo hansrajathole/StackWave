@@ -1,9 +1,11 @@
 import { Router } from "express";
-import * as userMiddleware from "../middleware/user.middleware.js"
 import { protectRoute } from "../middleware/protected.js"
+import * as roomController from '../controllers/rooms.controller.js'
+
 const router = Router()
 
-router.post("/", protectRoute ,function(req,res){res.send(" Create room")})
+router.post("/", protectRoute , roomController.createRoom)
+router.get("/",protectRoute , roomController.getAllRoom)
 router.get("/:roomId", protectRoute ,function(req,res){res.send(" Get room info")})
 
 

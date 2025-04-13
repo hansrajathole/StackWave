@@ -7,13 +7,16 @@ const RoomSchema = new mongoose.Schema(
         unique: true, 
         required: true 
     },
+    title : {
+      type : String,
+      required : true
+    },
     roomCreatedby :{
       type : mongoose.Schema.Types.ObjectId,
       ref : "User"
     },
     language: { 
         type: String, 
-        default: "javascript" 
     },
     participants: [
         { 
@@ -24,6 +27,10 @@ const RoomSchema = new mongoose.Schema(
     codeContent: { 
         type: String, 
         default: "" 
+    },
+    languageIcon : {
+      type : String,
+      default : ''
     },
     messages: [
       {

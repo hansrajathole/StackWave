@@ -18,7 +18,7 @@ const CollabEditor = () => {
   }, [messages]);
 
   return (
-    <div className="min-h-screen mx-auto p-4 bg-[#0f0f0f] text-white overflow-hidden">
+    <div className="h-screen mx-auto p-4 bg-[#0f0f0f] text-white flex flex-col overflow-hidden">
       {/* Toolbar */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex gap-3 items-center">
@@ -45,7 +45,7 @@ const CollabEditor = () => {
       </div>
 
       {/* Main Body */}
-      <div className="flex h-[calc(100vh-120px)] overflow-hidden rounded-lg border border-gray-700 relative">
+      <div className="flex flex-1 overflow-hidden rounded-lg border border-gray-700 relative">
         {/* Chat Panel */}
         <div className="min-w-[280px] bg-[#1e1e1e] flex flex-col border-r border-gray-700">
           <h3 className="text-lg font-semibold p-3 border-b border-gray-700">
@@ -90,6 +90,10 @@ const CollabEditor = () => {
   
 }`}
               theme="vs-dark"
+              options={{
+                minimap: { enabled: false },
+                fontSize: 14,
+              }}
             />
           </div>
 
@@ -105,24 +109,22 @@ const CollabEditor = () => {
         </div>
 
         {/* People Panel */}
-        <div
-          className={`w-[280px] bg-[#1a1a1a] border-l border-gray-800 p-4 transition-all duration-300 ease-in-out ${
-            showPeople ? "block" : "hidden"
-          }`}
-        >
-          <h3 className="text-lg font-semibold mb-4">People</h3>
-          <div className="bg-[#222] p-3 rounded flex items-center gap-3 mb-2">
-            <img
-              src="https://avatars.githubusercontent.com/u/0000000?v=4"
-              alt="avatar"
-              className="w-8 h-8 rounded-full"
-            />
-            <div>
-              <p className="text-sm font-semibold">Hansraj Athole</p>
-              <p className="text-xs text-gray-400">(You)</p>
+        {showPeople && (
+          <div className="w-[280px] bg-[#1a1a1a] border-l border-gray-800 p-4">
+            <h3 className="text-lg font-semibold mb-4">People</h3>
+            <div className="bg-[#222] p-3 rounded flex items-center gap-3 mb-2">
+              <img
+                src="https://avatars.githubusercontent.com/u/0000000?v=4"
+                alt="avatar"
+                className="w-8 h-8 rounded-full"
+              />
+              <div>
+                <p className="text-sm font-semibold">Hansraj Athole</p>
+                <p className="text-xs text-gray-400">(You)</p>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

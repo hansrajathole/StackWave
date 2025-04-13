@@ -2,51 +2,60 @@ import mongoose from "mongoose";
 
 const RoomSchema = new mongoose.Schema(
   {
-    roomId: { 
-        type: String, 
-        unique: true, 
-        required: true 
+    roomId: {
+      type: String,
+      unique: true,
+      required: true
     },
-    title : {
-      type : String,
-      required : true
+    title: {
+      type: String,
+      required: true
     },
-    roomCreatedby :{
-      type : mongoose.Schema.Types.ObjectId,
-      ref : "User"
+    roomCreatedby: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User"
     },
-    language: { 
-        type: String, 
+    language: {
+      type: String
     },
     participants: [
-        { 
-            type: mongoose.Schema.Types.ObjectId, 
-            ref: "User" 
-        }
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+      }
     ],
-    codeContent: { 
-        type: String, 
-        default: "" 
+    codeContent: {
+      type: String,
+      default: ""
     },
-    languageIcon : {
-      type : String,
-      default : ''
+    languageIcon: {
+      type: String,
+      default: ""
     },
     messages: [
       {
-        sender: { 
-            type: mongoose.Schema.Types.ObjectId, 
-            ref: "User" 
+        sender: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User"
         },
-        text: { 
-            type: String 
+        text: {
+          type: String
         },
-        timestamp: { type: Date, default: Date.now },
-      },
-    ],
+        timestamp: {
+          type: Date,
+          default: Date.now
+        },
+        readBy: [
+          {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+          }
+        ]
+      }
+    ]
   },
   { timestamps: true }
 );
 
 const roomModel = mongoose.model("Room", RoomSchema);
-export default roomModel 
+export default roomModel;

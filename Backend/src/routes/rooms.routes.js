@@ -6,7 +6,7 @@ const router = Router()
 
 router.post("/", protectRoute , roomController.createRoom)
 router.get("/",protectRoute , roomController.getAllRoom)
-router.get("/:roomId", protectRoute ,function(req,res){res.send(" Get room info")})
+router.get("/:roomId", roomController.getRoomById)
 
 
 

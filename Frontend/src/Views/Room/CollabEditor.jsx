@@ -13,33 +13,9 @@ const CollabEditor = () => {
   const [showPeople, setShowPeople] = useState(true);
   const chatEndRef = useRef(null);
 
-  const handleSend = () => {
-    if (!input.trim()) return;
-    socket.emit("chat", { text: input, sender: "You" });
-    setInput("");
-  };
 
-  // Send code update
-  const handleEditorChange = (value) => {
-    setCode(value);
-    socket.emit("code-update", value);
-  };
+ 
 
-  useEffect(() => {
-    // On receiving chat
-    socket.on("chat", (msg) => {
-      setMessages((prev) => [...prev, msg]);
-    });
-
-    // On receiving code updates
-    socket.on("code-update", (newCode) => {
-      setCode(newCode);
-    });
-
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });

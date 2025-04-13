@@ -40,24 +40,6 @@ const CollabEditor = () => {
       socket.disconnect();
     };
   }, []);
-  io.on("connection", (socket) => {
-    const projectId = socket.handshake.query.projectId;
-    socket.join(projectId);
-  
-    console.log("Client connected to room:", projectId);
-  
-    socket.on("chat", (data) => {
-      socket.to(projectId).emit("chat", data);
-    });
-  
-    socket.on("code-update", (code) => {
-      socket.to(projectId).emit("code-update", code);
-    });
-  
-    socket.on("disconnect", () => {
-      console.log("Client disconnected from:", projectId);
-    });
-  });
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });

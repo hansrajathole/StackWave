@@ -19,12 +19,13 @@ import {
 } from "@/components/ui/select";
 import toast from "react-hot-toast";
 import { MdDeleteOutline } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 const Room = () => {
   const [language, setLanguage] = useState("");
   const [title, setTitle] = useState("");
   const [loading, setLoading] = useState(false);
   const [projects, setProjects] = useState([]);
- 
+  const navigate = useNavigate()
 
   let icons = {
     javascript:
@@ -258,7 +259,9 @@ const Room = () => {
               </div>
               
                <div className="flex justify-end ">
-              <button className="px-4 py-2 border border-blue-500 dark:text-white  text-sm rounded hover:bg-blue-500  hover:shadow-md hover:shadow-blue-700 transition">
+              <button className="px-4 py-2 border border-blue-500 dark:text-white  text-sm rounded hover:bg-blue-500  hover:shadow-md hover:shadow-blue-700 transition"
+              onClick={()=>navigate(`/rooms/room/${proj._id}`)}
+              >
                 Open
               </button>
             </div>

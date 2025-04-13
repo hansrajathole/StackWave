@@ -13,6 +13,7 @@ import Sidebar from "../Navbar/Sidebar";
 import AskQuestion from "../../Views/AskQuestion/AskQuestion";
 import { useSelector } from "react-redux";
 import SingleQuestion from "../../Views/Question/SingleQuestion";
+import CollabEditor from "../../Views/Room/CollabEditor";
 const MainLayout = () => {
 
   
@@ -47,13 +48,14 @@ const MainLayout = () => {
               }
             />
             <Route
-              path="/room"
+              path="/rooms"
               element={
                 <Protected>
                   <Room />
                 </Protected>
               }
             />
+           
             <Route
               path="/chat"
               element={

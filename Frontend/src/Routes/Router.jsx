@@ -10,6 +10,8 @@ import Home from '../Views/Home/Home'
 import Home2 from '../Views/Home/Home2'
 import { useSelector } from 'react-redux'
 import PageNotFound from '../Views/404/PageNotFound'
+import ProtectedRoute from '../components/Protected/Protecte'
+import CollabEditor from '../Views/Room/CollabEditor'
 
 const AppRouter = () => {
   const user = useSelector((state)=> state.auth.user)
@@ -22,6 +24,12 @@ const AppRouter = () => {
         <Route path="/signup" element={<SignUp/>} />
         <Route path="/login" element={<SignIn />} />
         {/* <Route path='/*' element={<PageNotFound/>}/> */}
+        <Route path="/rooms/room/*" element={
+              <ProtectedRoute>
+                <CollabEditor/>
+              </ProtectedRoute>
+             }
+            />
         <Route path='/*' element={<Protected><MainLayout/></Protected>}/>
         
       </Routes>

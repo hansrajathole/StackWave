@@ -42,7 +42,7 @@ export const getAllRoom = async (req , res) => {
             roomCreatedby : userId
         })
         .populate("roomCreatedby", "avatar username") 
-        .populate("participants", "avatar username");
+        .populate("participants", "avatar username").sort({ createdAt: -1 })
   
       return res.status(200).json({
         message: "Room created successfully",

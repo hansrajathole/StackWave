@@ -329,7 +329,7 @@ const Room = () => {
               <div className="flex justify-end ">
                 <button
                   className="px-4 py-2 border border-blue-500 dark:text-white  text-sm rounded hover:bg-blue-500  hover:shadow-md hover:shadow-blue-700 transition"
-                  onClick={() => navigate(`/rooms/room/${proj._id}`)}
+                  onClick={() => navigate(`/rooms/room/${proj.roomId}`)}
                 >
                   Open
                 </button>

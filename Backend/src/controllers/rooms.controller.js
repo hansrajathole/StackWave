@@ -41,6 +41,8 @@ export const getRoomById = async (req, res) => {
         .populate("participants", "username avatar")
         .populate("messages.sender", "username avatar");
   
+        // console.log(room);
+        
       if (!room) {
         return res.status(404).json({ message: "Room not found" });
       }

@@ -41,8 +41,6 @@ const Room = () => {
         },
       })
       .then((res) => {
-        console.log(res.data.rooms);
-
         setProjects(res.data?.rooms || []);
       })
       .catch((err) => {
@@ -65,7 +63,6 @@ const Room = () => {
       toast.error("Invalid language selected.");
       return;
     }
-    console.log(icon);
 
     setLoading(true);
     try {

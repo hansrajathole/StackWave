@@ -11,6 +11,7 @@ const CollabEditor = () => {
   const { roomId } = useParams();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
+  const userId = user._id
   const navigate = useNavigate();
 
   const [code, setCode] = useState("function functionName (parameters) {\n  \n}");
@@ -20,8 +21,6 @@ const CollabEditor = () => {
   const [isLeaveOpen, setIsLeaveOpen] = useState(false);
   const chatEndRef = useRef(null);
   const [roomData, setroomData] = useState({});
-  const userId = localStorage.getItem("userId");
-  const username = localStorage.getItem("username") || "You";
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -34,6 +33,8 @@ const CollabEditor = () => {
           Authorization: `bearer ${localStorage.getItem("token")}`
         }
       });
+      console.log(res.data);
+      
       setroomData(res.data);
       setCode(res.data.codeContent || "");
       setMessages(res.data.messages || []);
@@ -59,7 +60,7 @@ const CollabEditor = () => {
 
   const handleSend = () => {
     if (input.trim() === "") return;
-    const message = { sender: { username }, text: input };
+    const message = { sender: { username : user.username }, text: input };
     setMessages((prev) => [...prev, message]);
     socket.emit("sendMessage", { roomId, userId, text: input });
     setInput("");
@@ -90,7 +91,7 @@ const CollabEditor = () => {
             </DialogContent>
           </Dialog>
 
-          <span className="px-3 py-1 rounded bg-gray-100 dark:bg-gray-700 text-md ">{roomData.title}</span>
+          <span className="px-3 py-1 rounded bg-gray-100 dark:bg-gray-700 text-md cursor-not-allowed">{roomData.title}</span>
           <span className="px-3 py-1 rounded bg-gray-200 text-black dark:bg-gray-800 dark:text-white text-sm font-medium">{roomData.language}</span>
         </div>
 
@@ -109,7 +110,7 @@ const CollabEditor = () => {
           <div className="flex-1 p-4 overflow-y-auto space-y-3">
             {messages.map((msg, idx) => (
               <div key={idx} className="bg-gray-200 dark:bg-[#2a2a2a] p-3 rounded text-sm">
-                <span className="font-semibold text-blue-500 block mb-1">{msg.sender?.username || "User"}</span>
+                <span className="font-semibold text-blue-500 block mb-1">{msg.sender?.username}</span>
                 <p className="text-gray-700 dark:text-gray-300">{msg.text}</p>
               </div>
             ))}
@@ -133,7 +134,7 @@ const CollabEditor = () => {
           <div className="flex-1 rounded overflow-hidden">
             <Editor
               height="100%"
-              defaultLanguage="rust"
+              defaultLanguage={roomData.language}
               value={code}
               onChange={handleCodeChange}
               theme="vs-dark"
@@ -167,7 +168,7 @@ const CollabEditor = () => {
                 className="w-10 h-10 rounded-full"
               />
               <div>
-                <p className="text-sm font-semibold">{username}</p>
+                <p className="text-sm font-semibold">{user.username}</p>
                 <p className="text-xs text-gray-500 dark:text-gray-400">(You)</p>
               </div>
             </div>

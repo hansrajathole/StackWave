@@ -10,6 +10,24 @@ body,
   margin: 0;
 }
 
+/* Slide up animation for Tippy */
+.tippy-box[data-animation='slide-up'][data-state='visible'] {
+  transform: translateY(10px);
+  animation: slide-up 0.3s ease-out forwards;
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);

@@ -44,9 +44,9 @@ const QuestionSchema = new mongoose.Schema({
 });
 
 
-QuestionSchema.virtual("votes").get(function () {
-    return this.upVotes.length - this.downVotes.length;
-  });
+// QuestionSchema.virtual("votes").get(function () {
+//     return this.upVotes.length - this.downVotes.length;
+//   });
   
 
 const questionModel = mongoose.model("Question" , QuestionSchema)

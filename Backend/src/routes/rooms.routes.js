@@ -6,7 +6,9 @@ const router = Router()
 
 router.post("/", protectRoute , roomController.createRoom)
 router.get("/",protectRoute , roomController.getAllRoom)
+router.patch("/:roomId",protectRoute, roomController.joinRoomById)
 router.get("/:roomId", roomController.getRoomById)
+router.delete("/:roomId", protectRoute, roomController.deleteRoom)
 
 
 

@@ -125,3 +125,19 @@ body,
     @apply bg-background text-foreground;
   }
 }
+
+.tippy-box[data-animation='slide-up'][data-state='visible'] {
+  transform: translateY(10px);
+  animation: slide-up 0.1s ease-out forwards;
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

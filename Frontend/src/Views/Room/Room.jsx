@@ -20,17 +20,19 @@ import {
 import toast from "react-hot-toast";
 import { MdDeleteOutline } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import icons from './icons.json';
+import icons from "./icons.json";
+import Tippy from "@tippyjs/react";
+
 const Room = () => {
-  
   const [language, setLanguage] = useState("");
   const [title, setTitle] = useState("");
   const [loading, setLoading] = useState(false);
   const [projects, setProjects] = useState([]);
-  const navigate = useNavigate()
-  const [openCreate, setOpenCreate] = useState(false)
-  const [openJoin, setOpenJoin] = useState(false)
-  
+  const navigate = useNavigate();
+  const [openCreate, setOpenCreate] = useState(false);
+  const [openJoin, setOpenJoin] = useState(false);
+  const [roomId, setroomId] = useState("");
+
   const fetchAllRooms = () => {
     axios
       .get("http://localhost:3000/api/rooms", {
@@ -39,6 +41,8 @@ const Room = () => {
         },
       })
       .then((res) => {
+        console.log(res.data.rooms);
+
         setProjects(res.data?.rooms || []);
       })
       .catch((err) => {
@@ -63,13 +67,11 @@ const Room = () => {
     }
     console.log(icon);
 
-
-
     setLoading(true);
     try {
       const res = await axios.post(
         "http://localhost:3000/api/rooms",
-        { language, title, languageIcon : icon },
+        { language, title, languageIcon: icon },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -80,7 +82,7 @@ const Room = () => {
       toast.success("Project created successfully!");
       setTitle("");
       setLanguage("");
-      setOpenCreate(false)
+      setOpenCreate(false);
     } catch (err) {
       toast.error(err?.response?.data?.message || "Something went wrong!");
     } finally {
@@ -88,33 +90,59 @@ const Room = () => {
     }
   };
 
-  
-const handleJoinProject = async (projectId) => {
-  if (!projectId) {
-    toast.error("Please enter a valid Project ID.");
-    return;
-  }
+  const handleJoinProject = async (roomId) => {
+    if (!roomId) {
+      toast.error("Please enter a valid Project ID.");
+      return;
+    }
+    console.log(roomId);
 
-  setLoading(true);
-  try {
-    await axios.post(
-      "http://localhost:3000/api/room/join",
-      { projectId },
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
-    fetchAllRooms();
-    toast.success("Joined project successfully!");
-    setOpenJoin(false); // Close the dialog after successful join
-  } catch (err) {
-    toast.error(err?.response?.data?.message || "Something went wrong!");
-  } finally {
-    setLoading(false);
-  }
-};
+    setLoading(true);
+    try {
+      await axios.patch(
+        `http://localhost:3000/api/rooms/${roomId}`,
+        { roomId },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      fetchAllRooms();
+      toast.success("Joined project successfully!");
+      setOpenJoin(false);
+    } catch (err) {
+   
+      toast.error(err?.response?.data?.message || "Something went wrong!");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDeleteRoom = async (roomId, roomCreatedby) => {
+    try {
+      const confirmDelete = window.confirm(
+        "Are you sure you want to delete this room?"
+      );
+      if (!confirmDelete) return;
+
+      const res = await axios.delete(
+        `http://localhost:3000/api/rooms/${roomId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`, 
+          },
+        }
+      );
+      fetchAllRooms();
+
+
+      toast.success(res.data.message || "Room deleted successfully!");
+    } catch (err) {
+      toast.error(err?.response?.data?.message || "Failed to delete the room!");
+    }
+  };
+
   return (
     <div className="mx-auto p-6 max-sm:p-4 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white min-h-full">
       {/* Header Section */}
@@ -139,12 +167,14 @@ const handleJoinProject = async (projectId) => {
                   </label>
                   <Input
                     type="text"
+                    onChange={(e) => setroomId(e.target.value)}
                     placeholder="Enter Project ID"
                     className="bg-gray-100 dark:bg-gray-800 w-[70%] px-3 py-1 rounded-md border-none ring-0 focus-visible:ring-0"
                   />
                 </div>
                 <div className="flex justify-end mt-8">
                   <Button
+                    onClick={() => handleJoinProject(roomId)}
                     variant="secondary"
                     className="bg-indigo-500 hover:bg-indigo-600 text-white transition"
                   >
@@ -228,7 +258,12 @@ const handleJoinProject = async (projectId) => {
             className="relative bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-lg"
           >
             {/* Delete Icon */}
-            <div className=" text-red-500 cursor-pointer ">
+            <div
+              className=" text-red-500 cursor-pointer "
+              onClick={() =>
+                handleDeleteRoom(proj.roomId)
+              }
+            >
               <MdDeleteOutline size={25} />
             </div>
 
@@ -248,43 +283,60 @@ const handleJoinProject = async (projectId) => {
             <p className="text-sm font-medium mb-2">Members:</p>
             <div className="flex -space-x-2 mb-4">
               {proj.participants?.map((user) => (
-                <img
+                <Tippy
+                  animation="slide-up"
+                  // delay={[300, 150]}
+                  placement="top"
                   key={user._id}
-                  src={user.avatar}
-                  alt={user.username}
-                  className="w-8 h-8 rounded-full border-2 border-white dark:border-gray-800"
-                />
+                  content={user.username}
+                  className="dark:bg-gray-100 dark:text-gray-700 text-gray-50 font-semibold bg-gray-400  px-2 py-1 rounded-md"
+                >
+                  <img
+                    src={user.avatar}
+                    alt={user.username}
+                    className="w-8 h-8 rounded-full border-2 border-white dark:border-gray-800 cursor-pointer"
+                  />
+                </Tippy>
               ))}
-              
             </div>
 
             {/* Creation Date & Creator */}
             <p className="text-xs text-gray-500">
-              <span className="text-gray-900 dark:text-gray-400">Created at</span> {new Date(proj.createdAt).toDateString()}
+              <span className="text-gray-900 dark:text-gray-400">
+                Created at
+              </span>{" "}
+              {new Date(proj.createdAt).toDateString()}
             </p>
             <div className="flex justify-between items-center gap-2 text-xs ">
               <div className="flex items-center gap-2">
-              <span className="text-lg">By</span>
-              {proj.roomCreatedby?.avatar && (
-                <img
-                  src={proj.roomCreatedby.avatar}
-                  alt="creator-avatar"
-                  className="w-5 h-5 rounded-full"
-                />
-              )}
+                <span className="text-lg">By</span>
+                {proj.roomCreatedby?.avatar && (
+                  <Tippy
+                    animation="slide-up"
+                    placement="top"
+                    content={proj.roomCreatedby.username}
+                    className="dark:bg-gray-100 dark:text-gray-700 text-gray-50 font-semibold bg-gray-400  px-2 py-1 rounded-md"
+                  >
+                    <img
+                      src={proj.roomCreatedby.avatar}
+                      alt="creator-avatar"
+                      className="w-5 h-5 rounded-full cursor-pointer"
+                    />
+                  </Tippy>
+                )}
               </div>
-              
-               <div className="flex justify-end ">
-              <button className="px-4 py-2 border border-blue-500 dark:text-white  text-sm rounded hover:bg-blue-500  hover:shadow-md hover:shadow-blue-700 transition"
-              onClick={()=>navigate(`/rooms/room/${proj._id}`)}
-              >
-                Open
-              </button>
-            </div>
+
+              <div className="flex justify-end ">
+                <button
+                  className="px-4 py-2 border border-blue-500 dark:text-white  text-sm rounded hover:bg-blue-500  hover:shadow-md hover:shadow-blue-700 transition"
+                  onClick={() => navigate(`/rooms/room/${proj._id}`)}
+                >
+                  Open
+                </button>
+              </div>
             </div>
 
             {/* Open Button */}
-           
           </div>
         ))}
       </div>

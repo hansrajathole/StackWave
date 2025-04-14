@@ -23,8 +23,7 @@ const AppRouter = () => {
         <Route path="/" element={<Home2/>} />
         <Route path="/signup" element={<SignUp/>} />
         <Route path="/login" element={<SignIn />} />
-        {/* <Route path='/*' element={<PageNotFound/>}/> */}
-        <Route path="/rooms/room/*" element={
+        <Route path="/rooms/room/:roomId" element={
               <ProtectedRoute>
                 <CollabEditor/>
               </ProtectedRoute>

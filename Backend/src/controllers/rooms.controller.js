@@ -60,18 +60,17 @@ export const getAllRoom = async (req, res) => {
   try {
     const userId = req.user._id;
 
-    // Find rooms where the user is either the creator or a participant
     const populatedRoom = await roomModel
       .find({
         $or: [
-          { roomCreatedby: userId }, // Rooms created by the user
-          { participants: userId }, // Rooms where the user is a participant
+          { roomCreatedby: userId }, 
+          { participants: userId },
         ],
       })
-      .populate("roomCreatedby", "_id avatar username") // Populate creator details
-      .populate("participants", "avatar username") // Populate participant details
-      .sort({ createdAt: -1 }); // Sort by creation date (newest first)
-
+      .populate("roomCreatedby", "_id avatar username") 
+      .populate("participants", "avatar username") 
+      .sort({ createdAt: -1 }); 
+      
     return res.status(200).json({
       message: "Fetched all rooms successfully",
       rooms: populatedRoom,

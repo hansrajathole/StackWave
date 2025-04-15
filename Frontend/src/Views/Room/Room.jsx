@@ -333,7 +333,7 @@ const Room = () => {
               </div>
             </div>
 
-            {/* Open Button */}
+          
           </div>
         ))}
       </div>

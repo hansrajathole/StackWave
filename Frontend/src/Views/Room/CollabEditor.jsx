@@ -15,25 +15,18 @@ import { useDispatch, useSelector } from "react-redux";
 
 const CollabEditor = () => {
   const { roomId } = useParams();
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const user = useSelector((state) => state.auth.user);
   const userId = user._id;
-  const navigate = useNavigate();
 
-  const [code, setCode] = useState(
-    "function functionName (parameters) {\n  \n}"
-  );
+  const [code, setCode] = useState();
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [showPeople, setShowPeople] = useState(false);
   const [isLeaveOpen, setIsLeaveOpen] = useState(false);
-  const chatEndRef = useRef(null);
   const [roomData, setroomData] = useState({});
-
-  useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
-
+  const messageBox = React.createRef();
+  const [message, setMessage] = useState('')
   useEffect(() => {
     const loadRoom = async () => {
       const res = await axios.get(`http://localhost:3000/api/rooms/${roomId}`, {
@@ -41,11 +34,12 @@ const CollabEditor = () => {
           Authorization: `bearer ${localStorage.getItem("token")}`,
         },
       });
-      console.log(res.data);
-
+      console.log(res.data.messages);
       setroomData(res.data);
       setCode(res.data.codeContent || "");
       setMessages(res.data.messages || []);
+      console.log(messages);
+      
     };
     loadRoom();
 
@@ -69,7 +63,7 @@ const CollabEditor = () => {
   const handleSend = () => {
     if (input.trim() === "") return;
     const message = { sender: { username: user.username }, text: input };
-    setMessages((prev) => [...prev, message]);
+    setMessages(prevMessages => [ ...prevMessages, { sender: user, message } ]) // Update messages state
     socket.emit("sendMessage", { roomId, userId, text: input });
     setInput("");
   };
@@ -79,6 +73,12 @@ const CollabEditor = () => {
     navigate("/rooms");
   };
 
+  useEffect(() => {
+    if (messageBox.current) {
+      messageBox.current.scrollTop = messageBox.current.scrollHeight;
+    }
+  }, [messages]);
+  
   return (
     <div className="h-screen w-full mx-auto bg-white dark:bg-gray-900 text-gray-900 dark:text-white flex flex-col overflow-hidden">
       {/* Toolbar */}
@@ -135,57 +135,41 @@ const CollabEditor = () => {
               <i className="ri-group-fill"></i>
             </button>
           </header>
-          <div className=" flex-grow flex flex-col">
-            <div className="flex-grow flex flex-col p-1 gap-1">
-              <div className="message max-w-64 flex flex-col bg-slate-300 w-fit p-2 rounded-md">
-                <div className="flex gap-2 text-center items-center">
-                  <img
-                    src={user.avatar}
-                    alt="avatar"
-                    title={user.username}
-                    className="w-4 h-4 rounded-full"
-                  />
-                  <small className="text-xs opacity-75">Hansraj athole</small>
-                </div>
-                <p className="text-sm">
-                  Lorem ipsum dolo Lorem ipsum dolor sit, amet consectetur
-                  adipisicing elit. Ratione, iste? r sit amet.
-                </p>
-              </div>
-              <div className="ml-auto max-w-64 flex flex-col bg-slate-300 w-fit p-2 rounded-md">
-                <div className="flex gap-2 text-center items-center">
-                  <img
-                    src={user.avatar}
-                    alt="avatar"
-                    title={user.username}
-                    className="w-4 h-4 rounded-full"
-                  />
-                  <small className="text-xs opacity-75">{user.username} (You)</small>
-                </div>
-                <p className="text-sm">
-                  Lorem Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Distinctio, quia impedit? dolor sit amet.
-                </p>
-              </div>
-            </div>
-            <div className="p-1  w-full border-gray-300 dark:border-gray-700 flex  gap-2">
-              <input
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleSend()}
-                placeholder="Type a message..."
-                className="flex-1 px-4 py-2 rounded bg-white dark:bg-[#2a2a2a] text-black dark:text-white focus:outline-none focus:ring focus:ring-blue-500 "
-              />
-              <Button
-                onClick={handleSend}
-                className="bg-blue-600 hover:bg-blue-700"
+          <div
+            ref={messageBox}
+            className="message-box p-1 flex-grow flex flex-col gap-1 overflow-auto max-h-full scrollbar-hide"
+          >
+            {messages.map((msg, index) => (
+              <div
+                key={index}
+                className={`${
+                  msg.sender?._id === "ai" ? "max-w-80" : "max-w-52"
+                } ${
+                  msg.sender?._id == user?._id.toString() && "ml-auto"
+                }  message flex flex-col p-2 bg-slate-50 dark:text-gray-950 w-fit rounded-md`}
               >
-                <i class="ri-send-plane-fill"></i>
-              </Button>
-            </div>
+                <small className="opacity-65 text-xs">
+                  {msg.sender?.username}
+                </small>
+                <div className="text-sm max-w-36  w-full">
+                <p className="break-words max-w-40">{msg.text}</p>
+                </div>
+              </div>
+            ))}
           </div>
-
+          <div className="p-2 border-t border-gray-300 dark:border-gray-700 flex gap-2">
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleSend()}
+              placeholder="Type a message..."
+              className="flex-1 px-4 py-2 rounded bg-white dark:bg-[#2a2a2a] text-black dark:text-white focus:outline-none focus:ring focus:ring-blue-500"
+            />
+            <Button onClick={handleSend} className="bg-blue-600 hover:bg-blue-700">
+              <i className="ri-send-plane-fill"></i>
+            </Button>
+          </div>
           <div
             className={`sidePannel bg-red-200 h-full absolute w-full transition-all ${
               showPeople ? " translate-x-0" : "-translate-x-full"
@@ -196,7 +180,7 @@ const CollabEditor = () => {
                 className="rounded-full dark:text-gray-800 dark:bg-white bg-gray-800 text-white px-2 py-1"
                 onClick={() => setShowPeople(!showPeople)}
               >
-                <i class="ri-close-large-line"></i>
+                <i className="ri-close-large-line"></i>
               </button>
             </header>
             <div className="flex flex-col gap-2">
@@ -235,10 +219,7 @@ const CollabEditor = () => {
               }}
             />
           </div>
-
         </div>
-
-        
       </div>
     </div>
   );

@@ -16,10 +16,6 @@ export const postQuestion = async (req,res)=>{
             throw new Error("question is required")
         }
     
-        
-        if(!user){
-            res.status(401).json({message : "Unauthorized user"})
-        }
         const question = await questionModel.create({
             authorId : userId,
             title,

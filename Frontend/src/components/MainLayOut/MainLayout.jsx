@@ -18,7 +18,7 @@ const MainLayout = () => {
 
   
   const isOpen = useSelector((state) => state.sidebar.isOpen);
-  
+    
 
   return (
     <div className=" flex">

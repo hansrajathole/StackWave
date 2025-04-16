@@ -47,6 +47,8 @@ function AskQuestion() {
 
       navigate('/questions');
     } catch (err) {
+      console.log(err);
+      
       setError(err.response?.data?.message || 'Failed to post question. Please try again.');
     } finally {
       setLoading(false);

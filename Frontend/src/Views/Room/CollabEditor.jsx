@@ -13,6 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
 
 const CollabEditor = () => {
   const { roomId } = useParams();
@@ -35,6 +36,7 @@ const CollabEditor = () => {
           Authorization: `bearer ${localStorage.getItem("token")}`,
         },
       });
+      toast.success("You have joined the collb")
       setroomData(res.data);
      
       
@@ -145,14 +147,12 @@ const CollabEditor = () => {
           </header>
           <div
             ref={messageBox}
-            className="message-box p-1 flex-grow flex flex-col gap-1 overflow-auto max-h-full scrollbar-hide"
+            className="message-box p-1 flex-grow flex flex-col gap-1 overflow-auto max-h-full scrollbar-hide hide-scrollbar"
           >
             {messages.map((msg, index) => (
               <div
                 key={index}
-                className={`${
-                  msg.sender?._id === "ai" ? "max-w-80" : "max-w-52"
-                } ${
+                className={` ${
                   msg.sender?._id == user?._id.toString() && "ml-auto"
                 }  message flex flex-col p-2 bg-slate-50 dark:text-gray-950 w-fit rounded-md`}
               >
@@ -160,7 +160,7 @@ const CollabEditor = () => {
                   {msg.sender?.username}
                 </small>
                 <div className="text-sm max-w-36  w-full">
-                <p className="break-words max-w-40">{msg.text}</p>
+                <p className="break-words">{msg.text}</p>
                 </div>
               </div>
             ))}

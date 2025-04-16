@@ -8,6 +8,7 @@ import questionRoutes from './routes/questions.routes.js'
 import answerRoutes from './routes/answer.routes.js'
 import roomsRoutes from './routes/rooms.routes.js'
 import adminRoutes from './routes/admin.routes.js'
+import codeRoutes from './routes/code.routes.js'
 
 const app = express();
 
@@ -29,5 +30,7 @@ app.use('/api/questions', questionRoutes);
 app.use('/api/answers', answerRoutes);
 app.use('/api/rooms', roomsRoutes);
 app.use('/api/admin', adminRoutes);
+app.use("/api/code", codeRoutes); 
+
 
 export default app;

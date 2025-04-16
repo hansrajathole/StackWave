@@ -8,7 +8,9 @@ const _config = {
     JWT_EXPAIRE_IN : process.env.JWT_EXPAIRE_IN ,
     REDIS_HOST : process.env.REDIS_HOST,
     REDIS_PORT : process.env.REDIS_PORT,
-    REDIS_PASSWORD : process.env.REDIS_PASSWORD     
+    REDIS_PASSWORD : process.env.REDIS_PASSWORD  ,
+    JUDGE0_API_KEY : process.env.JUDGE0_API_KEY,
+    JUDGE0_API_URL : process.env.JUDGE0_API_URL  
 }
 
 const config = Object.freeze(_config)

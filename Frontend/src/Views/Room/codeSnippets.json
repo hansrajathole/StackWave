@@ -1,0 +1,20 @@
+{
+    "c": "#include <stdio.h> // Standard I/O header\n\nint main() { // Entry point of the program\n    printf(\"Hello, World!\"); // Print to console\n    return 0; // Exit successfully\n}",
+  
+    "cpp": "#include <iostream> // Include input-output library\nusing namespace std; // Use standard namespace\n\nint main() { // Main function\n    cout << \"Hello, World!\" << endl; // Output to console\n    return 0; // Exit\n}",
+  
+    "java": "public class Main { // Main class\n    public static void main(String[] args) { // Main method\n        System.out.println(\"Hello, World!\"); // Print message\n    }\n}",
+  
+    "python": "# This is a basic print statement\nprint(\"Hello, World!\")",
+  
+    "javascript": "// Define a function\nfunction sayHello() {\n  console.log(\"Hello, World!\"); // Output to console\n}\n\nsayHello(); // Call the function",
+  
+    "typescript": "// Define a typed function \n const greet = (name: string): void => {\n  console.log(`Hello, ${name}!`); // Output\n};\n\ngreet(\"World\"); // Call the function",
+  
+    "ruby": "# Print to the console\nputs \"Hello, World!\"",
+  
+    "rust": "// Main function\nfn main() {\n    println!(\"Hello, World!\"); // Print message\n}",
+  
+    "go": "// Package declaration\npackage main\n\n// Import fmt for formatted I/O\nimport \"fmt\"\n\n// Main function\nfunc main() {\n    fmt.Println(\"Hello, World!\") // Print output\n}"
+  }
+  

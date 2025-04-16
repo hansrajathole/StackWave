@@ -16,7 +16,8 @@ const socketHandler = (io) => {
     });
 
    
-    socket.on("codeChange", ({ roomId, code }) => {
+    socket.on("codeChange", async ({ roomId, code }) => {
+      await roomModel.findOneAndUpdate({ roomId }, { codeContent: code });
       socket.to(roomId).emit("codeUpdate", code);
     });
 

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import codeSnippets from './codeSnippets.json'
+
 import {
   Dialog,
   DialogContent,
@@ -63,12 +65,18 @@ const Room = () => {
       toast.error("Invalid language selected.");
       return;
     }
-
+    const snippet = codeSnippets[language.toLowerCase()]
+    if(!snippet){
+      toast.error("Invalid language selected.");
+      return;
+    }
     setLoading(true);
     try {
       const res = await axios.post(
         "http://localhost:3000/api/rooms",
-        { language, title, languageIcon: icon },
+        { 
+          language, title, languageIcon: icon , codeContent : snippet
+        },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

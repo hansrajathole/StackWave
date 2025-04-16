@@ -2,7 +2,7 @@ import roomModel from "../models/room.model.js"
 import crypto from "crypto" 
 
 export const createRoom = async (req,res) => {
-    const {language , title , languageIcon } = req.body
+    const {language , title , languageIcon ,codeContent} = req.body
 
     const userId = req.user._id
     try {
@@ -21,7 +21,9 @@ export const createRoom = async (req,res) => {
             roomCreatedby : userId,
             language : language,
             participants : [userId],
-            languageIcon : languageIcon
+            languageIcon : languageIcon,
+            codeContent
+
         })
        
         res.status(200).json({ message: "Room created successfully", room });

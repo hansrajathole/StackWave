@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Editor } from "@monaco-editor/react";
 import socket from "../../socket/socket";
-
+import codeSnippets from "./codeSnippets.json";
 import {
   Dialog,
   DialogTrigger,
@@ -21,13 +21,22 @@ const CollabEditor = () => {
   const user = useSelector((state) => state.auth.user);
   const userId = user._id;
   const [roomData, setroomData] = useState({});
+  const [code, setCode] = useState();
 
-  const [code, setCode] = useState('');
+  const [showRunCode, setShowRunCode] = useState(false);
+  const [output, setOutput] = useState("");
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [showPeople, setShowPeople] = useState(false);
   const [isLeaveOpen, setIsLeaveOpen] = useState(false);
   const messageBox = React.createRef();
+
+  const editorRef = useRef();
+
+  const onMount = (editor) => {
+    editorRef.current = editor;
+    editor.focus();
+  };
 
   useEffect(() => {
     const loadRoom = async () => {
@@ -36,13 +45,12 @@ const CollabEditor = () => {
           Authorization: `bearer ${localStorage.getItem("token")}`,
         },
       });
-      toast.success("You have joined the collb")
+      
       setroomData(res.data);
-     
-      
-      setCode(res.data.codeContent || "");
+      setCode(res.data.codeContent);
+      console.log(code);
+
       setMessages(res.data.messages || []);
-      
     };
     loadRoom();
 
@@ -50,14 +58,15 @@ const CollabEditor = () => {
 
     socket.on("codeUpdate", setCode);
     socket.on("receiveMessage", (msg) => setMessages((prev) => [...prev, msg]));
-  
-    
+
     return () => {
       socket.emit("leaveRoom", { roomId });
       socket.off("codeUpdate");
       socket.off("receiveMessage");
     };
   }, [roomId]);
+
+
   const handleCodeChange = (newCode) => {
     setCode(newCode);
     socket.emit("codeChange", { roomId, code: newCode });
@@ -65,17 +74,17 @@ const CollabEditor = () => {
 
   const handleSend = () => {
     if (input.trim() === "") return;
-    const newMessage = { sender: { username: user.username , _id : user._id  }, text: input };
-    
-    setMessages(prevMessages => [...prevMessages, newMessage]);
-    ;
-    console.log(messages);
-    
-    
-    socket.emit("sendMessage", { roomId, userId, text: input, });
-    
-    setInput("");
+    const newMessage = {
+      sender: { username: user.username, _id: user._id },
+      text: input,
+    };
 
+    setMessages((prevMessages) => [...prevMessages, newMessage]);
+    console.log(messages);
+
+    socket.emit("sendMessage", { roomId, userId, text: input });
+
+    setInput("");
   };
 
   const handleLeave = () => {
@@ -88,6 +97,42 @@ const CollabEditor = () => {
       messageBox.current.scrollTop = messageBox.current.scrollHeight;
     }
   }, [messages]);
+
+  const runCode = async () => {
+    setOutput("Running...");
+  
+    try {
+      const languageMap = {
+        javascript: 63, // JavaScript (Node.js)
+        python: 71,
+        cpp: 54,
+        c: 50,
+        java: 62,
+      };
+  
+      const submission = await axios.post(
+        "https://judge0-ce.p.rapidapi.com/submissions?base64_encoded=true&wait=false&fields=*",
+        {
+          source_code: code,
+          language_id: languageMap[roomData.language],
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "X-RapidAPI-Key": "563d652d5dmsh35491eb1420e5ffp182712jsna14c7613c60c",
+            "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
+          },
+        }
+      );
+  
+      const result = submission.data;
+      setOutput(result.stdout || result.stderr || "No output");
+    } catch (error) {
+      console.error(error);
+      setOutput("Error running code.");
+    }
+  };
+  
 
   return (
     <div className="h-screen w-full mx-auto bg-white dark:bg-gray-900 text-gray-900 dark:text-white flex flex-col overflow-hidden">
@@ -129,7 +174,17 @@ const CollabEditor = () => {
             Generate
           </Button>
           <Button className="bg-gray-700 hover:bg-gray-600">Fix</Button>
-          <Button className="bg-blue-600 hover:bg-blue-700">Run Code</Button>
+          <Button
+            className="bg-blue-600 hover:bg-blue-700"
+            onClick={() =>{
+               setShowRunCode(true)
+               runCode()
+            }}
+           
+
+          >
+            Run Code
+          </Button>
         </div>
       </div>
 
@@ -160,7 +215,7 @@ const CollabEditor = () => {
                   {msg.sender?.username}
                 </small>
                 <div className="text-sm max-w-36  w-full">
-                <p className="break-words">{msg.text}</p>
+                  <p className="break-words">{msg.text}</p>
                 </div>
               </div>
             ))}
@@ -174,7 +229,10 @@ const CollabEditor = () => {
               placeholder="Type a message..."
               className="flex-1 px-4 py-2 rounded bg-white dark:bg-[#2a2a2a] text-black dark:text-white focus:outline-none focus:ring focus:ring-blue-500"
             />
-            <Button onClick={handleSend} className="bg-blue-600 hover:bg-blue-700">
+            <Button
+              onClick={handleSend}
+              className="bg-blue-600 hover:bg-blue-700"
+            >
               <i className="ri-send-plane-fill"></i>
             </Button>
           </div>
@@ -192,29 +250,27 @@ const CollabEditor = () => {
               </button>
             </header>
             <div className="flex flex-col">
-              <h3 className="text-lg font-semibold px-2" >Members :</h3>
+              <h3 className="text-lg font-semibold px-2">Members :</h3>
               <div className="p-2 flex flex-col gap-1 ">
-               
-               {
-                roomData?.
-                participants?.map((user)=>(
+                {roomData?.participants?.map((user) => (
                   <div className="flex items-center gap-3  bg-gray-200 dark:bg-[#4b484896] p-1 rounded">
-                  <img
-                    src={user.avatar}
-                    alt="avatar"
-                    className="w-10 h-10 rounded-full"
-                  />
-                  <div>
-                    <p className="text-sm font-semibold">{user.username}</p>
-                    {user._id == userId ?<p className="text-xs text-gray-500 dark:text-gray-400">
-                      (You)
-                    </p> : <> </> }
+                    <img
+                      src={user.avatar}
+                      alt="avatar"
+                      className="w-10 h-10 rounded-full"
+                    />
+                    <div>
+                      <p className="text-sm font-semibold">{user.username}</p>
+                      {user._id == userId ? (
+                        <p className="text-xs text-gray-500 dark:text-gray-400">
+                          (You)
+                        </p>
+                      ) : (
+                        <> </>
+                      )}
+                    </div>
                   </div>
-                </div>
-                ))
-                
-
-               }
+                ))}
               </div>
             </div>
           </div>
@@ -222,19 +278,39 @@ const CollabEditor = () => {
 
         {/* Code Editor */}
         <div className="flex-1 flex flex-col relative">
-          <div className="flex-1 rounded overflow-hidden">
+          <div className="flex-1 rounded">
             <Editor
               height="100%"
-              defaultLanguage={roomData.language}
+              language={roomData.language}
               value={code}
               onChange={handleCodeChange}
               theme="vs-dark"
+              onMount={onMount}
               options={{
                 minimap: { enabled: false },
                 fontSize: 14,
               }}
             />
           </div>
+          {showRunCode && (
+            <div
+              className="absolute bottom-0 left-0 right-0 bg-black text-white z-50 border-t border-gray-700 resize-y overflow-auto hide-scrollbar"
+              style={{ height: "300px", minHeight: "100px", maxHeight: "60vh" }}
+            >
+              <div className="flex items-center justify-between bg-gray-800 px-4 py-2 border-b border-gray-700">
+                <p className="text-sm font-semibold">Output</p>
+                <button
+                  onClick={() => setShowRunCode(false)}
+                  className="text-white hover:text-red-500"
+                >
+                  <i className="ri-close-line text-lg"></i>
+                </button>
+              </div>
+              <div className="p-3 h-full overflow-y-auto text-sm font-mono whitespace-pre-wrap">
+                {output || "Running..."}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -48,8 +48,6 @@ const CollabEditor = () => {
       
       setroomData(res.data);
       setCode(res.data.codeContent);
-      console.log(code);
-
       setMessages(res.data.messages || []);
     };
     loadRoom();
@@ -99,38 +97,28 @@ const CollabEditor = () => {
   }, [messages]);
 
   const runCode = async () => {
-    setOutput("Running...");
-  
-    try {
-      const languageMap = {
-        javascript: 63, // JavaScript (Node.js)
-        python: 71,
-        cpp: 54,
-        c: 50,
-        java: 62,
-      };
-  
-      const submission = await axios.post(
-        "https://judge0-ce.p.rapidapi.com/submissions?base64_encoded=true&wait=false&fields=*",
-        {
-          source_code: code,
-          language_id: languageMap[roomData.language],
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "X-RapidAPI-Key": "563d652d5dmsh35491eb1420e5ffp182712jsna14c7613c60c",
-            "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
-          },
+      setOutput("Running...");
+      await axios.post("http://localhost:3000/api/code/run", {
+        code,
+        language: roomData.language,
+      },{
+        headers : {
+          Authorization : `bearer ${localStorage.getItem("token")}`
         }
-      );
-  
-      const result = submission.data;
-      setOutput(result.stdout || result.stderr || "No output");
-    } catch (error) {
+      })
+      .then((res)=>{
+        console.log(res.data);
+        
+        console.log("Output:", res.data.stdout || res.data.stderr);
+        const result = res.data;
+        setOutput(result.stdout || result.stderr || "No output");
+      })
+     .catch ((error)=>{
       console.error(error);
       setOutput("Error running code.");
-    }
+    })
+
+
   };
   
 
@@ -252,8 +240,8 @@ const CollabEditor = () => {
             <div className="flex flex-col">
               <h3 className="text-lg font-semibold px-2">Members :</h3>
               <div className="p-2 flex flex-col gap-1 ">
-                {roomData?.participants?.map((user) => (
-                  <div className="flex items-center gap-3  bg-gray-200 dark:bg-[#4b484896] p-1 rounded">
+                {roomData?.participants?.map((user , ind) => (
+                  <div key={ind} className="flex items-center gap-3  bg-gray-200 dark:bg-[#4b484896] p-1 rounded">
                     <img
                       src={user.avatar}
                       alt="avatar"

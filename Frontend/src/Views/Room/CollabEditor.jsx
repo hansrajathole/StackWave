@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Editor } from "@monaco-editor/react";
 import socket from "../../socket/socket";
+
 import {
   Dialog,
   DialogTrigger,
@@ -11,22 +12,22 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const CollabEditor = () => {
   const { roomId } = useParams();
   const navigate = useNavigate();
   const user = useSelector((state) => state.auth.user);
   const userId = user._id;
+  const [roomData, setroomData] = useState({});
 
-  const [code, setCode] = useState();
+  const [code, setCode] = useState('');
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [showPeople, setShowPeople] = useState(false);
   const [isLeaveOpen, setIsLeaveOpen] = useState(false);
-  const [roomData, setroomData] = useState({});
   const messageBox = React.createRef();
-  const [message, setMessage] = useState('')
+
   useEffect(() => {
     const loadRoom = async () => {
       const res = await axios.get(`http://localhost:3000/api/rooms/${roomId}`, {
@@ -34,11 +35,11 @@ const CollabEditor = () => {
           Authorization: `bearer ${localStorage.getItem("token")}`,
         },
       });
-      console.log(res.data.messages);
       setroomData(res.data);
+     
+      
       setCode(res.data.codeContent || "");
       setMessages(res.data.messages || []);
-      console.log(messages);
       
     };
     loadRoom();
@@ -47,14 +48,14 @@ const CollabEditor = () => {
 
     socket.on("codeUpdate", setCode);
     socket.on("receiveMessage", (msg) => setMessages((prev) => [...prev, msg]));
-
+  
+    
     return () => {
       socket.emit("leaveRoom", { roomId });
       socket.off("codeUpdate");
       socket.off("receiveMessage");
     };
   }, [roomId]);
-
   const handleCodeChange = (newCode) => {
     setCode(newCode);
     socket.emit("codeChange", { roomId, code: newCode });
@@ -62,10 +63,17 @@ const CollabEditor = () => {
 
   const handleSend = () => {
     if (input.trim() === "") return;
-    const message = { sender: { username: user.username }, text: input };
-    setMessages(prevMessages => [ ...prevMessages, { sender: user, message } ]) // Update messages state
-    socket.emit("sendMessage", { roomId, userId, text: input });
+    const newMessage = { sender: { username: user.username , _id : user._id  }, text: input };
+    
+    setMessages(prevMessages => [...prevMessages, newMessage]);
+    ;
+    console.log(messages);
+    
+    
+    socket.emit("sendMessage", { roomId, userId, text: input, });
+    
     setInput("");
+
   };
 
   const handleLeave = () => {
@@ -78,7 +86,7 @@ const CollabEditor = () => {
       messageBox.current.scrollTop = messageBox.current.scrollHeight;
     }
   }, [messages]);
-  
+
   return (
     <div className="h-screen w-full mx-auto bg-white dark:bg-gray-900 text-gray-900 dark:text-white flex flex-col overflow-hidden">
       {/* Toolbar */}
@@ -171,7 +179,7 @@ const CollabEditor = () => {
             </Button>
           </div>
           <div
-            className={`sidePannel bg-red-200 h-full absolute w-full transition-all ${
+            className={`sidePannel backdrop-blur-xl h-full absolute w-full transition-all ${
               showPeople ? " translate-x-0" : "-translate-x-full"
             } `}
           >
@@ -183,10 +191,14 @@ const CollabEditor = () => {
                 <i className="ri-close-large-line"></i>
               </button>
             </header>
-            <div className="flex flex-col gap-2">
-              <h3 className="text-lg font-semibold">People</h3>
-              <div className="p-2 ">
-                <div className="flex items-center gap-3  bg-gray-200 dark:bg-[#2a2a2a] p-1 rounded">
+            <div className="flex flex-col">
+              <h3 className="text-lg font-semibold px-2" >Members :</h3>
+              <div className="p-2 flex flex-col gap-1 ">
+               
+               {
+                roomData?.
+                participants?.map((user)=>(
+                  <div className="flex items-center gap-3  bg-gray-200 dark:bg-[#4b484896] p-1 rounded">
                   <img
                     src={user.avatar}
                     alt="avatar"
@@ -194,11 +206,15 @@ const CollabEditor = () => {
                   />
                   <div>
                     <p className="text-sm font-semibold">{user.username}</p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                    {user._id == userId ?<p className="text-xs text-gray-500 dark:text-gray-400">
                       (You)
-                    </p>
+                    </p> : <> </> }
                   </div>
                 </div>
+                ))
+                
+
+               }
               </div>
             </div>
           </div>

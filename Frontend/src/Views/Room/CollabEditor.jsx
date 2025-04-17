@@ -21,7 +21,7 @@ const CollabEditor = () => {
   const user = useSelector((state) => state.auth.user);
   const userId = user._id;
   const [roomData, setroomData] = useState({});
-  const [code, setCode] = useState();
+  const [code, setCode] = useState("");
 
   const [showRunCode, setShowRunCode] = useState(false);
   const [output, setOutput] = useState("");
@@ -54,34 +54,52 @@ const CollabEditor = () => {
 
     socket.emit("joinRoom", { roomId, userId: user._id });
 
-    socket.on("codeUpdate", setCode);
-    socket.on("receiveMessage", (msg) => setMessages((prev) => [...prev, msg]));
+    socket.on("codeUpdate",(code) => {
+      setCode(code) 
+    });
+
 
     return () => {
       socket.emit("leaveRoom", { roomId });
       socket.off("codeUpdate");
-      socket.off("receiveMessage");
+    
     };
   }, [roomId]);
 
 
+  useEffect(() => {
+    const handleMessage = (msg) => {
+      console.log(msg);
+      
+      setMessages((prev) => [...prev, msg]);
+    };
+  
+    socket.on("receiveMessage", handleMessage);
+  
+    return () => {
+      socket.off("receiveMessage", handleMessage);
+    };
+  }, [roomId]);
+  
+
+
   const handleCodeChange = (newCode) => {
     setCode(newCode);
-    socket.emit("codeChange", { roomId, code: newCode });
+    socket.emit("codeChange", { roomId, code : newCode });
   };
 
   const handleSend = () => {
     if (input.trim() === "") return;
-    const newMessage = {
-      sender: { username: user.username, _id: user._id },
+   
+    const message = {
+      roomId,
+      userId,
       text: input,
+      sender: { _id: user._id, username: user.username, avatar: user.avatar },
     };
-
-    setMessages((prevMessages) => [...prevMessages, newMessage]);
-    console.log(messages);
-
+  
     socket.emit("sendMessage", { roomId, userId, text: input });
-
+    setMessages((prev)=>[...prev ,message])
     setInput("");
   };
 
@@ -109,9 +127,9 @@ const CollabEditor = () => {
       .then((res)=>{
         console.log(res.data);
         
-        console.log("Output:", res.data.stdout || res.data.stderr);
-        const result = res.data;
-        setOutput(result.stdout || result.stderr || "No output");
+        console.log("Output:", res.data.output.stdout || res.data.output.stderr);
+        const result = res.data.output;
+        setOutput(result.stderr || result.stdout ||  "No output");
       })
      .catch ((error)=>{
       console.error(error);
@@ -167,6 +185,7 @@ const CollabEditor = () => {
             onClick={() =>{
                setShowRunCode(true)
                runCode()
+               
             }}
            
 

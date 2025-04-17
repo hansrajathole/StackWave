@@ -1,6 +1,6 @@
 
 import roomModel from "../models/room.model.js";
-
+import userModel from '../models/user.model.js'
 const socketHandler = (io) => {
   io.on("connection", (socket) => {
     console.log(" New user connected:", socket.id);
@@ -18,11 +18,13 @@ const socketHandler = (io) => {
    
     socket.on("codeChange", async ({ roomId, code }) => {
       await roomModel.findOneAndUpdate({ roomId }, { codeContent: code });
-      socket.to(roomId).emit("codeUpdate", code);
+      socket.broadcast.to(roomId).emit("codeUpdate", code);
     });
 
   
     socket.on("sendMessage", async ({ roomId, userId, text }) => {
+
+      const user = await userModel.findById(userId)
       const message = {
         sender: userId,
         text,
@@ -31,13 +33,21 @@ const socketHandler = (io) => {
       };
 
      
-      await roomModel.findOneAndUpdate(
+    await roomModel.findOneAndUpdate(
         { roomId },
         { $push: { messages: message } }
       );
-
      
-      socket.to(roomId).emit("receiveMessage", message);
+      const newMessage = {
+        sender:{
+          _id: user._id, username: user.username, avatar: user.avatar
+        },
+        text,
+        timestamp: new Date(),
+        readBy: [userId]
+      };
+     
+      socket.broadcast.to(roomId).emit("receiveMessage", newMessage );
     });
 
    

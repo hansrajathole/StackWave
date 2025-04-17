@@ -7,31 +7,36 @@ export const runCode = async (req, res) => {
   console.log(code , language);
   
 
-  try {
-    const response = await axios.post(
-      `${config.JUDGE0_API_URL}/submissions?base64_encoded=false&wait=true`,
-      {
-        source_code: code,
-        language_id: languageMap[language],
-      },
-      {
-        headers: {
-          "X-RapidAPI-Key": config.JUDGE0_API_KEY,
-          "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
-        },
-      }
-    );
-
-    const result = response.data;
-
-    res.json({
-      stdout: result.stdout,
-      stderr: result.stderr,
-      time: result.time,
-      memory: result.memory,
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Code execution failed" });
+  const options = {
+    method: 'POST',
+    url: 'https://judge0-ce.p.rapidapi.com/submissions',
+    params: {
+      base64_encoded: 'false',
+      wait: 'true',
+      fields: '*'
+    },
+    headers: {
+      'x-rapidapi-key': config.JUDGE0_API_KEY ,
+      'x-rapidapi-host': 'judge0-ce.p.rapidapi.com',
+      'Content-Type': 'application/json'
+    },
+    data: {
+      language_id: languageMap[language],
+      source_code: code,
+      stdin: ''
+    }
+  };
+  
+  async function fetchData() {
+    try {
+      const response = await axios.request(options);
+      res.status(200).json({ message : "code run successfully", output : response.data})
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message : 'error in run code ' , error })
+    }
   }
-};
+  
+  fetchData()
+
+}

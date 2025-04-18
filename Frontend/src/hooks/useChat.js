@@ -7,6 +7,7 @@ export const useChat = (roomId, userId) => {
   const [input, setInput] = useState("");
   const [showPeople, setShowPeople] = useState(false);
   const [roomData, setRoomData] = useState({});
+  const [code, setCode] = useState("");
   const messageBoxRef = useRef(null);
 
   // Fetch room data and messages
@@ -22,6 +23,7 @@ export const useChat = (roomId, userId) => {
         });
         setRoomData(res.data);
         setMessages(res.data.messages || []);
+        // setCode(res.data.codeContent);
       } catch (error) {
         console.error("Failed to load room data:", error);
       }
@@ -77,6 +79,7 @@ export const useChat = (roomId, userId) => {
   return {
     messages,
     input,
+    code,
     setInput,
     showPeople,
     setShowPeople,

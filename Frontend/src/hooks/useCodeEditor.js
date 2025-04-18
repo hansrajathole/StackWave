@@ -3,9 +3,10 @@ import socket from "../socket/socket";
 import { runCode } from "../services/codeService";
 import { fixCode, generateCode } from "../services/aiService";
 import toast from "react-hot-toast";
+import axios from "axios";
 
-export const useCodeEditor = (roomId, initialCode = "", language = "") => {
-  const [code, setCode] = useState(initialCode);
+export const useCodeEditor = (roomId, language = "") => {
+  const [code, setCode] = useState("");
   const [output, setOutput] = useState("");
   const [showRunCode, setShowRunCode] = useState(false);
   const [prompt, setPrompt] = useState("");
@@ -14,6 +15,23 @@ export const useCodeEditor = (roomId, initialCode = "", language = "") => {
 
   useEffect(() => {
     if (!roomId) return;
+
+    const loadRoom = async () => {
+      try {
+        const res = await axios.get(`http://localhost:3000/api/rooms/${roomId}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        setCode(res.data.codeContent);
+        console.log(code);
+        
+      } catch (error) {
+        console.error("Failed to load room data:", error);
+      }
+    };
+
+    loadRoom();
 
     // Set up socket listener for code updates
     const handleCodeUpdate = (updatedCode) => {

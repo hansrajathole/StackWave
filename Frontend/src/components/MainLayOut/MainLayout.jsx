@@ -2,18 +2,15 @@ import React, { use, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import Protected from "../Protected/Protecte";
 import Navbar from "../Navbar/Navbar";
-import Room from "../../Views/Room/Room";
 import Users from "../../Views/Users/Users";
-import Home from "../../Views/Home/Home";
+import Room from "../room/Room";
 import Question from "../../Views/Question/Question";
-import PageNotFound from "../../Views/404/PageNotFound";
 import Chat from "../../Views/Chats/Chat";
 import ChatWithUser from "../../Views/Chats/ChatWithUser";
 import Sidebar from "../Navbar/Sidebar";
 import AskQuestion from "../../Views/AskQuestion/AskQuestion";
 import { useSelector } from "react-redux";
 import SingleQuestion from "../../Views/Question/SingleQuestion";
-import CollabEditor from "../../Views/Room/CollabEditor";
 const MainLayout = () => {
 
   

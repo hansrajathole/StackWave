@@ -31,8 +31,13 @@ async function generateContent(prompt) {
 
     console.log(result.response.text())
 
-    return result.response.text();
+    const rawText = result.response.text();
+    const cleanedCode = rawText
+    .replace(/```[a-z]*\n?/gi, "") 
+    .replace(/```$/gi, "")         
+    .trim();
 
+    return cleanedCode
 }
 
 export default generateContent    

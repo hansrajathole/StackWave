@@ -168,7 +168,6 @@ const CollabEditor = () => {
   };
 
   const handleGenerate = () => {
-    setisPromptOpen(!isPromptOpen)
     if(prompt.trim()=== '')return
     console.log("Generating with prompt:", prompt);
     axios
@@ -183,6 +182,7 @@ const CollabEditor = () => {
       )
       .then((res) => {
         console.log(res.data);
+        setisPromptOpen(!isPromptOpen)
         setCode(res.data.generatedCode);
       })
       .catch((err) => {

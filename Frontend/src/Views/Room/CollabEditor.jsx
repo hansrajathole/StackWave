@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Editor } from "@monaco-editor/react";
 import socket from "../../socket/socket";
-import codeSnippets from "./codeSnippets.json";
+import { Textarea } from "@/components/ui/textarea"
 import {
   Dialog,
   DialogTrigger,
@@ -21,14 +21,16 @@ const CollabEditor = () => {
   const user = useSelector((state) => state.auth.user);
   const userId = user._id;
   const [roomData, setroomData] = useState({});
-  const [code, setCode] = useState("");
 
-  const [showRunCode, setShowRunCode] = useState(false);
-  const [output, setOutput] = useState("");
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
+  const [code, setCode] = useState("");
+  const [output, setOutput] = useState("");
+  const [prompt, setPrompt] = useState("");
+  const [showRunCode, setShowRunCode] = useState(false);
   const [showPeople, setShowPeople] = useState(false);
   const [isLeaveOpen, setIsLeaveOpen] = useState(false);
+  const [isPromptOpen, setisPromptOpen] = useState(false);
   const messageBox = React.createRef();
 
   const editorRef = useRef();
@@ -45,7 +47,7 @@ const CollabEditor = () => {
           Authorization: `bearer ${localStorage.getItem("token")}`,
         },
       });
-      
+
       setroomData(res.data);
       setCode(res.data.codeContent);
       setMessages(res.data.messages || []);
@@ -54,50 +56,45 @@ const CollabEditor = () => {
 
     socket.emit("joinRoom", { roomId, userId: user._id });
 
-    socket.on("codeUpdate",(code) => {
-      setCode(code) 
+    socket.on("codeUpdate", (code) => {
+      setCode(code);
     });
-
 
     return () => {
       socket.emit("leaveRoom", { roomId });
       socket.off("codeUpdate");
-    
     };
   }, [roomId]);
-
 
   useEffect(() => {
     const handleMessage = (msg) => {
       setMessages((prev) => [...prev, msg]);
     };
-  
+
     socket.on("receiveMessage", handleMessage);
-  
+
     return () => {
       socket.off("receiveMessage", handleMessage);
     };
   }, [roomId]);
-  
-
 
   const handleCodeChange = (newCode) => {
     setCode(newCode);
-    socket.emit("codeChange", { roomId, code : newCode });
+    socket.emit("codeChange", { roomId, code: newCode });
   };
 
   const handleSend = () => {
     if (input.trim() === "") return;
-   
+
     const message = {
       roomId,
       userId,
       text: input,
       sender: { _id: user._id, username: user.username, avatar: user.avatar },
     };
-  
+
     socket.emit("sendMessage", { roomId, userId, text: input });
-    setMessages((prev)=>[...prev ,message])
+    setMessages((prev) => [...prev, message]);
     setInput("");
   };
 
@@ -113,53 +110,85 @@ const CollabEditor = () => {
   }, [messages]);
 
   const runCode = async () => {
-      setOutput("Running...");
-      await axios.post("http://localhost:3000/api/code/run", {
-        code,
-        language: roomData.language,
-      },{
-        headers : {
-          Authorization : `bearer ${localStorage.getItem("token")}`
+    setOutput("Running...");
+    await axios
+      .post(
+        "http://localhost:3000/api/code/run",
+        {
+          code,
+          language: roomData.language,
+        },
+        {
+          headers: {
+            Authorization: `bearer ${localStorage.getItem("token")}`,
+          },
         }
-      })
-      .then((res)=>{
-        console.log(res.data);
-        
-        console.log("Output:", res.data.output.stdout || res.data.output.stderr);
+      )
+      .then((res) => {
+        console.log(res.data.output);
+
+        console.log(
+          "Output:",
+          res.data.output.stdout || res.data.output.stderr
+        );
         const result = res.data.output;
-        setOutput(result.stderr || result.stdout ||  "No output");
+        setOutput(result.stderr || result.stdout || "No output");
       })
-     .catch ((error)=>{
-      console.error(error);
-      setOutput("Error running code.");
-    })
-
-
+      .catch((error) => {
+        console.error(error);
+        setOutput("Error running code.");
+      });
   };
-  
 
-  const handleFix = (code)=>{
-    if(code.trim() === ''){
-      toast.error("you not write any code in your code Editor")
+  const handleFix = (code) => {
+    if (code.trim() === "") {
+      toast.error("you not write any code in your code Editor");
       return;
     }
     console.log(code);
-    
-    axios.post("http://localhost:3000/api/ai/fix",{code},{
-      headers : {
-        Authorization : `bearer ${localStorage.getItem("token")}`
-      }
-    })
-    .then((res)=>{
-      console.log(res.data);
-      setCode(res.data.fixCode)
-      // console.log(code);
-      
-    })
-    .catch((err)=>{
-      console.log(err.message);
-    })
-  }
+
+    axios
+      .post(
+        "http://localhost:3000/api/ai/fix",
+        { code },
+        {
+          headers: {
+            Authorization: `bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+        setCode(res.data.fixCode);
+        // console.log(code);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
+
+  const handleGenerate = () => {
+    setisPromptOpen(!isPromptOpen)
+    if(prompt.trim()=== '')return
+    console.log("Generating with prompt:", prompt);
+    axios
+      .post(
+        "http://localhost:3000/api/ai/generatecode",
+        { prompt },
+        {
+          headers: {
+            Authorization: `bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+        setCode(res.data.generatedCode);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+};
 
   return (
     <div className="h-screen w-full mx-auto bg-white dark:bg-gray-900 text-gray-900 dark:text-white flex flex-col overflow-hidden">
@@ -197,21 +226,48 @@ const CollabEditor = () => {
         </div>
 
         <div className="flex gap-3">
-          <Button className="bg-purple-700 hover:bg-purple-800">
-            Generate
+          <Dialog open={isPromptOpen} onOpenChange={setisPromptOpen}>
+            <DialogTrigger asChild>
+              <Button className="bg-purple-700 hover:bg-purple-800">
+                Generate
+              </Button>
+            </DialogTrigger>
+
+            <DialogContent className="bg-white dark:bg-gray-800 text-black dark:text-white">
+              <DialogHeader>Enter your prompt</DialogHeader>
+
+              <Textarea
+                placeholder="Write your prompt here..."
+                className="min-h-[100px] mt-2"
+                value={prompt}
+                onChange={(e) => setPrompt(e.target.value)}
+              />
+
+              <DialogFooter>
+                <Button variant="ghost" onClick={() => {
+                  setPrompt("")
+                  setisPromptOpen(false)}}>
+                  Cancel
+                </Button>
+                <Button variant="" onClick={handleGenerate}>
+                  Generate
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+
+          <Button
+            className="bg-gray-700 hover:bg-gray-600"
+            onClick={() => handleFix(code)}
+          >
+            Fix
           </Button>
-          <Button className="bg-gray-700 hover:bg-gray-600"
-          onClick={()=>handleFix(code)}
-          >Fix</Button>
           <Button
             className="bg-blue-600 hover:bg-blue-700"
-            onClick={() =>{
-               setShowRunCode(true)
-               runCode()
-               
+            onClick={() => {
+              setShowRunCode(true);
+              runCode();
             }}
-           
-
           >
             Run Code
           </Button>
@@ -243,7 +299,7 @@ const CollabEditor = () => {
               >
                 <small className="opacity-65 text-xs">
                   {msg.sender?.username}
-                  <small>{msg?.sender?._id === userId && "(You)" }</small>
+                  <small>{msg?.sender?._id === userId && "(You)"}</small>
                 </small>
                 <div className="text-sm max-w-36  w-full">
                   <p className="break-words">{msg.text}</p>
@@ -283,8 +339,11 @@ const CollabEditor = () => {
             <div className="flex flex-col">
               <h3 className="text-lg font-semibold px-2">Members :</h3>
               <div className="p-2 flex flex-col gap-1 ">
-                {roomData?.participants?.map((user , ind) => (
-                  <div key={ind} className="flex items-center gap-3  bg-gray-200 dark:bg-[#4b484896] p-1 rounded">
+                {roomData?.participants?.map((user, ind) => (
+                  <div
+                    key={ind}
+                    className="flex items-center gap-3  bg-gray-200 dark:bg-[#4b484896] p-1 rounded"
+                  >
                     <img
                       src={user.avatar}
                       alt="avatar"

@@ -5,5 +5,6 @@ const router  = Router()
 
 
 router.post("/fix", protectRoute, aiController.fixCodeController)
+router.post("/generatecode",protectRoute , aiController.generateCodeController)
 
 export default router

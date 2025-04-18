@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import LeaveRoomDialog from "./dialogs/LeaveRoomDialog";
 import PromptDialog from "./dialogs/PromptDialog";
-
+import { IoIosArrowDown } from "react-icons/io";
 const EditorToolbar = ({
   roomData,
   isLeaveOpen,
@@ -50,9 +50,10 @@ const EditorToolbar = ({
         </Button>
         <Button
           className="bg-blue-600 hover:bg-blue-700 transition"
-          onClick={onRun}
+         
         >
-          Run Code
+          <span  onClick={onRun} > Run Code</span>
+          {/* <IoIosArrowDown /> */}
         </Button>
       </div>
     </div>

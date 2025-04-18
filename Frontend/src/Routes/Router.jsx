@@ -11,7 +11,7 @@ import Home2 from '../Views/Home/Home2'
 import { useSelector } from 'react-redux'
 import PageNotFound from '../Views/404/PageNotFound'
 import ProtectedRoute from '../components/Protected/Protecte'
-import CollabEditor from '../Views/Room/CollabEditor'
+import CollabEditor from '../components/editor/CollabEditor'
 
 const AppRouter = () => {
   const user = useSelector((state)=> state.auth.user)

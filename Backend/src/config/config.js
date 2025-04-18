@@ -10,7 +10,11 @@ const _config = {
     REDIS_PORT : process.env.REDIS_PORT,
     REDIS_PASSWORD : process.env.REDIS_PASSWORD  ,
     JUDGE0_API_KEY : process.env.JUDGE0_API_KEY,
-    JUDGE0_API_URL : process.env.JUDGE0_API_URL  
+    JUDGE0_API_URL : process.env.JUDGE0_API_URL ,
+    GEMINI_API_KEY: process.env.GEMINI_API_KEY,
+    IMAGEKIT_PUBLIC_KEY : process.env.IMAGEKIT_PUBLIC_KEY,
+    IMAGEKIT_PRIVATE_KEY : process.env.IMAGEKIT_PRIVATE_KEY,
+    IMAGEKIT_URL: process.env.IMAGEKIT_URL  
 }
 
 const config = Object.freeze(_config)

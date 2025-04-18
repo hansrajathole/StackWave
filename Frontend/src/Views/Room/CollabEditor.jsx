@@ -69,8 +69,6 @@ const CollabEditor = () => {
 
   useEffect(() => {
     const handleMessage = (msg) => {
-      console.log(msg);
-      
       setMessages((prev) => [...prev, msg]);
     };
   
@@ -140,6 +138,29 @@ const CollabEditor = () => {
   };
   
 
+  const handleFix = (code)=>{
+    if(code.trim() === ''){
+      toast.error("you not write any code in your code Editor")
+      return;
+    }
+    console.log(code);
+    
+    axios.post("http://localhost:3000/api/ai/fix",{code},{
+      headers : {
+        Authorization : `bearer ${localStorage.getItem("token")}`
+      }
+    })
+    .then((res)=>{
+      console.log(res.data);
+      setCode(res.data.fixCode)
+      // console.log(code);
+      
+    })
+    .catch((err)=>{
+      console.log(err.message);
+    })
+  }
+
   return (
     <div className="h-screen w-full mx-auto bg-white dark:bg-gray-900 text-gray-900 dark:text-white flex flex-col overflow-hidden">
       {/* Toolbar */}
@@ -179,7 +200,9 @@ const CollabEditor = () => {
           <Button className="bg-purple-700 hover:bg-purple-800">
             Generate
           </Button>
-          <Button className="bg-gray-700 hover:bg-gray-600">Fix</Button>
+          <Button className="bg-gray-700 hover:bg-gray-600"
+          onClick={()=>handleFix(code)}
+          >Fix</Button>
           <Button
             className="bg-blue-600 hover:bg-blue-700"
             onClick={() =>{
@@ -220,6 +243,7 @@ const CollabEditor = () => {
               >
                 <small className="opacity-65 text-xs">
                   {msg.sender?.username}
+                  <small>{msg?.sender?._id === userId && "(You)" }</small>
                 </small>
                 <div className="text-sm max-w-36  w-full">
                   <p className="break-words">{msg.text}</p>

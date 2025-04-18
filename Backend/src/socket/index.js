@@ -40,7 +40,7 @@ const socketHandler = (io) => {
      
       const newMessage = {
         sender:{
-          _id: user._id, username: user.username, avatar: user.avatar
+          _id: userId , username: user.username, avatar: user.avatar
         },
         text,
         timestamp: new Date(),

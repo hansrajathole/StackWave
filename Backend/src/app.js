@@ -9,7 +9,7 @@ import answerRoutes from './routes/answer.routes.js'
 import roomsRoutes from './routes/rooms.routes.js'
 import adminRoutes from './routes/admin.routes.js'
 import codeRoutes from './routes/code.routes.js'
-
+import aiRoutes from './routes/ai.routes.js'
 const app = express();
 
 const allowedOrigins = ["http://localhost:5173"];
@@ -31,6 +31,7 @@ app.use('/api/answers', answerRoutes);
 app.use('/api/rooms', roomsRoutes);
 app.use('/api/admin', adminRoutes);
 app.use("/api/code", codeRoutes); 
+app.use("/api/ai", aiRoutes); 
 
 
 export default app;

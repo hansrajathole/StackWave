@@ -32,13 +32,13 @@ const userSchema = mongoose.Schema({
         default : "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"
     }, 
     reputation : {
-        type : String,
-        default : ''
+        type : Number,
+        default : 0
 
     } , 
     badges : {
-        type : String,
-        default : ''
+        type : Number,
+        default : 0
     },
     role: { 
         type: String, 

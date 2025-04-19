@@ -36,10 +36,12 @@ const userSchema = mongoose.Schema({
         default : 0
 
     } , 
-    badges : {
-        type : Number,
-        default : 0
-    },
+    badges : [
+        {
+            type : String,
+            default : 0
+        }
+    ],
     role: { 
         type: String, 
         enum: ["user", "admin"], 

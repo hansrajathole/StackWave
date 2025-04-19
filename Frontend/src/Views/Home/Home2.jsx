@@ -23,6 +23,7 @@ const Home2 = () => {
           },
         })
         .then((res) => {
+          // console.log(res.data);
           setUserQuestions(res.data.questions);
         })
         .catch((error) => {
@@ -120,6 +121,7 @@ const Home2 = () => {
               </h2>
 
               {userQuestions.map((q) => (
+                
                 <Card key={q._id} className="bg-white dark:bg-gray-900 dark:text-white py-3 mb-4 shadow">
                   <CardContent>
                     <div className="flex justify-between items-start">
@@ -142,7 +144,7 @@ const Home2 = () => {
                         </div>
                       </div>
                       <div className="text-right">
-                        <p className="text-sm">Votes: {q.votes}</p>
+                        <p className="text-sm">Votes: {q?.upVotes?.length - q?.downVote?.length}</p>
                         <p className="text-sm text-gray-500 dark:text-gray-400">
                           Answers: {q.answers?.length}
                         </p>

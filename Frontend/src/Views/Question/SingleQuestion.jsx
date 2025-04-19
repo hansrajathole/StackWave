@@ -31,13 +31,13 @@ const SingleQuestion = () => {
   const [questionVotes, setVotes] = useState(0);
   const token = localStorage.getItem("token");
   const user = useSelector((state) => state.auth.user);
-  
+
   const fetchQuestion = async () => {
     try {
       const res = await axios.get(`http://localhost:3000/api/questions/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      console.log(res.data.question.answers);
+      // console.log(res.data.question.answers);
       const queVote = res.data?.question?.upVotes.length - res.data?.question?.downVote.length 
       
       setVotes(queVote);

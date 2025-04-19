@@ -172,6 +172,7 @@ export const voteQuestion = async (req, res) => {
         throw new Error("userId is not found")
       }
       const question = await questionModel.findById(id);
+      const author = await userModel.findById(question.authorId);
       if (!question) return res.status(404).json({ msg: "Question not found" });
   
       
@@ -188,6 +189,7 @@ export const voteQuestion = async (req, res) => {
             }else{
                 question.downVote.pull(userId)
                 question.upVotes.push(userId);
+                author.reputation += 5;
             }
           }
         if(voteType === "down") {
@@ -196,9 +198,23 @@ export const voteQuestion = async (req, res) => {
             }else{
                 question.downVote.push(userId);
                 question.upVotes.pull(userId)
+                author.reputation -= 2;
             }
         }
-      
+
+     
+
+    if (author.reputation >= 100 && !author.badges.includes("Bronze")) {
+        author.badges.push("Bronze");
+      }
+      if (author.reputation >= 500 && !author.badges.includes("Silver Badge")) {
+        author.badges.push("Silver Badge");
+      }
+      if (author.reputation >= 1000 && !author.badges.includes("Silver Badge")) {
+        author.badges.push("Gold Badge");
+      }
+     
+      await author.save()
       await question.save();
   
       res.status(200).json({

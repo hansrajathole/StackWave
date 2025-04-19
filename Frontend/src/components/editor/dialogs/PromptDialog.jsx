@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 const PromptDialog = ({ isOpen, setIsOpen, prompt, setPrompt, onGenerate }) => {
   const handleCancel = () => {
     setPrompt("");
-    setIsOpen(false);
+    setIsOpen(false); 
   };
 
   return (

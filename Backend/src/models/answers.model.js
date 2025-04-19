@@ -19,14 +19,15 @@ const AnswerSchema = new mongoose.Schema(
     upVotes : [
       {
         type : mongoose.Schema.Types.ObjectId,
-        ref : "User"
-
+        ref : "User",
+        default : 0
       }
     ],
     downVotes : [
       {
         type : mongoose.Schema.Types.ObjectId,
-        ref : "User"
+        ref : "User",
+        default : 0
       }
     ],
     comments: [

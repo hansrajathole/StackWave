@@ -10,6 +10,7 @@ router.post("/",protectRoute , questionsController.postQuestion)
 router.get("/:id", protectRoute ,questionsController.getQuestionById)
 router.put("/:id",protectRoute , questionsController.updateQuestion)
 router.delete("/:id", protectRoute , questionsController.deleteQuestion)
+router.patch("/vote/:id", protectRoute , questionsController.voteQuestion)
 
 
 export default router

@@ -28,15 +28,19 @@ const SingleQuestion = () => {
   const navigate = useNavigate();
   const [question, setQuestion] = useState(null);
   const [newAnswer, setNewAnswer] = useState("");
+  const [questionVotes, setVotes] = useState(0);
   const token = localStorage.getItem("token");
-  const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
-  console.log(user)
+  
   const fetchQuestion = async () => {
     try {
       const res = await axios.get(`http://localhost:3000/api/questions/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
+      console.log(res.data.question.answers);
+      const queVote = res.data?.question?.upVotes.length - res.data?.question?.downVote.length 
+      
+      setVotes(queVote);
       setQuestion(res.data.question);
     } catch (err) {
       console.error("Error fetching question", err);
@@ -44,24 +48,25 @@ const SingleQuestion = () => {
     }
   };
 
-  const handleVote = async (type) => {
+  const handleQuestionVote = async (voteType) => {
     try {
-      await axios.post(
-        `http://localhost:3000/api/questions/${id}/vote`,
-        { type },
+      const res = await axios.patch(
+        `http://localhost:3000/api/questions/vote/${id}`,
+        { voteType },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      fetchQuestion();
+      setVotes(res.data?.upVotes - res.data?.downVotes);
+      
     } catch {
       toast.error("Vote failed");
     }
   };
 
-  const handleAnswerVote = async (answerId, type) => {
+  const handleAnswerVote = async (answerId, voteType) => {
     try {
-      await axios.post(
-        `http://localhost:3000/api/answers/${answerId}/vote`,
-        { type },
+      await axios.patch(
+        `http://localhost:3000/api/answers/vote/${answerId}`,
+        { voteType },
         { headers: { Authorization: `Bearer ${token}` } }
       );
       fetchQuestion();
@@ -181,14 +186,12 @@ const SingleQuestion = () => {
       {/* Question Section */}
       <div className="flex gap-4 mb-12">
         <div className="flex flex-col items-center p-2 gap-1">
-          <button onClick={() => handleVote("upvote")}>
-            {" "}
-            <CiCircleChevUp size={28} className="hover:text-blue-500" />{" "}
+          <button onClick={() => handleQuestionVote("up")}>
+            <CiCircleChevUp size={28} className="hover:text-blue-500" />
           </button>
-          <span className="text-lg font-semibold">{question.votes}</span>
-          <button onClick={() => handleVote("downvote")}>
-            {" "}
-            <CiCircleChevDown size={28} className="hover:text-red-500" />{" "}
+          <span className="text-lg font-semibold">{questionVotes}</span>
+          <button onClick={() => handleQuestionVote("down")}>
+            <CiCircleChevDown size={28} className="hover:text-red-500" />
           </button>
         </div>
 
@@ -231,14 +234,14 @@ const SingleQuestion = () => {
           
             <div key={idx} className="flex gap-4 mb-8">
               {/* Votes */}
-              {console.log(ans.authorId?._id )}
+              {console.log()}
 
               <div className="flex flex-col items-center pt-2 gap-1">
-                <button onClick={() => handleAnswerVote(ans._id, "upvote")}>
+                <button onClick={() => handleAnswerVote(ans._id, "up")}>
                   <CiCircleChevUp size={28} className="hover:text-blue-500" />
                 </button>
-                <span className="font-medium">{ans.votes}</span>
-                <button onClick={() => handleAnswerVote(ans._id, "downvote")}>
+                <span className="font-medium">{ans.upVotes?.length - ans.downVotes?.length}</span>
+                <button onClick={() => handleAnswerVote(ans._id, "down")}>
                   <CiCircleChevDown size={28} className="hover:text-red-500" />
                 </button>
               </div>

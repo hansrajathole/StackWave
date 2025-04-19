@@ -108,67 +108,59 @@ export const deleteAnswer = async (req, res) => {
     }
 }
 
-export const upVoteAnswer = async (req, res) => {
+
+
+export const voteAnswer = async (req, res) => {
     try {
-        const answerId = req.params.answerId
-        const userId = req.user._id
+      const { id } = req.params; 
+      const { voteType } = req.body;
+      const userId = req.user._id; 
+      if(!userId){
+        console.log(userId);
+        throw new Error("userId is not found")
+      }
+      const answer = await answerModel.findById(id);
+      if (!answer) return res.status(404).json({ msg: "Answer not found" });
+  
+      
+      if (voteType !== "up" && voteType !== "down") {
+        return res.status(400).json({ msg: "Invalid vote type" });
+      }
 
-        if (!answerId) {
-            throw new Error("Answer id is required")
+        const hasUpVoted = answer.upVotes.includes(userId);
+        const hasDownVoted = answer.downVotes.includes(userId);
+
+        if(voteType === "up") {
+            if(hasUpVoted){
+                throw new Error("you are already voted for this question")
+            }else{
+                answer.downVotes.pull(userId)
+                answer.upVotes.push(userId);
+            }
+          }
+        if(voteType === "down") {
+            if(hasDownVoted){
+                throw new Error("you are already downVote for this question")
+            }else{
+                answer.downVotes.push(userId);
+                answer.upVotes.pull(userId)
+            }
         }
-
-        const answer = await answerModel.findById(answerId)
-
-        if (!answer) {
-            throw new Error("Answer not found")
-        }
-
-        if (answer.upVotes.includes(userId)) {
-           throw new Error("You allready voted")
-        }
-
-        await answerModel.findByIdAndUpdate(answerId, {
-            $push: { upVotes: userId },
-            $pull: { downVotes: userId }
-        })
-
-        res.status(200).json({ message: "Answer upvoted successfully" })
+      
+      await answer.save();
+  
+      res.status(200).json({
+        msg: `Successfully ${voteType === "up" ? "upvoted" : "downvoted"}`,
+        upVotes: answer.upVotes.length,
+        downVotes: answer.downVotes.length,
+      });
+  
     } catch (error) {
-        console.log("Error in upVoteAnswer controller : ", error.message);
-        res.status(500).json({ message: error.message || "Internal Server Error" });
+      console.error("Vote error:", error.message);
+      res.status(500).json({ msg: "Server error" ,});
     }
-}
+  };
 
-export const downVoteAnswer = async (req, res) => {
-    try {
-        const answerId = req.params.answerId
-        const userId = req.user._id
-
-        if (!answerId){
-            throw new Error("Answer id is required")
-        }
-
-        const answer = await answerModel.findById(answerId)
-
-        if (!answer) {
-            throw new Error("Answer not found")
-        }
-
-        if (answer.downVotes.includes(userId)) {
-            throw new Error("Already downvoted")
-        }
-
-        await answerModel.findByIdAndUpdate(answerId, {
-            $push: { downVotes: userId },
-            $pull: { upVotes: userId }
-        })
-
-        res.status(200).json({ message: "Answer downvoted successfully" })
-    } catch (error) {
-        console.log("Error in downVoteAnswer controller : ", error.message);
-        res.status(500).json({ message: error.message || "Internal Server Error" });
-    }
-}
 
 
 export const addCommentToAnswer = async (req, res) => {

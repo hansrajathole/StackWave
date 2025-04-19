@@ -160,3 +160,55 @@ export const deleteQuestion = async (req,res)=>{
         
     }
 }
+
+
+export const voteQuestion = async (req, res) => {
+    try {
+      const { id } = req.params; 
+      const { voteType } = req.body;
+      const userId = req.user._id; 
+      if(!userId){
+        console.log(userId);
+        throw new Error("userId is not found")
+      }
+      const question = await questionModel.findById(id);
+      if (!question) return res.status(404).json({ msg: "Question not found" });
+  
+      
+      if (voteType !== "up" && voteType !== "down") {
+        return res.status(400).json({ msg: "Invalid vote type" });
+      }
+
+        const hasUpVoted = question.upVotes.includes(userId);
+        const hasDownVoted = question.downVote.includes(userId);
+
+        if(voteType === "up") {
+            if(hasUpVoted){
+                throw new Error("you are already voted for this question")
+            }else{
+                question.downVote.pull(userId)
+                question.upVotes.push(userId);
+            }
+          }
+        if(voteType === "down") {
+            if(hasDownVoted){
+                throw new Error("you are already downVote for this question")
+            }else{
+                question.downVote.push(userId);
+                question.upVotes.pull(userId)
+            }
+        }
+      
+      await question.save();
+  
+      res.status(200).json({
+        msg: `Successfully ${voteType === "up" ? "upvoted" : "downvoted"}`,
+        upVotes: question.upVotes.length,
+        downVotes: question.downVote.length,
+      });
+  
+    } catch (error) {
+      console.error("Vote error:", error);
+      res.status(500).json({ msg: "Server error" });
+    }
+  };

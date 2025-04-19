@@ -6,8 +6,7 @@ const router = Router()
 router.post("/:questionId", protectRoute , answerController.postAnswer)
 router.put("/:answerId",protectRoute , answerController.updateAnswer)
 router.delete("/:answerId", protectRoute , answerController.deleteAnswer)
-router.post("/:answerId/upvote ",protectRoute ,answerController.upVoteAnswer)
-router.post("/:answerId/downvote ",protectRoute ,answerController.downVoteAnswer)
+router.patch("/vote/:id",protectRoute, answerController.voteAnswer)
 router.post("/:answerId/comments",protectRoute,answerController.addCommentToAnswer)
 
 

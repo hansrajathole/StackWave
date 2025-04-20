@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux'
 import PageNotFound from '../Views/404/PageNotFound'
 import ProtectedRoute from '../components/Protected/Protecte'
 import CollabEditor from '../components/editor/CollabEditor'
+import ProfilePage from '../Views/profile/ProfilePage'
 
 const AppRouter = () => {
   const user = useSelector((state)=> state.auth.user)
@@ -31,6 +32,7 @@ const AppRouter = () => {
             />
         <Route path='/*' element={<Protected><MainLayout/></Protected>}/>
         
+        <Route path='/profile' element={<ProtectedRoute><ProfilePage/></ProtectedRoute>}/>
       </Routes>
     </Router>
 

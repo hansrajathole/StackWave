@@ -7,6 +7,7 @@ const router = Router();
 router.get("/leaderboard", protectRoute, function (req, res) {
   res.send(" Leaderboard data");
 });
+router.get("/all", protectRoute, usersController.getAllUsers);
 router.get("/:id", protectRoute, usersController.getUserProfile);
 router.put("/:id", protectRoute, usersController.updateProfile);
 

@@ -42,6 +42,31 @@ const userSchema = mongoose.Schema({
             default : 0
         }
     ],
+    location : {
+        type : String,
+        default : "India"
+    },
+    title : {
+        type : String,
+        default : "Developer"
+    },
+    about : {
+        type : String,
+        default :
+            "Developer, tech enthusiast, and lifelong learner. Passionate about coding and sharing knowledge. Let's connect!"
+    },
+    skills : [
+        {
+            type : String,
+            default : "problem solving, teamwork, communication"
+        }
+    ],
+    websites : [
+        {
+            type : String,
+            default : "" 
+        }
+    ],
     role: { 
         type: String, 
         enum: ["user", "admin"], 

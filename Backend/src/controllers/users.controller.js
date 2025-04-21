@@ -26,3 +26,28 @@ export const updateProfile = async (req, res) => {
     
 }
 
+
+export const getAllUsers = async (req, res) => {
+    try {
+        const userId = req.user._id;
+        
+        const users = await userModel.find({
+            _id: { $ne: userId }
+        }).sort({ reputation: -1 })
+        
+
+
+        if (!users) {
+            return res.status(404).json({ message: "No users found" });
+        }
+
+
+        users.sort((a, b) => b.reputation - a.reputation);
+      
+        
+        return res.status(200).json(users);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+}

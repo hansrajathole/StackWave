@@ -55,18 +55,10 @@ const userSchema = mongoose.Schema({
         default :
             "Developer, tech enthusiast, and lifelong learner. Passionate about coding and sharing knowledge. Let's connect!"
     },
-    skills : [
-        {
-            type : String,
-            default : "problem solving, teamwork, communication"
-        }
-    ],
-    websites : [
-        {
-            type : String,
-            default : "" 
-        }
-    ],
+    skills: {
+        type: [String], 
+        default: () => ['problem', 'solving', 'teamwork', 'communication'],
+      },
     role: { 
         type: String, 
         enum: ["user", "admin"], 

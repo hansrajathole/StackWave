@@ -1,5 +1,7 @@
 import { body , check } from "express-validator";
-
+import imagekit from "../services/imageKit.service.js";
+import { Readable } from "stream"
+import mongoose from "mongoose";
 
 export const singupValidator = [
     body("username")
@@ -52,3 +54,25 @@ export const loginValidator = [
             return true;
         })      
 ]
+
+export const updateProfile = async (req,res,next)=>{
+    try {
+        console.log("req.file :", req.file);
+        const file = await imagekit.upload({
+            file : req.file.buffer,
+            fileName : new mongoose.Types.ObjectId().toString("base64"),
+            isPublished : true,
+            isPrivateFile : false
+        }) 
+    
+        console.log("file :",file);
+        
+        req.file = file
+        next()
+        
+        
+    } catch (error) {
+        console.log("error :", error);
+        res.status(401).json({ message : error.message })
+    }
+}

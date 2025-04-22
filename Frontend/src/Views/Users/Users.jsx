@@ -3,13 +3,16 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 const Users = () => {
 
-  const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const user = useSelector((state) => state.auth.user);
     const userId = user?._id;
 
     const [users, setUsers] = useState([]);
+    const [search, setSearch] = useState("");
    
 
     useEffect(() => {
@@ -33,11 +36,12 @@ const Users = () => {
 
       
 
-  const [search, setSearch] = useState("");
 
   const filteredUsers = users.filter((user) =>
     user.username.toLowerCase().includes(search.toLowerCase())
   );
+
+
 
   return (
     <div className="bg-gray-50 dark:bg-gray-900 min-h-screen p-6 text-gray-900 dark:text-white pt-10">
@@ -56,6 +60,7 @@ const Users = () => {
           <div
             key={index}
             className="p-4 rounded-lg shadow-md bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex items-center space-x-4 "
+            onClick={() => navigate(`/profile/${user._id}`)}
           >
             <img
               src={user.avatar}

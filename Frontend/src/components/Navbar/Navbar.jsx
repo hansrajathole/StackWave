@@ -117,7 +117,7 @@ const Navbar = () => {
                         src={user.avatar}
                         alt="profile"
                         className="w-8 h-8 rounded-full  cursor-pointer"
-                        onClick={() => navigate("/profile")}
+                        onClick={() => navigate(`/profile/${user._id}`)}
                       />
                       <span className="block text-sm">{user.username}</span>
                     </div>

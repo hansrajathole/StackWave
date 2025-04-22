@@ -5,11 +5,11 @@ import SignUp from '../Views/SignUp/SignUp'
 import SignIn from '../Views/SignIn/SignIn'
 import Protected from '../components/Protected/Protecte'
 import MainLayout from '../components/MainLayOut/MainLayout'
-import Home2 from '../Views/Home/Home2'
 import { useSelector } from 'react-redux'
 import ProtectedRoute from '../components/Protected/Protecte'
 import CollabEditor from '../components/editor/CollabEditor'
 import ProfilePage from '../Views/profile/ProfilePage'
+import Home from '../Views/Home/Home'
 
 const AppRouter = () => {
   const user = useSelector((state)=> state.auth.user)
@@ -18,7 +18,7 @@ const AppRouter = () => {
 
       <Router>
       <Routes>
-        <Route path="/" element={<Home2/>} />
+        <Route path="/" element={<Home/>} />
         <Route path="/signup" element={<SignUp/>} />
         <Route path="/login" element={<SignIn />} />
         <Route path="/rooms/room/:roomId" element={

@@ -1,19 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import {
-  Clock,
-  Code,
-  Award,
-  BookOpen,
-  Edit,
-  Github,
-  Twitter,
-  Link as LinkIcon,
-  MessageSquare,
-  ThumbsUp,
-  Users,
-  Heart,
-} from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Clock, Award, Edit, Link as LinkIcon, MessageSquare, ThumbsUp,} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
@@ -22,19 +8,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter} from "@/components/ui/dialog";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setAuthUser } from "../../Redux/AuthSlice";
 
 export default function ProfilePage() {
+
   const { userId } = useParams();
   const imageRef = useRef();
   const [user, setUser] = useState(null);
@@ -84,7 +65,6 @@ export default function ProfilePage() {
       .then((res) => {
         console.log(res.data.user);
         setUser(res.data.user);
-        
         setEditDialogOpen(false);
       })
       .catch((error) => {
@@ -222,24 +202,26 @@ export default function ProfilePage() {
                     {getInitials(user.username)}
                   </AvatarFallback>
                 </Avatar>
-               <div className="absolute bottom-3 right-0 ">
-               <Input
-                  accept="image/*"
-                  name="image"
-                  type="file"
-                  onChange={ (e) => {handleImageChange(e)}}
-                  className="hidden"
-                  ref={imageRef}
-                  
-                />
-                <button
-                  type="button"
-                  onClick={() => imageRef.current.click()}
-                  className="text-center flex justify-center cursor-pointer rounded-md p-2 text-4xl"
-                >
-                 <i className="ri-add-line"></i>
-                </button>
-               </div>
+               { user._id === userData._id && (
+                <div className="absolute bottom-0 right-4 ">
+                <Input
+                   accept="image/*"
+                   name="image"
+                   type="file"
+                   onChange={ (e) => {handleImageChange(e)}}
+                   className="hidden"
+                   ref={imageRef}
+                   
+                 />
+                 <button
+                   type="button"
+                   onClick={() => imageRef.current.click()}
+                   className="text-center flex justify-center cursor-pointer text-4xl"
+                 >
+                  <i className="ri-add-line"></i>
+                 </button>
+                </div>
+               )}
               </div>
 
               <div className="flex-1 text-center sm:text-left justify-center sm:justify-start">
@@ -334,19 +316,7 @@ export default function ProfilePage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Sidebar */}
           <div className="space-y-6">
-            <Alert className="border-blue-100 bg-blue-50 dark:border-blue-800 dark:bg-blue-950/50">
-              <Heart className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-              <AlertTitle className="text-gray-800 dark:text-gray-200">
-                Member since:
-              </AlertTitle>
-              <AlertDescription className="text-gray-600 dark:text-gray-400">
-                {new Date(user.createdAt).toLocaleDateString(undefined, {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </AlertDescription>
-            </Alert>
+           
 
             {/* Achievements */}
             <Card className="p-5 bg-white dark:bg-gray-900 border dark:border-gray-800">

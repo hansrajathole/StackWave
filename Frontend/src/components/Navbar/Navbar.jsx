@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setAuthUser } from "../../Redux/AuthSlice";
-import icon from "../../assets/stackwave-icon.png";
+import icon from "../../assets/stackwaveicon.png";
 import { DarkModeSwitch } from "react-toggle-dark-mode";
 
 import Hamburger from "hamburger-react";

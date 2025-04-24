@@ -15,12 +15,13 @@ const AnswerComments = ({ answerId, comments, refresh }) => {
   const [comment, setComment] = useState("");
   const user = useSelector((state) => state.auth.user);
   const token = localStorage.getItem("token");
+  const baseUrl = "https://stackwave-y6a7.onrender.com"
 
   const handleCommentSubmit = async () => {
     if (!comment.trim()) return;
     try {
       await axios.post(
-        `http://localhost:3000/api/answers/${answerId}/comments`,
+        `${baseUrl}/api/answers/${answerId}/comments`,
         { content : comment },
         { headers: { Authorization: `Bearer ${token}` } }
       );

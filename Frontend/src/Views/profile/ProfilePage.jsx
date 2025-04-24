@@ -26,6 +26,7 @@ export default function ProfilePage() {
 
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.auth.user);
+  const baseUrl = "https://stackwave-y6a7.onrender.com"
 
   // Fetch user data
   useEffect(() => {
@@ -57,7 +58,7 @@ export default function ProfilePage() {
 
   const handleSaveProfile = () => {
     axios
-      .put(`http://localhost:3000/api/users/${userId}`, editedProfile, {
+      .put(`${baseUrl}/api/users/${userId}`, editedProfile, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -94,7 +95,7 @@ export default function ProfilePage() {
 
     
     axios
-      .put(`http://localhost:3000/api/users/editprofileimg/${userId}`, formData, {  
+      .put(`${baseUrl}/api/users/editprofileimg/${userId}`, formData, {  
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${localStorage.getItem("token")}`,

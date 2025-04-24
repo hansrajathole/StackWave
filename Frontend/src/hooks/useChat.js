@@ -9,6 +9,7 @@ export const useChat = (roomId, userId) => {
   const [roomData, setRoomData] = useState({});
   const [code, setCode] = useState("");
   const messageBoxRef = useRef(null);
+  const baseUrl = "https://stackwave-y6a7.onrender.com"
 
   // Fetch room data and messages
   useEffect(() => {
@@ -16,7 +17,7 @@ export const useChat = (roomId, userId) => {
 
     const loadRoom = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/api/rooms/${roomId}`, {
+        const res = await axios.get(`${baseUrl}/api/rooms/${roomId}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },

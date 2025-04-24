@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:3000/api";
+const API_URL = "http://localhost:3000";
 
 const getAuthHeader = () => ({
   headers: {
@@ -11,7 +11,7 @@ const getAuthHeader = () => ({
 export const fixCode = async (code) => {
   try {
     const response = await axios.post(
-      `${API_URL}/ai/fix`,
+      `${API_URL}/api/ai/fix`,
       { code },
       getAuthHeader()
     );
@@ -24,7 +24,7 @@ export const fixCode = async (code) => {
 export const generateCode = async (prompt) => {
   try {
     const response = await axios.post(
-      `${API_URL}/ai/generatecode`,
+      `${API_URL}/api/ai/generatecode`,
       { prompt },
       getAuthHeader()
     );

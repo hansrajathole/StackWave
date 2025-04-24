@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:3000/api";
+const API_URL = "https://stackwave-y6a7.onrender.com";
 
 const getAuthHeader = () => ({
   headers: {
@@ -10,7 +10,7 @@ const getAuthHeader = () => ({
 
 export const fetchRooms = async () => {
   try {
-    const response = await axios.get(`${API_URL}/rooms`, getAuthHeader());
+    const response = await axios.get(`${API_URL}/api/rooms`, getAuthHeader());
     return response.data?.rooms || [];
   } catch (error) {
     throw error;
@@ -20,7 +20,7 @@ export const fetchRooms = async () => {
 export const createRoom = async (roomData) => {
   try {
     const response = await axios.post(
-      `${API_URL}/rooms`,
+      `${API_URL}/api/rooms`,
       roomData,
       getAuthHeader()
     );
@@ -33,7 +33,7 @@ export const createRoom = async (roomData) => {
 export const joinRoom = async (roomId) => {
   try {
     const response = await axios.patch(
-      `${API_URL}/rooms/${roomId}`,
+      `${API_URL}/api/rooms/${roomId}`,
       { roomId },
       getAuthHeader()
     );
@@ -46,7 +46,7 @@ export const joinRoom = async (roomId) => {
 export const deleteRoom = async (roomId) => {
   try {
     const response = await axios.delete(
-      `${API_URL}/rooms/${roomId}`,
+      `${API_URL}/api/rooms/${roomId}`,
       getAuthHeader()
     );
     return response.data;

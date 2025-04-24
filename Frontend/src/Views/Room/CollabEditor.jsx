@@ -32,6 +32,7 @@ const CollabEditor = () => {
   const [isLeaveOpen, setIsLeaveOpen] = useState(false);
   const [isPromptOpen, setisPromptOpen] = useState(false);
   const messageBox = React.createRef();
+  const baseUrl = "https://stackwave-y6a7.onrender.com"
 
   const editorRef = useRef();
 
@@ -42,7 +43,7 @@ const CollabEditor = () => {
 
   useEffect(() => {
     const loadRoom = async () => {
-      const res = await axios.get(`http://localhost:3000/api/rooms/${roomId}`, {
+      const res = await axios.get(`${baseUrl}/api/rooms/${roomId}`, {
         headers: {
           Authorization: `bearer ${localStorage.getItem("token")}`,
         },
@@ -113,7 +114,7 @@ const CollabEditor = () => {
     setOutput("Running...");
     await axios
       .post(
-        "http://localhost:3000/api/code/run",
+        `${baseUrl}/api/code/run`,
         {
           code,
           language: roomData.language,
@@ -149,7 +150,7 @@ const CollabEditor = () => {
 
     axios
       .post(
-        "http://localhost:3000/api/ai/fix",
+        `${baseUrl}/api/ai/fix `,
         { code },
         {
           headers: {
@@ -172,7 +173,7 @@ const CollabEditor = () => {
     console.log("Generating with prompt:", prompt);
     axios
       .post(
-        "http://localhost:3000/api/ai/generatecode",
+        `${baseUrl}/api/ai/generatecode`,
         { prompt },
         {
           headers: {

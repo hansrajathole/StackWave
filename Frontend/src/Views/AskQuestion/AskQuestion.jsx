@@ -11,6 +11,7 @@ function AskQuestion() {
   const [tags, setTags] = useState('');
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const baseUrl = "https://stackwave-y6a7.onrender.com"
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,7 +38,7 @@ function AskQuestion() {
     }
 
     try {
-      const response = await axios.post('http://localhost:3000/api/questions', {
+      const response = await axios.post(`${baseUrl}/api/questions`, {
         title: title.trim(),
         body,
         tags: processedTags,

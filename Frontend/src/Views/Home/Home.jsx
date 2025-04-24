@@ -13,11 +13,12 @@ const Home = () => {
   const isOpen = useSelector((state) => state.sidebar.isOpen);
   const navigate = useNavigate();
   const [userQuestions, setUserQuestions] = useState([]);
+  const baseUrl = "https://stackwave-y6a7.onrender.com"
 
   useEffect(() => {
     if (user?._id) {
       axios
-        .get(`http://localhost:3000/api/questions/user/${user._id}`, {
+        .get(`${baseUrl}/api/questions/user/${user._id}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },

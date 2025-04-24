@@ -10,9 +10,11 @@ const SignUp = () => {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
 
+  const baseUrl = "https://stackwave-y6a7.onrender.com"
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post("http://localhost:3000/api/auth/signup", { username, email, password })
+    axios.post(`${baseUrl}/api/auth/signup`, { username, email, password })
       .then((res) => {
         console.log(res.data.user);
         navigate("/login")

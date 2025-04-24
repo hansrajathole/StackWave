@@ -22,6 +22,8 @@ const Question = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const [filteredQuestions, setFilteredQuestions] = useState([]);
+  const baseUrl = "https://stackwave-y6a7.onrender.com"
+
   function formatTimeAgo(date) {
     const inputDate = new Date(date);
     const now = new Date();
@@ -35,7 +37,7 @@ const Question = () => {
   const handleSubmit = async () => {
     await axios
       .post(
-        "http://localhost:3000/api/questions",
+        `${baseUrl}/api/questions`,
         {
           title,
           body,
@@ -55,7 +57,7 @@ const Question = () => {
 
   const fetchQuestions = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/api/questions", {
+      const res = await axios.get(`${baseUrl}/api/questions`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setQuestions(res.data.questions);

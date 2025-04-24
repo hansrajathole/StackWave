@@ -12,13 +12,14 @@ export const useCodeEditor = (roomId, language = "") => {
   const [prompt, setPrompt] = useState("");
   const [isPromptOpen, setIsPromptOpen] = useState(false);
   const editorRef = useRef(null);
+  const baseUrl = "https://stackwave-y6a7.onrender.com"
 
   useEffect(() => {
     if (!roomId) return;
 
     const loadRoom = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/api/rooms/${roomId}`, {
+        const res = await axios.get(`${baseUrl}/api/rooms/${roomId}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },

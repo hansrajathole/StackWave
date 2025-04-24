@@ -11,7 +11,7 @@ const getAuthHeader = () => ({
 export const runCode = async (code, language) => {
   try {
     const response = await axios.post(
-      `${API_URL}/code/run`,
+      `${API_URL}/api/code/run`,
       { code, language },
       getAuthHeader()
     );

@@ -10,11 +10,12 @@ const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const baseUrl = "https://stackwave-y6a7.onrender.com"
 
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:3000/api/auth/signin", { email, password })
+      .post(`${baseUrl}/api/auth/signin`, { email, password })
       .then((res) => {
         dispatch(setAuthUser(res.data.user));
         localStorage.setItem("token", res.data.token);

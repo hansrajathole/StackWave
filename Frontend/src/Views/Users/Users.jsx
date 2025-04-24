@@ -13,10 +13,10 @@ const Users = () => {
 
     const [users, setUsers] = useState([]);
     const [search, setSearch] = useState("");
-   
+    const baseUrl = "https://stackwave-y6a7.onrender.com"
 
     useEffect(() => {
-      axios.get(`http://localhost:3000/api/users/all`,{
+      axios.get(`${baseUrl}/api/users/all`,{
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

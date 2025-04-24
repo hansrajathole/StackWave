@@ -31,10 +31,11 @@ const SingleQuestion = () => {
   const [questionVotes, setVotes] = useState(0);
   const token = localStorage.getItem("token");
   const user = useSelector((state) => state.auth.user);
+  const baseUrl = "https://stackwave-y6a7.onrender.com"
 
   const fetchQuestion = async () => {
     try {
-      const res = await axios.get(`http://localhost:3000/api/questions/${id}`, {
+      const res = await axios.get(`${baseUrl}/api/questions/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       // console.log(res.data.question.answers);
@@ -51,7 +52,7 @@ const SingleQuestion = () => {
   const handleQuestionVote = async (voteType) => {
     try {
       const res = await axios.patch(
-        `http://localhost:3000/api/questions/vote/${id}`,
+        `${baseUrl}/api/questions/vote/${id}`,
         { voteType },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -65,7 +66,7 @@ const SingleQuestion = () => {
   const handleAnswerVote = async (answerId, voteType) => {
     try {
       await axios.patch(
-        `http://localhost:3000/api/answers/vote/${answerId}`,
+        `${baseUrl}/api/answers/vote/${answerId}`,
         { voteType },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -79,7 +80,7 @@ const SingleQuestion = () => {
     if (!newAnswer.trim()) return;
     try {
       await axios.post(
-        `http://localhost:3000/api/answers/${id}`,
+        `${baseUrl}/api/answers/${id}`,
         { content: newAnswer },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -94,7 +95,7 @@ const SingleQuestion = () => {
 
   const handleDeleteQuestion = async () => {
     try {
-      await axios.delete(`http://localhost:3000/api/questions/${id}`, {
+      await axios.delete(`${baseUrl}/api/questions/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       toast.success("Question deleted!");
@@ -107,7 +108,7 @@ const SingleQuestion = () => {
 
   const handleDeleteAnswer = async (answerId) => {
     try {
-      await axios.delete(`http://localhost:3000/api/answers/${answerId}`, {
+      await axios.delete(`${baseUrl}/api/answers/${answerId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       toast.success("Answer deleted successfully");

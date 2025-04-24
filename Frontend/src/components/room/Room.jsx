@@ -13,7 +13,7 @@ const Room = () => {
   } = useRooms();
 
   return (
-    <div className="mx-auto p-6 max-sm:p-4 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white min-h-full">
+    <div className="mx-auto p-6 max-sm:p-4 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white min-h-full ">
       <RoomHeader 
         onJoin={handleJoinProject}
         onCreate={handleCreateProject}

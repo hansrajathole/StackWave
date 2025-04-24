@@ -12,7 +12,7 @@ import codeRoutes from './routes/code.routes.js'
 import aiRoutes from './routes/ai.routes.js'
 const app = express();
 
-const allowedOrigins = ["http://localhost:5173"];
+const allowedOrigins = ['https://stackwave-frontend.onrender.com'];
 app.use(
   cors({
     origin: allowedOrigins,

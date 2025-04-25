@@ -32,7 +32,7 @@ export default function ProfilePage() {
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`http://localhost:3000/api/users/${userId}`, {
+      .get(`${baseUrl}/api/users/${userId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

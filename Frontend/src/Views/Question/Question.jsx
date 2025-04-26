@@ -22,8 +22,8 @@ const Question = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const [filteredQuestions, setFilteredQuestions] = useState([]);
-  // const baseUrl = "https://stackwave-y6a7.onrender.com"
-  const baseUrl = "http://localhost:3000";
+  const baseUrl =  import.meta.env.VITE_BACKEND_URL
+
 
   function formatTimeAgo(date) {
     const inputDate = new Date(date);

@@ -9,8 +9,8 @@ export const useChat = (roomId, userId) => {
   const [roomData, setRoomData] = useState({});
   const [code, setCode] = useState("");
   const messageBoxRef = useRef(null);
-  // const baseUrl = "https://stackwave-y6a7.onrender.com"
-  const baseUrl = "http://localhost:3000";
+
+  const baseUrl = import.meta.env.VITE_BACKEND_URL
 
   // Fetch room data and messages
   useEffect(() => {

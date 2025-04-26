@@ -11,8 +11,7 @@ const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  // const baseUrl = "https://stackwave-y6a7.onrender.com"
-  const baseUrl = "http://localhost:3000";
+  const baseUrl = import.meta.env.VITE_BACKEND_URL 
 
   const handleSubmit = (e) => {
     e.preventDefault();

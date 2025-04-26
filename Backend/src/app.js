@@ -9,11 +9,10 @@ import roomsRoutes from './routes/rooms.routes.js'
 import adminRoutes from './routes/admin.routes.js'
 import codeRoutes from './routes/code.routes.js'
 import aiRoutes from './routes/ai.routes.js'
-
+import config from './config/config.js'
 const app = express();
 
-const allowedOrigins = ['https://stackwave-frontend.onrender.com'];
-const allowedOrigin = ['http://localhost:5173'];
+const allowedOrigin = config.BASE_URL
 app.use(
   cors({
     origin: allowedOrigin,

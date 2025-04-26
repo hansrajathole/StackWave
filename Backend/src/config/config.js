@@ -14,7 +14,8 @@ const _config = {
     GEMINI_API_KEY: process.env.GEMINI_API_KEY,
     IMAGEKIT_PUBLIC_KEY : process.env.IMAGEKIT_PUBLIC_KEY,
     IMAGEKIT_PRIVATE_KEY : process.env.IMAGEKIT_PRIVATE_KEY,
-    IMAGEKIT_URL: process.env.IMAGEKIT_URL  
+    IMAGEKIT_URL: process.env.IMAGEKIT_URL, 
+    BASE_URL: process.env.BASE_URL || 'http://localhost:3000', 
 }
 
 const config = Object.freeze(_config)

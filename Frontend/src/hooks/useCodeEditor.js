@@ -12,8 +12,8 @@ export const useCodeEditor = (roomId, language = "") => {
   const [prompt, setPrompt] = useState("");
   const [isPromptOpen, setIsPromptOpen] = useState(false);
   const editorRef = useRef(null);
-  // const baseUrl = "https://stackwave-y6a7.onrender.com"
-  const baseUrl = "http://localhost:3000";
+  const baseUrl = import.meta.env.VITE_BACKEND_URL
+
 
   useEffect(() => {
     if (!roomId) return;

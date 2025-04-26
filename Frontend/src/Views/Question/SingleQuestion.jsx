@@ -31,8 +31,8 @@ const SingleQuestion = () => {
   const [questionVotes, setVotes] = useState(0);
   const token = localStorage.getItem("token");
   const user = useSelector((state) => state.auth.user);
-  // const baseUrl = "https://stackwave-y6a7.onrender.com"
-  const baseUrl = "http://localhost:3000";
+  const baseUrl =  import.meta.env.VITE_BACKEND_URL
+
 
   const fetchQuestion = async () => {
     try {

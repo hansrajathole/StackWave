@@ -11,8 +11,10 @@ function AskQuestion() {
   const [tags, setTags] = useState('');
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  // const baseUrl = "https://stackwave-y6a7.onrender.com"
-  const baseUrl = "http://localhost:3000";
+  
+const baseUrl = import.meta.env.VITE_BACKEND_URL
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();

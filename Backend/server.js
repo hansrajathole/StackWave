@@ -7,8 +7,7 @@ import socketHandler from "./src/socket/index.js";
 import jwt from 'jsonwebtoken'
 
 const PORT = config.PORT;
-const allowedOrigins = ["https://stackwave-frontend.onrender.com"];
-const allowedOrigin = ['http://localhost:5173'];
+const allowedOrigin = config.BASE_URL
 const server = http.createServer(app);
 
 const io = new Server(server, {

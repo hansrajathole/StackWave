@@ -13,8 +13,9 @@ const Home = () => {
   const isOpen = useSelector((state) => state.sidebar.isOpen);
   const navigate = useNavigate();
   const [userQuestions, setUserQuestions] = useState([]);
-  // const baseUrl = "https://stackwave-y6a7.onrender.com"
-  const baseUrl = "http://localhost:3000";
+  const baseUrl =  import.meta.env.VITE_BACKEND_URL
+  
+  
 
   useEffect(() => {
     if (user?._id) {

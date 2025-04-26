@@ -5,8 +5,6 @@ import Navbar from "../Navbar/Navbar";
 import Users from "../../Views/Users/Users";
 import Room from "../room/Room";
 import Question from "../../Views/Question/Question";
-import Chat from "../../Views/Chats/Chat";
-import ChatWithUser from "../../Views/Chats/ChatWithUser";
 import Sidebar from "../Navbar/Sidebar";
 import AskQuestion from "../../Views/AskQuestion/AskQuestion";
 import { useSelector } from "react-redux";
@@ -54,15 +52,6 @@ const MainLayout = () => {
               }
             />
            
-           
-            <Route
-              path="/chat/:id"
-              element={
-                <Protected>
-                  <ChatWithUser />
-                </Protected>
-              }
-            />
             <Route
               path="/users"
               element={

@@ -15,7 +15,7 @@ const AnswerComments = ({ answerId, comments, refresh }) => {
   const [comment, setComment] = useState("");
   const user = useSelector((state) => state.auth.user);
   const token = localStorage.getItem("token");
-  const baseUrl = "https://stackwave-y6a7.onrender.com"
+  const baseUrl = import.meta.env.VITE_BACKEND_URL
 
   const handleCommentSubmit = async () => {
     if (!comment.trim()) return;

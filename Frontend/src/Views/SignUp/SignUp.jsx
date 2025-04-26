@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
+import toast from "react-hot-toast";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ const SignUp = () => {
     axios.post(`${baseUrl}/api/auth/signup`, { username, email, password })
       .then((res) => {
         console.log(res.data.user);
+        toast.success("Account created successfully! Please log in.");
         navigate("/login")
       })
       .catch((err) => {
@@ -91,7 +93,7 @@ const SignUp = () => {
 
           <button
             type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-semibold transition duration-200"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-semibold transition duration-200 active:scale-95"
           >
             Sign up
           </button>

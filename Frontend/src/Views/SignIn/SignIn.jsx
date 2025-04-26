@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import { setAuthUser } from "../../Redux/AuthSlice";
+import toast from "react-hot-toast";
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ const SignIn = () => {
       .then((res) => {
         dispatch(setAuthUser(res.data.user));
         localStorage.setItem("token", res.data.token);
+        toast.success("Logged in successfully!");
         navigate("/");
       })
       .catch((err) => {
@@ -90,7 +92,7 @@ const SignIn = () => {
 
           <button
             type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 transition text-white font-semibold py-2 rounded-lg"
+            className="w-full bg-blue-600 hover:bg-blue-700 transition text-white font-semibold py-2 rounded-lg  active:scale-95"
           >
             Sign In
           </button>

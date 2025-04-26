@@ -63,8 +63,7 @@ const Navbar = () => {
     <div className="flex h-screen z-40">
       <div className="flex-1">
         <nav className="bg-white dark:bg-gray-900 text-black dark:text-white p-3 flex items-center justify-between fixed top-0 left-0 w-full z-50 shadow-md">
-          {/* Hamburger Menu Icon */}
-
+      
           {/* Left Section - Logo */}
           <div className="flex items-center space-x-2 text-center">
             <span className="">

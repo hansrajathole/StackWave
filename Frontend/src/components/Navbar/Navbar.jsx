@@ -123,7 +123,7 @@ const Navbar = () => {
                     </div>
                     <div
                       className="px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
-                      onClick={() => navigate("/profile")}
+                      onClick={() => navigate(`/profile/${user._id}`)}
                     >
                       <span>View Profile</span>
                     </div>

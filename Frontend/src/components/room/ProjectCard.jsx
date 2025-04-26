@@ -38,6 +38,7 @@ const ProjectCard = ({ project, onDelete }) => {
               src={user.avatar}
               alt={user.username}
               className="w-8 h-8 rounded-full border-2 border-white dark:border-gray-800 cursor-pointer"
+              onClick={() => navigate(`/profile/${user._id}`)}
             />
           </Tippy>
         ))}
@@ -62,6 +63,7 @@ const ProjectCard = ({ project, onDelete }) => {
                 src={project.roomCreatedby.avatar}
                 alt="creator-avatar"
                 className="w-5 h-5 rounded-full cursor-pointer"
+                onClick={() => navigate(`/profile/${project.roomCreatedby._id}`)}
               />
             </Tippy>
           )}

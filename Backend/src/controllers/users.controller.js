@@ -7,7 +7,7 @@ export const getUserProfile = async (req, res) => {
         const user = await userModel.findById(userId).populate("questions").populate({
             path: "answers", 
             populate: {
-              path: "question",
+              path: "questionId",
               select: "title body tags", 
             },
           })

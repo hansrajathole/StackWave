@@ -22,13 +22,7 @@ const Sidebar = () => {
         </Link>
         
       
-        <Link
-          to="/chat"
-          className="flex items-center space-x-2 p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 active:bg-gray-300 dark:active:bg-gray-600 rounded-md"
-        >
-          <span>📢</span>
-          <span>Chat</span>
-        </Link>
+       
         <Link
           to="/users"
           className="flex items-center space-x-2 p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 active:bg-gray-300 dark:active:bg-gray-600 rounded-md"
@@ -62,13 +56,13 @@ const Sidebar = () => {
           Communities for your favorite technologies.
         </p>
         <Link
-          to="/collectives"
+          to="#"
           className="text-blue-600 dark:text-blue-400 text-sm hover:underline"
         >
           Explore all Collectives
         </Link>
       </div>
-
+      <br /><br />
       {/* Teams Section */}
       <div className="mt-6 bg-gray-100 dark:bg-gray-800 p-3 rounded-lg">
         <h3 className="text-sm font-bold text-black dark:text-white">TEAMS</h3>

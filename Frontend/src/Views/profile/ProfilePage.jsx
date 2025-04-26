@@ -26,7 +26,8 @@ export default function ProfilePage() {
 
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.auth.user);
-  const baseUrl = "https://stackwave-y6a7.onrender.com"
+  // const baseUrl = "https://stackwave-y6a7.onrender.com"
+  const baseUrl = "http://localhost:3000";
 
   // Fetch user data
   useEffect(() => {

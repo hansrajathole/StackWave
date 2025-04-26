@@ -32,7 +32,8 @@ const CollabEditor = () => {
   const [isLeaveOpen, setIsLeaveOpen] = useState(false);
   const [isPromptOpen, setisPromptOpen] = useState(false);
   const messageBox = React.createRef();
-  const baseUrl = "https://stackwave-y6a7.onrender.com"
+  // const baseUrl = "https://stackwave-y6a7.onrender.com"
+  const baseUrl = "http://localhost:3000";
 
   const editorRef = useRef();
 

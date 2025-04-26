@@ -10,7 +10,8 @@ const SignUp = () => {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
 
-  const baseUrl = "https://stackwave-y6a7.onrender.com"
+  // const baseUrl = "https://stackwave-y6a7.onrender.com"
+  const baseUrl = "http://localhost:3000";
 
   const handleSubmit = (e) => {
     e.preventDefault();

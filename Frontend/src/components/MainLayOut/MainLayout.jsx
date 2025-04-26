@@ -11,6 +11,7 @@ import Sidebar from "../Navbar/Sidebar";
 import AskQuestion from "../../Views/AskQuestion/AskQuestion";
 import { useSelector } from "react-redux";
 import SingleQuestion from "../../Views/Question/SingleQuestion";
+import Leaderboard from "../leaderboard/Leaderboard";
 const MainLayout = () => {
 
   
@@ -53,14 +54,7 @@ const MainLayout = () => {
               }
             />
            
-            <Route
-              path="/chat"
-              element={
-                <Protected>
-                  <Chat />
-                </Protected>
-              }
-            />
+           
             <Route
               path="/chat/:id"
               element={
@@ -82,6 +76,14 @@ const MainLayout = () => {
               element={
                 <Protected>
                   <AskQuestion />
+                </Protected>
+              }
+            />
+            <Route
+              path="/leaderboard"
+              element={
+                <Protected>
+                  <Leaderboard />
                 </Protected>
               }
             />

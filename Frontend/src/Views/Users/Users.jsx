@@ -13,7 +13,8 @@ const Users = () => {
 
     const [users, setUsers] = useState([]);
     const [search, setSearch] = useState("");
-    const baseUrl = "https://stackwave-y6a7.onrender.com"
+    // const baseUrl = "https://stackwave-y6a7.onrender.com"
+    const baseUrl = "http://localhost:3000";
 
     useEffect(() => {
       axios.get(`${baseUrl}/api/users/all`,{

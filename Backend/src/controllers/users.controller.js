@@ -133,3 +133,20 @@ export const updateProfileImage = async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 }
+
+
+export const getUsersByReputation = async (req, res) => {
+    try {
+        
+        const users = await userModel.find().sort({ reputation: -1 }).limit(10);
+        if (!users) {
+            return res.status(404).json({ message: "No users found" });
+        }
+        return res.status(200).json({ message : "Users fetched successfully", users });
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+

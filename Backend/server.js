@@ -8,12 +8,12 @@ import jwt from 'jsonwebtoken'
 
 const PORT = config.PORT;
 const allowedOrigins = ["https://stackwave-frontend.onrender.com"];
-
+const allowedOrigin = ['http://localhost:5173'];
 const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: allowedOrigins,
+    origin: allowedOrigin,
     credentials: true,
     methods: ["GET", "POST"]
   }

@@ -2,28 +2,32 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import toast from "react-hot-toast";
-
+import { useDispatch } from "react-redux";
+import { setAuthUser } from "../../Redux/AuthSlice";
 const SignUp = () => {
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
-
-  // const baseUrl = "https://stackwave-y6a7.onrender.com"
+  const [isSignup, setisSignup] = useState(false)
   const baseUrl = import.meta.env.VITE_BACKEND_URL
 
   const handleSubmit = (e) => {
+    setisSignup(true)
     e.preventDefault();
     axios.post(`${baseUrl}/api/auth/signup`, { username, email, password })
       .then((res) => {
-        console.log(res.data.user);
-        toast.success("Account created successfully! Please log in.");
-        navigate("/login")
+        console.log(res.data);
+        toast.success(res.data.message);
+        navigate("/login/otpVerification", { state: { email } });
       })
       .catch((err) => {
         console.log(err);
+        toast.error(err.response.data.message);
+        setisSignup(false)
+
       });
   };
 
@@ -93,9 +97,14 @@ const SignUp = () => {
 
           <button
             type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-semibold transition duration-200 active:scale-95"
+            className={`w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-semibold transition duration-200 active:scale-95 ${
+              isSignup ? "opacity-50 cursor-not-allowed" : "opacity-100 cursor-pointer"
+            }`}
           >
-            Sign up
+           {
+            isSignup ? ("Please wait...") : ("Sign Up")
+
+           }
           </button>
 
           <div className="flex items-center justify-center space-x-2 mt-4">

@@ -76,6 +76,12 @@ const userSchema = mongoose.Schema({
             ref: "Answer"
         }
     ],
+    isVerified: {
+        type: Boolean,
+        default: false
+    },
+
+    
 }, { timestamps: true })
 
 

@@ -10,7 +10,7 @@ import ProtectedRoute from '../components/Protected/Protecte'
 import CollabEditor from '../components/editor/CollabEditor'
 import ProfilePage from '../Views/profile/ProfilePage'
 import Home from '../Views/Home/Home'
-
+import OtpForm from '../components/otpVerification/OtpForm'
 const AppRouter = () => {
   const user = useSelector((state)=> state.auth.user)
   
@@ -21,6 +21,7 @@ const AppRouter = () => {
         <Route path="/" element={<Home/>} />
         <Route path="/signup" element={<SignUp/>} />
         <Route path="/login" element={<SignIn />} />
+        <Route path="/login/otpVerification" element={<OtpForm/>} />
         <Route path="/rooms/room/:roomId" element={
               <ProtectedRoute>
                 <CollabEditor/>

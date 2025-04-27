@@ -1,5 +1,5 @@
 import userModel from "../models/user.model.js"
-
+import { sendOTP } from "../controllers/otp.controller.js";
 export const createUser = async function ({ username, email, password  }) {
   
         if(!username || !email || !password) {
@@ -22,11 +22,16 @@ export const createUser = async function ({ username, email, password  }) {
         const newUser = new userModel({
             username,
             email,
-            password : hashedPassword
+            password : hashedPassword,
+            isVerified: false
         });
 
         await newUser.save();
 
+        // Send OTP for email verification
+        await sendOTP(email);
+
+        
         return newUser
 
 }
@@ -50,6 +55,15 @@ export const loginUser = async function ({username , email , password}) {
     if(!user){
         throw new Error("username or password is incorrect")
     }
+
+    if (!user.isVerified) {
+        return res.status(400).json({ 
+          success: false, 
+          message: 'Please verify your email before logging in',
+          requireVerification: true,
+          email: user.email
+        });
+      }
 
     const isMatch = await user.verifyPassword(password)
     

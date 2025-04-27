@@ -1,8 +1,10 @@
 import { validationResult } from "express-validator"
 import * as userService from "../services/user.service.js"
 import userModel from "../models/user.model.js"
-import questionModel from '../models/quetions.model.js'
+import { sendOTP } from "./otp.controller.js"
 import redis from "../services/redis.service.js"
+
+
 export const singupController = async (req,res)=>{
     
     const {username, email, password} = req.body
@@ -22,12 +24,14 @@ export const singupController = async (req,res)=>{
             password
         })
  
+
         delete user._doc.password
 
-        const token = await user.generateToken()
-        console.log(token);
-        
-        res.json({message: "User registered successfully", token: token, user})
+        res.status(200).json({ 
+            success: true, 
+            message: 'OTP sent successfully to your email' ,
+            user
+        });
 
     } catch (error) {
         console.log("Error in singupController : ", error.message);
@@ -50,7 +54,8 @@ export const loginController = async (req , res) => {
         const user = await userService.loginUser({
             username,
             email,
-            password
+            password,
+           
         })
 
         delete user._doc.password
@@ -66,6 +71,38 @@ export const loginController = async (req , res) => {
         res.status(500).json({ message: error.message || "Internal Server Error" });   
     }
 }
+
+
+export const resendOTP = async (req, res) => {
+    try {
+      const { email } = req.body;
+      
+      
+      const user = await userModel.findOne({ email });
+      if (!user) {
+        return res.status(400).json({ 
+          success: false, 
+          message: 'User not found' 
+        });
+      }
+      
+      // Send OTP
+      await sendOTP(email);
+
+      res.status(200).json({
+        success: true, 
+        message: 'OTP resent successfully' 
+      });
+      
+    } catch (error) {
+      console.error('Error in resendOTP:', error);
+      res.status(500).json({ 
+        success: false, 
+        message: 'Error resending OTP', 
+        error: error.message 
+      });
+    }
+  };
 
 export const meController =  async (req, res)=>{
     try {

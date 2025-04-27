@@ -15,7 +15,9 @@ const _config = {
     IMAGEKIT_PUBLIC_KEY : process.env.IMAGEKIT_PUBLIC_KEY,
     IMAGEKIT_PRIVATE_KEY : process.env.IMAGEKIT_PRIVATE_KEY,
     IMAGEKIT_URL: process.env.IMAGEKIT_URL, 
-    BASE_URL: process.env.BASE_URL 
+    BASE_URL: process.env.BASE_URL,
+    EMAIL_USER : process.env.EMAIL_USER,
+    EMAIL_PASSWORD: process.env.EMAIL_PASSWORD
 }
 
 const config = Object.freeze(_config)

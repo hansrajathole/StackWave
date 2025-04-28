@@ -2,17 +2,15 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import toast from "react-hot-toast";
-import { useDispatch } from "react-redux";
-import { setAuthUser } from "../../Redux/AuthSlice";
+
+
 const SignUp = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [isSignup, setisSignup] = useState(false)
-  const [error, setError] = useState(null)
   const baseUrl = import.meta.env.VITE_BACKEND_URL
 
   const handleSubmit = (e) => {

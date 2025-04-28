@@ -13,7 +13,7 @@ export const createUser = async function ({ username, email, password  }) {
         console.log(alreadyExist);
         
         if(alreadyExist){
-            throw new Error("User already exists");
+            throw new Error("username or email already exist");
         }
         
         const hashedPassword = await userModel.hashedPassword(password);

@@ -12,6 +12,7 @@ const SignUp = () => {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [isSignup, setisSignup] = useState(false)
+  const [error, setError] = useState(null)
   const baseUrl = import.meta.env.VITE_BACKEND_URL
 
   const handleSubmit = (e) => {
@@ -26,6 +27,7 @@ const SignUp = () => {
       .catch((err) => {
         console.log(err);
         toast.error(err.response.data.message);
+        setError(err.response.data.message)
         setisSignup(false)
 
       });

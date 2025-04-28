@@ -14,8 +14,14 @@ const EditorToolbar = ({
   onLeave,
   onFix,
   onRun,
-  onGenerate
+  onGenerate,
+  isFix,
+  setisFix,
+
+
 }) => {
+  console.log(isLeaveOpen)
+  console.log(isFix)
   return (
     <div className="flex items-center justify-between p-3 shadow dark:shadow-lg border-b border-gray-200 dark:border-gray-800">
       <div className="flex gap-3 items-center">
@@ -43,10 +49,14 @@ const EditorToolbar = ({
         />
 
         <Button
-          className="bg-gray-700 hover:bg-gray-600 transition"
-          onClick={onFix}
+          className="bg-gray-700 hover:bg-gray-600 transition active:scale-95"
+          onClick={()=>{
+            setisFix(!isFix)
+            onFix()
+          }}
+
         >
-          Fix
+         {isFix ? "Fixing..." : "Fix Code"}
         </Button>
         <Button
           className="bg-blue-600 hover:bg-blue-700 transition"

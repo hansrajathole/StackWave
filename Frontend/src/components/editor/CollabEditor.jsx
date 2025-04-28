@@ -29,7 +29,10 @@ const CollabEditor = () => {
     handleRunCode,
     handleFixCode,
     handleGenerateCode,
-    onEditorMount
+    onEditorMount,
+    isFix,
+    setisFix,
+
   } = useCodeEditor(roomId);
 
   const {
@@ -47,8 +50,9 @@ const CollabEditor = () => {
     setIsLeaveOpen(false);
     navigate("/rooms");
   };
-
+  
   return (
+    
     <div className="h-screen w-full mx-auto bg-white dark:bg-gray-900 text-gray-900 dark:text-white flex flex-col overflow-hidden">
       {/* Toolbar */}
       <EditorToolbar
@@ -63,6 +67,8 @@ const CollabEditor = () => {
         onFix={() => handleFixCode()}
         onRun={() => handleRunCode(roomData.language)}
         onGenerate={handleGenerateCode}
+        isFix={isFix}
+        setisFix={setisFix}
       />
 
       {/* Main Content */}

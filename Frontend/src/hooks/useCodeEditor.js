@@ -11,9 +11,9 @@ export const useCodeEditor = (roomId, language = "") => {
   const [showRunCode, setShowRunCode] = useState(false);
   const [prompt, setPrompt] = useState("");
   const [isPromptOpen, setIsPromptOpen] = useState(false);
+  const [isFix, setisFix] = useState(false)
   const editorRef = useRef(null);
   const baseUrl = import.meta.env.VITE_BACKEND_URL
-
 
   useEffect(() => {
     if (!roomId) return;
@@ -26,7 +26,6 @@ export const useCodeEditor = (roomId, language = "") => {
           },
         });
         setCode(res.data.codeContent);
-        console.log(code);
         
       } catch (error) {
         console.error("Failed to load room data:", error);
@@ -74,6 +73,7 @@ export const useCodeEditor = (roomId, language = "") => {
     try {
       const result = await fixCode(code);
       setCode(result.fixCode);
+      setisFix((prevIsFix) => !prevIsFix);
       toast.success("Code fixed successfully");
     } catch (error) {
       toast.error("Failed to fix code");
@@ -119,6 +119,8 @@ export const useCodeEditor = (roomId, language = "") => {
     handleRunCode,
     handleFixCode,
     handleGenerateCode,
-    onEditorMount
+    onEditorMount,
+    isFix,
+    setisFix
   };
 };

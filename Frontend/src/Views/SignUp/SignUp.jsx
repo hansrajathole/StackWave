@@ -24,9 +24,8 @@ const SignUp = () => {
       })
       .catch((err) => {
         console.log(err);
-        toast.error(err.response.data.message);
-        setError(err.response.data.message)
         setisSignup(false)
+        toast.error(err.response.data.message);
 
       });
   };

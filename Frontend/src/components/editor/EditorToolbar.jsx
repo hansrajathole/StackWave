@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import LeaveRoomDialog from "./dialogs/LeaveRoomDialog";
 import PromptDialog from "./dialogs/PromptDialog";
-import { IoIosArrowDown } from "react-icons/io";
 import { FiCopy, FiCheck } from "react-icons/fi";
 
 const EditorToolbar = ({
@@ -20,6 +19,8 @@ const EditorToolbar = ({
   isFix,
   setisFix,
 }) => {
+
+
   const [copied, setCopied] = useState(false);
 
   const handleCopyRoomId = () => {

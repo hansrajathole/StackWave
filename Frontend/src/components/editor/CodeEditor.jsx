@@ -11,6 +11,9 @@ const CodeEditor = ({ language, code, onChange, onMount, options = {} }) => {
     ...options
   };
 
+  const monacoTheme = document.documentElement.classList.contains('dark') ? 'vs-dark' : 'light';
+
+
   return (
     <div className="h-full w-full overflow-hidden rounded">
       <Editor
@@ -18,7 +21,7 @@ const CodeEditor = ({ language, code, onChange, onMount, options = {} }) => {
         language={language}
         value={code}
         onChange={onChange}
-        theme="vs-dark"
+        theme={monacoTheme}
         onMount={onMount}
         options={defaultOptions}
       />

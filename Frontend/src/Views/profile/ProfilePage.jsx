@@ -205,7 +205,7 @@ export default function ProfilePage() {
                   </AvatarFallback>
                 </Avatar>
                { user._id === userData._id && (
-                <div className="absolute bottom-0 right-4 ">
+                <div className="absolute bottom-0 right-7 ">
                 <Input
                    accept="image/*"
                    name="image"
@@ -218,9 +218,9 @@ export default function ProfilePage() {
                  <button
                    type="button"
                    onClick={() => imageRef.current.click()}
-                   className="text-center flex justify-center cursor-pointer text-4xl"
+                   className="text-center flex justify-center cursor-pointer text-4xl rounded-full bg-gray-400 m-auto"
                  >
-                  <i className="ri-add-line"></i>
+                  <i className="ri-pencil-line text-2xl m-auto px-1" ></i>
                  </button>
                 </div>
                )}

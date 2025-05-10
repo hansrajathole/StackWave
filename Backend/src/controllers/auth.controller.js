@@ -3,6 +3,7 @@ import * as userService from "../services/user.service.js"
 import userModel from "../models/user.model.js"
 import { sendOTP } from "./otp.controller.js"
 import redis from "../services/redis.service.js"
+import config from "../config/config.js"
 
 
 export const singupController = async (req,res)=>{
@@ -127,3 +128,31 @@ export const logoutController = async (req, res) => {
 
     res.status(200).json({message: "User logged out successfully"})
 }
+
+
+
+export const googleCallback = (req, res) => {
+    // Generate JWT
+    const token = jwt.sign(
+      { 
+        id: req.user._id,
+        email: req.user.email,
+        name: req.user.displayName
+      },
+      config.JWT_SECRET,
+      { expiresIn: '1d' }
+    );
+
+    res.redirect(`/auth-success?token=${token}`);
+  };
+  
+  export const authSuccess = (req, res) => {
+    res.send(`
+      <h1>Authentication Successful!</h1>
+      <p>You can close this window and return to the app.</p>
+      <script>
+        // This script can be used to communicate the token back to your frontend app
+        window.opener.postMessage({ token: '${req.query.token}' }, '*');
+      </script>
+    `);
+  };

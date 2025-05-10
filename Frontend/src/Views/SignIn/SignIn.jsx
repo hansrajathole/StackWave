@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import { setAuthUser } from "../../Redux/AuthSlice";
 import toast from "react-hot-toast";
+import { useGoogleLogin } from "@react-oauth/google";
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -11,7 +12,31 @@ const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const baseUrl = import.meta.env.VITE_BACKEND_URL 
+  const baseUrl = import.meta.env.VITE_BACKEND_URL;
+
+  // Function to handle Google OAuth
+  const handleGoogleLogin = (access_token) => {
+    axios.post(baseUrl + "/api/auth/google-login", { accessToken: access_token })
+      .then((res) => {
+        const {token,user,message} = res.data;
+        console.log(user);
+        localStorage.setItem("token",token)
+        dispatch(addUser({user,token}))
+        toast.success(message)
+        navigate("/");
+      })
+      .catch((err) => {
+        toast.error(err?.response?.data?.message)
+        console.log(err);
+      });
+    };
+
+    const googleLogin = useGoogleLogin({
+        onSuccess : (response) => {
+            handleGoogleLogin(response.access_token);
+        },
+        onError : () => toast("Google Login Failed...!")
+    })
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -92,7 +117,7 @@ const SignIn = () => {
 
           <button
             type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 transition text-white font-semibold py-2 rounded-lg  active:scale-95"
+            className="w-full bg-blue-600 hover:bg-blue-700 transition text-white font-semibold py-2 rounded-lg active:scale-95"
           >
             Sign In
           </button>
@@ -103,7 +128,11 @@ const SignIn = () => {
             <div className="w-[45%] h-px bg-gray-400 dark:bg-white" />
           </div>
 
-          <button className="w-full flex items-center justify-center gap-2 mt-2 bg-white dark:bg-gray-100 text-black px-4 py-2 rounded-lg hover:bg-gray-200 transition">
+          <button 
+            type="button"
+            onClick={googleLogin}
+            className="w-full flex items-center justify-center gap-2 mt-2 bg-white dark:bg-gray-100 text-black px-4 py-2 rounded-lg hover:bg-gray-200 transition"
+          >
             <svg
               width="20"
               height="20"
@@ -120,8 +149,9 @@ const SignIn = () => {
           </button>
 
           <p className="text-sm text-gray-600 dark:text-gray-400 text-center mt-4">
-            Don’t have an account yet?{" "}
+            Don't have an account yet?{" "}
             <button
+              type="button"
               onClick={() => navigate("/signup")}
               className="text-blue-500 hover:underline"
             >

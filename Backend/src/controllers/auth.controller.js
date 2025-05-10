@@ -140,7 +140,7 @@ export const googleCallback = (req, res) => {
         name: req.user.displayName
       },
       config.JWT_SECRET,
-      { expiresIn: '7d' }
+      {  expiresIn: '7d' }
     );
 
     res.redirect(`/auth-success?token=${token}`);
@@ -156,3 +156,39 @@ export const googleCallback = (req, res) => {
       </script>
     `);
   };
+
+
+
+  export const googleLoginController = async function(req,res){
+    try{
+        const { accessToken } = req.body;
+        const googleResponse = await axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${accessToken}`);
+        console.log(googleResponse.data);
+        const {email,name,picture} = googleResponse.data;
+
+        let user = await userModel.findOne({email});
+
+        if(!user){
+            user = await userModel.create({
+                username: name,
+                email,
+                isVerified: true,
+                avatar: picture
+            })
+        }
+
+        const token = user.generateToken();
+
+        res.status(200).json({
+            user,
+            token,
+            message: "User login successfully"
+        })
+
+    }
+    catch(err){
+        res.status(500).json({
+            message: err.message
+        })
+    }
+}

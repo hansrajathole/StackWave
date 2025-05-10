@@ -140,7 +140,7 @@ export const googleCallback = (req, res) => {
         name: req.user.displayName
       },
       config.JWT_SECRET,
-      { expiresIn: '1d' }
+      { expiresIn: '7d' }
     );
 
     res.redirect(`/auth-success?token=${token}`);

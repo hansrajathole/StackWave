@@ -13,6 +13,10 @@ const userSchema = mongoose.Schema({
         trim: true,
         lowercase : true
     }, 
+    googleId : {
+        type : String,
+        unique : true,
+    },
     email : {
         type : String,
         unique : [true , "email is already exist"],

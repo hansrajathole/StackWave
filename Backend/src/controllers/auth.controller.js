@@ -4,7 +4,7 @@ import userModel from "../models/user.model.js"
 import { sendOTP } from "./otp.controller.js"
 import redis from "../services/redis.service.js"
 import config from "../config/config.js"
-
+import axios from "axios"
 
 export const singupController = async (req,res)=>{
     
@@ -145,7 +145,7 @@ export const googleCallback = (req, res) => {
 
     res.redirect(`/auth-success?token=${token}`);
   };
-  
+
   export const authSuccess = (req, res) => {
     res.send(`
       <h1>Authentication Successful!</h1>

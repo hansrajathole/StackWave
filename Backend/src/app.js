@@ -23,7 +23,11 @@ app.use(
     credentials: true
   })
 );
-
+app.use((req, res, next) => {
+  res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
+  res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
+  next();
+});
 app.use(
   session({
     secret: config.JWT_SECRET, // Replace with a secure secret key

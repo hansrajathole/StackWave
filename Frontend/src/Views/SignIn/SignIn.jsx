@@ -20,12 +20,12 @@ const SignIn = () => {
         const {token,user,message} = res.data;
         console.log(user);
         localStorage.setItem("token",token)
-        // dispatch(addUser({user,token}))
+        dispatch(setAuthUser(user));
         toast.success(message)
         navigate("/");
       })
       .catch((err) => {
-        // toast.error(err?.response?.data?.message)
+        toast.error(err?.response?.data?.message)
         console.log(err);
       });
     };

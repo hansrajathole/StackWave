@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import toast from "react-hot-toast";
+import { useGoogleLogin } from "@react-oauth/google";
+import { useDispatch } from "react-redux";
+import { setAuthUser } from "../../Redux/AuthSlice";
 
 
 const SignUp = () => {
@@ -13,6 +16,7 @@ const SignUp = () => {
   const [isSignup, setisSignup] = useState(false)
   const baseUrl = import.meta.env.VITE_BACKEND_URL
 
+  const dispatch = useDispatch();
   const handleSubmit = (e) => {
     setisSignup(true)
     e.preventDefault();
@@ -30,6 +34,28 @@ const SignUp = () => {
       });
   };
 
+  const handleGoogleLogin = (access_token) => {
+    axios.post(baseUrl+"/api/auth/google-login", { accessToken: access_token })
+      .then((res) => {
+        const {token,user,message} = res.data;
+        console.log(user);
+        localStorage.setItem("token",token)
+        dispatch(setAuthUser(user));
+        toast.success(message)
+        navigate("/");
+      })
+      .catch((err) => {
+        toast.error(err?.response?.data?.message)
+        console.log(err);
+      });
+    };
+
+    const googleLogin = useGoogleLogin({
+        onSuccess : (response) => {
+            handleGoogleLogin(response.access_token);
+        },
+        onError : () => toast("Google Login Failed...!")
+    })
   return (
     <section className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-950 transition-colors duration-300">
       <div className="w-full max-w-md bg-white dark:bg-gray-900 rounded-2xl shadow-md p-8 transition-all duration-300">
@@ -112,7 +138,9 @@ const SignUp = () => {
             <div className="w-1/4 h-px bg-gray-300 dark:bg-gray-600" />
           </div>
 
-          <button className="w-full flex items-center justify-center gap-2 mt-2 bg-white dark:bg-gray-100 text-black px-4 py-2 rounded-lg hover:bg-gray-200 transition">
+          <button className="w-full flex items-center justify-center gap-2 mt-2 bg-white dark:bg-gray-100 text-black px-4 py-2 rounded-lg hover:bg-gray-200 transition"
+          onClick={googleLogin}
+          >
             <svg
               width="20"
               height="20"

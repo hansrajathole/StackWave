@@ -18,8 +18,11 @@ const SignIn = () => {
     axios.post(baseUrl+"/api/auth/google-login", { accessToken: access_token })
       .then((res) => {
         const {token,user,message} = res.data;
-        console.log(user);
+        console.log(res);
+        
+        console.log(token);
         localStorage.setItem("token",token)
+
         dispatch(setAuthUser(user));
         toast.success(message)
         navigate("/");

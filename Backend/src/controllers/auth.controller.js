@@ -3,7 +3,6 @@ import * as userService from "../services/user.service.js"
 import userModel from "../models/user.model.js"
 import { sendOTP } from "./otp.controller.js"
 import redis from "../services/redis.service.js"
-import config from "../config/config.js"
 import axios from "axios"
 
 export const singupController = async (req,res)=>{
@@ -129,37 +128,7 @@ export const logoutController = async (req, res) => {
     res.status(200).json({message: "User logged out successfully"})
 }
 
-
-
-export const googleCallback = (req, res) => {
-    // Generate JWT
-    const token = jwt.sign(
-      { 
-        id: req.user._id,
-        email: req.user.email,
-        name: req.user.displayName
-      },
-      config.JWT_SECRET,
-      {  expiresIn: '7d' }
-    );
-
-    res.redirect(`/auth-success?token=${token}`);
-  };
-
-  export const authSuccess = (req, res) => {
-    res.send(`
-      <h1>Authentication Successful!</h1>
-      <p>You can close this window and return to the app.</p>
-      <script>
-        // This script can be used to communicate the token back to your frontend app
-        window.opener.postMessage({ token: '${req.query.token}' }, '*');
-      </script>
-    `);
-  };
-
-
-
-  export const googleLoginController = async function(req,res){
+export const googleLoginController = async function(req,res){
     try{
         const { accessToken } = req.body;
         const googleResponse = await axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${accessToken}`);
@@ -177,8 +146,9 @@ export const googleCallback = (req, res) => {
             })
         }
 
-        const token = user.generateToken();
-
+        const token = await user.generateToken();
+        console.log(token ,'kua bai');
+        
         res.status(200).json({
             user,
             token,

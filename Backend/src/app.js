@@ -8,7 +8,7 @@ import answerRoutes from './routes/answer.routes.js'
 import roomsRoutes from './routes/rooms.routes.js'
 import adminRoutes from './routes/admin.routes.js'
 import codeRoutes from './routes/code.routes.js'
-import { session } from 'passport';
+import session from 'express-session';
 import aiRoutes from './routes/ai.routes.js'
 import config from './config/config.js'
 import configurePassport from './services/passport.service.js';
@@ -23,8 +23,23 @@ app.use(
     credentials: true
   })
 );
+
+app.use(
+  session({
+    secret: config.JWT_SECRET, // Replace with a secure secret key
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: false, // Set to true if using HTTPS
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24, // 1 day
+    },
+  })
+);
+
 configurePassport();
 app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"))

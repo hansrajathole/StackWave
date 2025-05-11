@@ -4,6 +4,21 @@ import User from '../models/user.model.js';
 import config from '../config/config.js';
 
 const configurePassport = () => {
+
+  passport.serializeUser((user, done) => {
+    done(null, user.id);
+  });
+  
+  // Deserialize user
+  passport.deserializeUser(async (id, done) => {
+    try {
+      const user = await User.findById(id);
+      done(null, user);
+    } catch (err) {
+      done(err, null);
+    }
+  });
+
   passport.use(new GoogleStrategy({
     clientID: config.GOOGLE_CLIENT_ID,
     clientSecret: config.GOOGLE_CLIENT_SECRET,

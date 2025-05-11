@@ -14,26 +14,25 @@ const SignIn = () => {
   const [email, setEmail] = useState("");
   const baseUrl = import.meta.env.VITE_BACKEND_URL;
 
-  // Function to handle Google OAuth
   const handleGoogleLogin = (access_token) => {
-    axios.post(baseUrl + "/api/auth/google-login", { accessToken: access_token })
+    axios.post(baseUrl+"/api/auth/google-login", { accessToken: access_token })
       .then((res) => {
         const {token,user,message} = res.data;
         console.log(user);
         localStorage.setItem("token",token)
-        dispatch(addUser({user,token}))
+        // dispatch(addUser({user,token}))
         toast.success(message)
         navigate("/");
       })
       .catch((err) => {
-        toast.error(err?.response?.data?.message)
+        // toast.error(err?.response?.data?.message)
         console.log(err);
       });
     };
 
     const googleLogin = useGoogleLogin({
         onSuccess : (response) => {
-           console.log(response.access_token);
+            handleGoogleLogin(response.access_token);
         },
         onError : () => toast("Google Login Failed...!")
     })

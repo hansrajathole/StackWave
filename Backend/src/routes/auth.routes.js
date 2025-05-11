@@ -13,6 +13,6 @@ router.post("/verify-otp", otpController.verifyOTP);
 router.post("/resend-otp", authController.resendOTP);
 router.get("/me", protectRoute, authController.meController);
 
-router.get('/google-login', authController.googleLoginController);
+router.post('/google-login', authController.googleLoginController);
 
 export default router;

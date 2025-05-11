@@ -33,7 +33,7 @@ const SignIn = () => {
 
     const googleLogin = useGoogleLogin({
         onSuccess : (response) => {
-            handleGoogleLogin(response.access_token);
+           console.log(response.access_token);
         },
         onError : () => toast("Google Login Failed...!")
     })

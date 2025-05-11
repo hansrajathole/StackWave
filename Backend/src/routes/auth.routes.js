@@ -15,11 +15,4 @@ router.get("/me", protectRoute, authController.meController);
 
 router.get('/google-login', authController.googleLoginController);
 
-  router.get('/google/callback',
-    passport.authenticate('google', { session: false }),
-    googleCallback
-  );
-  router.get('/success', authSuccess);
-router.get("/logout", protectRoute, authController.logoutController);
-
 export default router;

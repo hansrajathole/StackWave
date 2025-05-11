@@ -10,8 +10,7 @@ import adminRoutes from './routes/admin.routes.js'
 import codeRoutes from './routes/code.routes.js'
 import aiRoutes from './routes/ai.routes.js'
 import config from './config/config.js'
-import configurePassport from './services/passport.service.js';
-import passport from 'passport';
+
 
 const app = express();
 
@@ -22,8 +21,6 @@ app.use(
     credentials: true
   })
 );
-configurePassport();
-app.use(passport.initialize());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"))

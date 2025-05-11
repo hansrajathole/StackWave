@@ -22,7 +22,7 @@ const configurePassport = () => {
   passport.use(new GoogleStrategy({
     clientID: config.GOOGLE_CLIENT_ID,
     clientSecret: config.GOOGLE_CLIENT_SECRET,
-    callbackURL: config.BASE_URL+'/auth/google/callback',
+    callbackURL: config.CALLBACK_URL+'/auth/google/callback',
   }, async (accessToken, refreshToken, profile, done) => {
     try {
       // Check if user exists

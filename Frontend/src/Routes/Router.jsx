@@ -11,6 +11,7 @@ import CollabEditor from '../components/editor/CollabEditor'
 import ProfilePage from '../Views/profile/ProfilePage'
 import Home from '../Views/Home/Home'
 import OtpForm from '../components/otpVerification/OtpForm'
+import ForgetPass from '../components/forgetPassword/ForgetPass'
 const AppRouter = () => {
   const user = useSelector((state)=> state.auth.user)
   
@@ -21,6 +22,8 @@ const AppRouter = () => {
         <Route path="/" element={<Home/>} />
         <Route path="/signup" element={<SignUp/>} />
         <Route path="/login" element={<SignIn />} />
+        <Route path="/forgetPassword" element={<ForgetPass />} />
+        {/* <Route path="/resetPassword/:token" element={<ResetPass />} /> */}
         <Route path="/login/otpVerification" element={<OtpForm/>} />
         <Route path="/rooms/room/:roomId" element={
               <ProtectedRoute>

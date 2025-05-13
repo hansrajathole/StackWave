@@ -166,7 +166,7 @@ export const googleLoginController = async function(req,res){
 
 export const forgetPasswordController = async (req, res) => {
     try {
-        
+
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ 
@@ -174,8 +174,8 @@ export const forgetPasswordController = async (req, res) => {
                 message: errors.array()[0].msg 
             });
         }
-        const { email } = req.body;
-        const user = await userModel.findOne({ email });
+        const { email , password , confirmPassword } = req.body;
+        const user = await userModel.findOne({ email }).select("+password");
         if (!user) {
             return res.status(400).json({ 
                 success: false, 
@@ -183,7 +183,21 @@ export const forgetPasswordController = async (req, res) => {
             });
         }
 
+        if (password !== confirmPassword) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'Password and confirm password do not match' 
+            });
+        }
+
+        const hashedPassword = await userModel.hashedPassword(password);
+
         // Send OTP
+        await findOneAndUpdate(
+            { email },
+            { password: hashedPassword },
+        );
+
         await sendOTP(email);
         res.status(200).json({ 
             success: true, 

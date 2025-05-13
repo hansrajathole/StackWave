@@ -41,8 +41,8 @@ const ForgetPass = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 px-4">
-      <div className="w-full max-w-md bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 p-6 md:p-8 rounded-xl shadow-lg dark:shadow-black/30 transition-all">
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-950 px-4">
+      <div className="w-full max-w-md bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200 p-6 md:p-8 rounded-xl shadow-lg dark:shadow-black/30 transition-all">
         <h2 className="text-3xl font-bold mb-6 text-center text-gray-900 dark:text-white">
           Forgot Password?
         </h2>
@@ -61,7 +61,7 @@ const ForgetPass = () => {
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 px-4 py-3 text-sm text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 transition"
+              className="w-full border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 px-4 py-3 text-sm text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 transition"
             />
           </div>
 
@@ -78,7 +78,7 @@ const ForgetPass = () => {
               placeholder="Enter new password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 px-4 py-3 text-sm text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 transition"
+              className="w-full border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 px-4 py-3 text-sm text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 transition"
             />
           </div>
 
@@ -95,7 +95,7 @@ const ForgetPass = () => {
               placeholder="Re-enter password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 px-4 py-3 text-sm text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 transition"
+              className="w-full border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 px-4 py-3 text-sm text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 transition"
             />
           </div>
 
@@ -118,7 +118,7 @@ const ForgetPass = () => {
             className="text-indigo-500 hover:underline cursor-pointer"
             onClick={() => navigate("/signup")}
           >
-            Signup Now
+            Sign up
           </span>
         </p>
       </div>

@@ -31,7 +31,7 @@ const ForgetPass = () => {
             type="button"
             className="w-full bg-indigo-600 hover:bg-indigo-700 active:scale-95 transition-transform duration-150 text-white font-semibold py-3 rounded-md shadow-sm"
           >
-            Send Reset Link
+            Send Email
           </button>
         </div>
 

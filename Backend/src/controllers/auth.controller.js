@@ -193,7 +193,7 @@ export const forgetPasswordController = async (req, res) => {
         const hashedPassword = await userModel.hashedPassword(password);
 
         // Send OTP
-        await findOneAndUpdate(
+        await userModel.findOneAndUpdate(
             { email },
             { password: hashedPassword },
         );

@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 const ForgetPass = () => {
 
-    const navigate = useNavigate();
+ const navigate = useNavigate();
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-zinc-900 px-4">

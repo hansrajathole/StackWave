@@ -195,12 +195,12 @@ export default function ProfilePage() {
       <div className="max-w-7xl mx-auto p-4 sm:p-6">
         {/* Profile Header */}
         <Card className="mb-6 overflow-hidden border dark:border-gray-800">
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 py-6 text-white relative">
+          <div className="bg-gradient-to-r from-gray-800 to-gray-600 py-6 dark:text-white relative">
             <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
               <div className="relative">
                 <Avatar className="h-44 w-44 border-4 ml-4 border-white">
                   <AvatarImage src={user.avatar} alt={user.username} />
-                  <AvatarFallback className="bg-blue-500 text-white">
+                  <AvatarFallback className="text-white ">
                     {getInitials(user.username)}
                   </AvatarFallback>
                 </Avatar>
@@ -227,7 +227,7 @@ export default function ProfilePage() {
               </div>
 
               <div className="flex-1 text-center sm:text-left justify-center sm:justify-start">
-                <h1 className="text-2xl font-bold">{user.username}</h1>
+                <h1 className="text-2xl font-bold text-white">{user.username}</h1>
                 <div className="flex flex-wrap justify-center sm:justify-start items-center gap-2 mt-1 text-sm text-white/90">
                   <span>{user.title}</span>
                   <span>•</span>
@@ -255,7 +255,7 @@ export default function ProfilePage() {
                   onClick={handleOpenEditDialog}
                   size="sm"
                   variant="secondary"
-                  className="absolute top-4 right-4"
+                  className="absolute top-4 right-4 dark:bg-gray-900"
                 >
                   <Edit className="h-4 w-4 mr-1" />
                   Edit Profile

@@ -112,9 +112,11 @@ const SignIn = () => {
               />
               Remember me
             </label>
-            <a href="#" className="text-blue-500 hover:underline">
+            <span  className="text-blue-500 hover:underline cursor-pointer"
+              onClick={() => navigate("/forget-password")}
+            >
               Forgot password?
-            </a>
+            </span>
           </div>
 
           <button

@@ -162,3 +162,41 @@ export const googleLoginController = async function(req,res){
         })
     }
 }
+
+
+export const forgetPasswordController = async (req, res) => {
+    try {
+        
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ 
+                success: false, 
+                message: errors.array()[0].msg 
+            });
+        }
+        const { email } = req.body;
+        const user = await userModel.findOne({ email });
+        if (!user) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'Emaii is invalid' 
+            });
+        }
+
+        // Send OTP
+        await sendOTP(email);
+        res.status(200).json({ 
+            success: true, 
+            message: 'OTP sent successfully to your email' 
+        });
+
+    } catch (error) {
+        console.error('Error in forgetPasswordController:', error);
+        res.status(500).json({ 
+            success: false, 
+            message: 'Error processing request', 
+            error: error.message 
+        });
+    }           
+}
+

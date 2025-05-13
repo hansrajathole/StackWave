@@ -76,3 +76,15 @@ export const updateProfile = async (req,res,next)=>{
         res.status(401).json({ message : error.message })
     }
 }
+
+
+export const forgetPasswordValidator = [
+    body("email")
+        .isEmail()
+        .withMessage("Email is invalid"),
+    body("password")
+        .isString()
+        .withMessage('password must be a string')
+        .isLength({min: 6} , {max: 20})
+        .withMessage('password must be at least 6 characters long and at most 20 characters long')    
+]

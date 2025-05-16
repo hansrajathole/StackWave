@@ -37,14 +37,14 @@ const EditorToolbar = ({
   };
 
   return (
-    <div className="flex items-center justify-between p-3 shadow dark:shadow-lg border-b border-gray-200 dark:border-gray-800">
+    <div className="flex items-center justify-between p-3 shadow dark:shadow-lg border-b border-gray-200 dark:border-gray-800 max-sm:flex-col gap-1">
       <div className="flex gap-3 items-center">
         <LeaveRoomDialog
           isOpen={isLeaveOpen}
           setIsOpen={setIsLeaveOpen}
           onLeave={onLeave}
         />
-        <span className="px-3 py-1 rounded bg-gray-100 dark:bg-gray-700 text-md cursor-not-allowed">
+        <span className="px-3 py-1 rounded bg-gray-100 dark:bg-gray-700 text-md cursor-not-allowed max-sm:hidden">
           {roomData?.title || "Loading..."}
         </span>
         <span className="px-3 py-1 rounded bg-gray-200 text-black dark:bg-gray-800 dark:text-white text-sm font-medium">

@@ -28,8 +28,6 @@ export default function ProfilePage() {
   const userData = useSelector((state) => state.auth.user);
   const baseUrl =  import.meta.env.VITE_BACKEND_URL
 
-
-  // Fetch user data
   useEffect(() => {
     setLoading(true);
     axios

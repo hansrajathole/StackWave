@@ -16,7 +16,7 @@ const ChatPanel = ({
   onSendMessage
 }) => {
   return (
-    <div className="w-80 bg-gray-50 dark:bg-gray-900 border-r border-gray-300 dark:border-gray-800 flex flex-col relative">
+    <div className="w-80 max-sm:w-screen h-full bg-gray-50 dark:bg-gray-900 border-r border-gray-300 dark:border-gray-800 flex flex-col relative">
       <ChatHeader 
         onTogglePeople={() => setShowPeople(!showPeople)} 
         showPeople={showPeople} 

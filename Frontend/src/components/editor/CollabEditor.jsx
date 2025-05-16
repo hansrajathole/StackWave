@@ -14,8 +14,8 @@ const CollabEditor = () => {
   const user = useSelector((state) => state.auth.user);
   const userId = user._id;
   const [isLeaveOpen, setIsLeaveOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState("code"); // mobile toggle
 
-  // Initialize hooks
   const {
     code,
     output,
@@ -32,7 +32,6 @@ const CollabEditor = () => {
     onEditorMount,
     isFix,
     setisFix,
-
   } = useCodeEditor(roomId);
 
   const {
@@ -43,16 +42,15 @@ const CollabEditor = () => {
     setShowPeople,
     roomData,
     messageBoxRef,
-    handleSendMessage
+    handleSendMessage,
   } = useChat(roomId, userId);
 
   const handleLeave = () => {
     setIsLeaveOpen(false);
     navigate("/rooms");
   };
-  
+
   return (
-    
     <div className="h-screen w-full mx-auto bg-white dark:bg-gray-900 text-gray-900 dark:text-white flex flex-col overflow-hidden">
       {/* Toolbar */}
       <EditorToolbar
@@ -71,30 +69,48 @@ const CollabEditor = () => {
         setisFix={setisFix}
       />
 
-      {/* Main Content */}
-      <div className="flex flex-1 overflow-hidden">
-        {/* Chat Panel */}
-        <ChatPanel
-          messages={messages}
-          input={input}
-          setInput={setInput}
-          showPeople={showPeople}
-          setShowPeople={setShowPeople}
-          roomData={roomData}
-          messageBoxRef={messageBoxRef}
-          currentUserId={userId}
-          onSendMessage={handleSendMessage}
-        />
+      {/* Mobile Toggle Tabs */}
+      <div className="sm:hidden flex justify-around bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-white text-sm">
+        <button
+          onClick={() => setActiveTab("code")}
+          className={`w-1/2 py-2 ${activeTab === "code" ? "bg-blue-500 text-white" : ""}`}
+        >
+          Code
+        </button>
+        <button
+          onClick={() => setActiveTab("chat")}
+          className={`w-1/2 py-2 ${activeTab === "chat" ? "bg-blue-500 text-white" : ""}`}
+        >
+          Chat
+        </button>
+      </div>
 
-        {/* Code Editor */}
-        <div className="flex-1 flex flex-col relative">
+      {/* Main Content */}
+      <div className="flex flex-1 overflow-hidden ">
+        {/* Chat Panel */}
+        <div className={`${activeTab !== "chat" && "hidden"} sm:block`}>
+          <ChatPanel
+            messages={messages}
+            input={input}
+            setInput={setInput}
+            showPeople={showPeople}
+            setShowPeople={setShowPeople}
+            roomData={roomData}
+            messageBoxRef={messageBoxRef}
+            currentUserId={userId}
+            onSendMessage={handleSendMessage}
+          />
+        </div>
+
+        {/* Code Editor Panel */}
+        <div className={`flex-1 flex flex-col relative ${activeTab !== "code" && "hidden"} sm:block`}>
           <CodeEditor
             language={roomData.language}
             code={code}
             onChange={handleCodeChange}
             onMount={onEditorMount}
           />
-          
+
           <OutputPanel
             output={output}
             isVisible={showRunCode}

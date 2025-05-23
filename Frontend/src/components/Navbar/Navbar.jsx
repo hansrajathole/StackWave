@@ -78,7 +78,7 @@ const Navbar = () => {
             >
               <img src={icon} alt="" className="w-10 h-10" />
               <h1 className="text-lg">
-                Stack<span className="text-orange-500 font-bold">Wave</span>
+                Think<span className="text-orange-500 font-bold">Hub</span>
               </h1>
             </div>
            

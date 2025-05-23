@@ -60,7 +60,7 @@ const SignIn = () => {
     <section className="bg-gray-100 dark:bg-gray-950 min-h-screen flex items-center justify-center px-4">
       <div className="w-full max-w-md p-6 rounded-xl bg-white dark:bg-gray-900 shadow-xl text-gray-900 dark:text-white">
         <div className="text-center mb-6">
-          <h1 className="text-3xl font-bold">StackWave</h1>
+          <h1 className="text-3xl font-bold">ThinkHub</h1>
           <p className="text-gray-600 dark:text-gray-400 mt-2">Sign in to your account</p>
         </div>
 

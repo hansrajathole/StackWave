@@ -1,4 +1,4 @@
-# StackWave 🚀
+# ThinkHub 🚀
 
 A real-time Q&A and code collaboration platform for developers, inspired by StackOverflow — with live coding rooms, real-time chat, and a gamified reputation system.
 

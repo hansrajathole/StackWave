@@ -50,7 +50,7 @@ const Home = () => {
           {/* Hero Section */}
           <section className="bg-white dark:bg-gray-900 py-20 px-6 text-center shadow">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white">
-              Welcome to StackWave
+              Welcome to ThinkHub
             </h1>
 
             {user ? (

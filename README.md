@@ -1,4 +1,4 @@
-# StackWave 🚀
+# ThinkHub 🚀
 
 A real-time Q&A and code collaboration platform for developers, inspired by StackOverflow — with live coding rooms, real-time chat, and a gamified reputation system.
 
@@ -7,7 +7,7 @@ A real-time Q&A and code collaboration platform for developers, inspired by Stac
 ## 🚀 Live Demo
 
 🔗 Frontend: [https://stackwave-frontend.onrender.com/](https://stackwave-frontend.onrender.com/)  
-🔗 GitHub Repo: [https://github.com/hansrajathole/StackWave.git](https://github.com/hansrajathole/StackWave.git)
+🔗 GitHub Repo: [https://github.com/hansrajathole/ThinkHub.git](https://github.com/hansrajathole/ThinkHub.git)
 
 ---
 

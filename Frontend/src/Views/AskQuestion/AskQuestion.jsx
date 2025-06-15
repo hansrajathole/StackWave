@@ -51,7 +51,7 @@ const baseUrl = import.meta.env.VITE_BACKEND_URL
 
       navigate('/questions');
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       
       setError(err.response?.data?.message || 'Failed to post question. Please try again.');
     } finally {

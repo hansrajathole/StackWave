@@ -13,7 +13,7 @@ export const useRooms = () => {
       const rooms = await roomService.fetchRooms();
       setProjects(rooms);
     } catch (err) {
-      console.error(err.message);
+      // console.error(err.message);
       toast.error("Failed to load rooms");
     }
   };

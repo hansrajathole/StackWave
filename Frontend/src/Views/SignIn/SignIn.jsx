@@ -18,9 +18,6 @@ const SignIn = () => {
     axios.post(baseUrl+"/api/auth/google-login", { accessToken: access_token })
       .then((res) => {
         const {token,user,message} = res.data;
-        console.log(res);
-        
-        console.log(token);
         localStorage.setItem("token",token)
 
         dispatch(setAuthUser(user));
@@ -29,7 +26,6 @@ const SignIn = () => {
       })
       .catch((err) => {
         toast.error(err?.response?.data?.message)
-        console.log(err);
       });
     };
 
@@ -51,7 +47,6 @@ const SignIn = () => {
         navigate("/");
       })
       .catch((err) => {
-        console.log(err);
         toast.error(err.response.data.message);
       });
   };

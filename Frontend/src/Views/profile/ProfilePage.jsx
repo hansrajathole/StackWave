@@ -38,13 +38,13 @@ export default function ProfilePage() {
       })
       .then((res) => {
         setUser(res.data);
-        console.log(res.data);
+        // console.log(res.data);
 
         setEditedProfile({ ...res.data });
         setLoading(false);
       })
       .catch((error) => {
-        console.error("Error fetching user profile:", error);
+        // console.error("Error fetching user profile:", error);
         setError("Failed to load user profile");
         setLoading(false);
       });
@@ -63,12 +63,12 @@ export default function ProfilePage() {
         },
       })
       .then((res) => {
-        console.log(res.data.user);
+        // console.log(res.data.user);
         setUser(res.data.user);
         setEditDialogOpen(false);
       })
       .catch((error) => {
-        console.error("Error updating profile:", error);
+        // console.error("Error updating profile:", error);
       });
   };
 
@@ -87,7 +87,7 @@ export default function ProfilePage() {
     if (!file) {
       return;
     }
-    console.log(file);
+    // console.log(file);
     
     const formData = new FormData();    
     formData.append("image", file);
@@ -101,7 +101,7 @@ export default function ProfilePage() {
         },
       })
       .then((res) => {
-        console.log(res.data.user.avatar);
+        // console.log(res.data.user.avatar);
         setUser((prevUser) => ({
           ...prevUser,
           avatar: res.data.user.avatar,
@@ -110,7 +110,7 @@ export default function ProfilePage() {
     
       })
       .catch((error) => {
-        console.error("Error updating profile image:", error);
+        // console.error("Error updating profile image:", error);
       });
   };
   // Show loading state

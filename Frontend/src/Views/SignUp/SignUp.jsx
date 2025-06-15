@@ -22,12 +22,10 @@ const SignUp = () => {
     e.preventDefault();
     axios.post(`${baseUrl}/api/auth/signup`, { username, email, password })
       .then((res) => {
-        console.log(res.data);
         toast.success(res.data.message);
         navigate("/login/otpVerification", { state: { email } });
       })
       .catch((err) => {
-        console.log(err);
         setisSignup(false)
         toast.error(err.response.data.message);
 
@@ -38,7 +36,6 @@ const SignUp = () => {
     axios.post(baseUrl+"/api/auth/google-login", { accessToken: access_token })
       .then((res) => {
         const {token,user,message} = res.data;
-        console.log(user);
         localStorage.setItem("token",token)
         dispatch(setAuthUser(user));
         toast.success(message)
@@ -46,7 +43,6 @@ const SignUp = () => {
       })
       .catch((err) => {
         toast.error(err?.response?.data?.message)
-        console.log(err);
       });
     };
 

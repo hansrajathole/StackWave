@@ -27,7 +27,7 @@ export const useChat = (roomId, userId) => {
         setMessages(res.data.messages || []);
         // setCode(res.data.codeContent);
       } catch (error) {
-        console.error("Failed to load room data:", error);
+        // console.error("Failed to load room data:", error);
       }
     };
 

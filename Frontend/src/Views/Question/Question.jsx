@@ -63,7 +63,7 @@ const Question = () => {
       });
       setQuestions(res.data.questions);
     } catch (err) {
-      console.error("Error fetching questions", err);
+      // console.error("Error fetching questions", err);
     }
   };
 

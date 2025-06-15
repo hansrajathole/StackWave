@@ -45,7 +45,7 @@ const SingleQuestion = () => {
       setVotes(queVote);
       setQuestion(res.data.question);
     } catch (err) {
-      console.error("Error fetching question", err);
+      // console.error("Error fetching question", err);
       toast.error("Failed to fetch question");
     }
   };
@@ -89,7 +89,7 @@ const SingleQuestion = () => {
       fetchQuestion();
       toast.success("Answer posted successfully!");
     } catch (err) {
-      console.error("Answer submission error", err);
+      // console.error("Answer submission error", err);
       toast.error("Failed to post answer");
     }
   };
@@ -102,7 +102,7 @@ const SingleQuestion = () => {
       toast.success("Question deleted!");
       navigate("/questions");
     } catch (err) {
-      console.error("Failed to delete question:", err);
+      // console.error("Failed to delete question:", err);
       toast.error("Failed to delete question");
     }
   };
@@ -115,7 +115,7 @@ const SingleQuestion = () => {
       toast.success("Answer deleted successfully");
       fetchQuestion();
     } catch (err) {
-      console.error("Error deleting answer:", err);
+      // console.error("Error deleting answer:", err);
       toast.error("Failed to delete answer");
     }
   };

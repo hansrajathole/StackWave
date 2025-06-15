@@ -28,7 +28,7 @@ export const useCodeEditor = (roomId, language = "") => {
         setCode(res.data.codeContent);
         
       } catch (error) {
-        console.error("Failed to load room data:", error);
+        // console.error("Failed to load room data:", error);
       }
     };
 
@@ -59,7 +59,7 @@ export const useCodeEditor = (roomId, language = "") => {
       const result = await runCode(code, language);
       setOutput(result.stderr || result.stdout || "No output");
     } catch (error) {
-      console.error(error);
+      // console.error(error);
       setOutput("Error running code.");
     }
   };
@@ -77,7 +77,7 @@ export const useCodeEditor = (roomId, language = "") => {
       toast.success("Code fixed successfully");
     } catch (error) {
       toast.error("Failed to fix code");
-      console.error(error);
+      // console.error(error);
     }
   };
 
@@ -95,7 +95,7 @@ export const useCodeEditor = (roomId, language = "") => {
       toast.success("Code generated successfully");
     } catch (error) {
       toast.error("Failed to generate code");
-      console.error(error);
+      // console.error(error);
     }
   };
 

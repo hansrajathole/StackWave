@@ -13,6 +13,9 @@ import aiRoutes from './routes/ai.routes.js'
 import config from './config/config.js'
 import configurePassport from './services/passport.service.js';
 import passport from 'passport';
+import rateLimit from 'express-rate-limit'
+rateLimit
+import helmet from 'helmet'
 
 const app = express();
 
@@ -23,6 +26,17 @@ app.use(
     credentials: true
   })
 );
+
+app.use(helmet())
+
+const limiter = rateLimit({
+  windowMs : 15 *  60 * 1000,
+  max : 100,
+  message : "Too many requests from this IP, please try again later."
+})
+
+app.use(limiter)
+
 app.use((req, res, next) => {
   res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
   res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");

@@ -4,11 +4,17 @@ import * as authController from "../controllers/auth.controller.js";
 import * as otpController from "../controllers/otp.controller.js";
 import { protectRoute } from "../middleware/protected.js";
 import passport from 'passport';
-
+import rateLimit from "express-rate-limit";
 const router = Router();
 
+const loginLimiter = rateLimit({
+    windowMs : 15 * 60 * 100,
+    max : 20,
+    message : "Too many login attempts, try again later."
+})
+
 router.post("/signup",userMiddleware.singupValidator,authController.singupController);
-router.post("/signin",userMiddleware.loginValidator,authController.loginController);
+router.post("/signin",userMiddleware.loginValidator ,loginLimiter ,authController.loginController);
 router.post("/forget-password", userMiddleware.forgetPasswordValidator, authController.forgetPasswordController);
 // router.post("/reset-password/:token", userMiddleware.forgetPasswordValidator , authController.resetPasswordController);
 router.post("/verify-otp", otpController.verifyOTP);

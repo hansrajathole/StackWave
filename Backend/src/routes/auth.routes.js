@@ -16,7 +16,6 @@ const loginLimiter = rateLimit({
 router.post("/signup",userMiddleware.singupValidator,authController.singupController);
 router.post("/signin",userMiddleware.loginValidator ,loginLimiter ,authController.loginController);
 router.post("/forget-password", userMiddleware.forgetPasswordValidator, authController.forgetPasswordController);
-// router.post("/reset-password/:token", userMiddleware.forgetPasswordValidator , authController.resetPasswordController);
 router.post("/verify-otp", otpController.verifyOTP);
 router.post("/resend-otp", authController.resendOTP);
 router.post('/google-login', authController.googleLoginController);

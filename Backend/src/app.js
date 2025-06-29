@@ -14,7 +14,6 @@ import config from './config/config.js'
 import configurePassport from './services/passport.service.js';
 import passport from 'passport';
 import rateLimit from 'express-rate-limit'
-rateLimit
 import helmet from 'helmet'
 
 const app = express();
@@ -30,7 +29,7 @@ app.use(
 app.use(helmet())
 
 const limiter = rateLimit({
-  windowMs : 15 *  60 * 1000,
+  windowMs : 1 *  60 * 1000,
   max : 100,
   message : "Too many requests from this IP, please try again later."
 })
